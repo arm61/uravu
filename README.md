@@ -12,6 +12,8 @@ This includes:
 - Evidence evaluation from nested sampling
 - A plotting library to present the results 
 
+With this library, we hope to lower the barrier to entry to Bayesian modelling methods, while improving understanding and appreciation for the power of these methods. 
+
 ## Installation
 
 ```
