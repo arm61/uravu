@@ -2,7 +2,9 @@
 
 உறவு
 
-uravu is a simple Python library to enable a complete workflow of Bayesian modelling and investigation of some experimental analysis. 
+u-rav-u (from the Tamil for relationship) is a library for fitting, assessing, and optimising analytical relationships. 
+
+This simple library also enables a complete for Bayesian modelling and investigation of such relationships. 
 This includes:
 
 - Initial maximum likelihood fitting
