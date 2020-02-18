@@ -1,4 +1,9 @@
+cython
 numpy
 scipy
+matplotlib
 emcee
 dynesty
+tqdm
+pint
+uncertainties
