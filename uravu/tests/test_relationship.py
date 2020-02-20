@@ -268,6 +268,64 @@ class TestRelationship(unittest.TestCase):
         )
         assert_equal(test_rel.y_u, UREG.meter)
 
+    def test_x_n_a(self):
+        """
+        Test the x_n property with no uncertainty.
+        """
+        test_x = np.linspace(0, 99, 100)
+        test_y = np.linspace(0, 199, 100)
+        test_y_e = test_y * 0.1
+        test_rel = relationship.Relationship(
+            utils.straight_line, test_x, test_y, test_y_e
+        )
+        assert_almost_equal(test_rel.x_n, test_x)
+
+    def test_x_n_b(self):
+        """
+        Test the x_n property with uncertainty.
+        """
+        test_x = np.linspace(0, 99, 100)
+        test_y = np.linspace(0, 199, 100)
+        test_y_e = test_y * 0.1
+        test_x_e = test_x * 0.1
+        test_rel = relationship.Relationship(
+            utils.straight_line,
+            test_x,
+            test_y,
+            test_y_e,
+            abscissa_uncertainty=test_x_e,
+        )
+        assert_almost_equal(test_rel.x_n, test_x)
+
+    def test_x_s_a(self):
+        """
+        Test the x_n property with no uncertainty.
+        """
+        test_x = np.linspace(0, 99, 100)
+        test_y = np.linspace(0, 199, 100)
+        test_y_e = test_y * 0.1
+        test_rel = relationship.Relationship(
+            utils.straight_line, test_x, test_y, test_y_e
+        )
+        assert_equal(test_rel.x_s, None)
+
+    def test_x_s_b(self):
+        """
+        Test the x_n property with uncertainty.
+        """
+        test_x = np.linspace(0, 99, 100)
+        test_y = np.linspace(0, 199, 100)
+        test_y_e = test_y * 0.1
+        test_x_e = test_x * 0.1
+        test_rel = relationship.Relationship(
+            utils.straight_line,
+            test_x,
+            test_y,
+            test_y_e,
+            abscissa_uncertainty=test_x_e,
+        )
+        assert_almost_equal(test_rel.x_s, test_x_e)
+
     def test_y_n(self):
         """
         Test the y_n property.
@@ -303,3 +361,34 @@ class TestRelationship(unittest.TestCase):
             utils.straight_line, test_x, test_y, test_y_e
         )
         assert_equal(test_rel.len_parameters(), 2)
+
+    def test_max_likelihood(self):
+        """
+        Test max_likelihood function.
+        """
+        test_x = np.linspace(0, 99, 100)
+        test_y = np.linspace(1, 199, 100)
+        test_y_e = test_y * 0.1
+        test_rel = relationship.Relationship(
+            utils.straight_line, test_x, test_y, test_y_e
+        )
+        test_rel.max_likelihood()
+        assert_almost_equal(test_rel.variables, np.array([2, 1]))
+
+    def test_prior(self):
+        """
+        Test prior function.
+        """
+        test_x = np.linspace(0, 99, 100)
+        test_y = np.linspace(1, 199, 100)
+        test_y_e = test_y * 0.1
+        test_rel = relationship.Relationship(
+            utils.straight_line, test_x, test_y, test_y_e
+        )
+        test_rel.max_likelihood()
+        result_priors = test_rel.prior(np.random.random((2, 100)))
+        assert_equal(result_priors.shape, (2, 100))
+        assert_equal(result_priors[0].min() > -18, True)
+        assert_equal(result_priors[0].max() < 22, True)
+        assert_equal(result_priors[1].min() > -9, True)
+        assert_equal(result_priors[1].max() < 11, True)

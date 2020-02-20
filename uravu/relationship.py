@@ -13,8 +13,10 @@ the determination of Bayesian evidence using nested sampling.
 
 from inspect import getfullargspec
 import numpy as np
+import uncertainties
+from scipy.stats import uniform
 from uncertainties import unumpy as unp
-from uravu import UREG
+from uravu import UREG, optimize
 
 
 class Relationship:
@@ -32,6 +34,8 @@ class Relationship:
         abscissa_uncertainty=None,
         abscissa_unit=UREG.dimensionless,
         ordinate_unit=UREG.dimensionless,
+        abscissa_name="x",
+        ordinate_name="y",
     ):
         """
         Args:
@@ -76,6 +80,8 @@ class Relationship:
                 "not match that for the ordinate."
             )
         self.variables = np.ones((self.len_parameters()))
+        self.abscissa_name = abscissa_name
+        self.ordinate_name = ordinate_name
 
     @property
     def x(self):
@@ -138,6 +144,31 @@ class Relationship:
         return self.ordinate.u
 
     @property
+    def x_n(self):
+        """
+        Abscissa nominal values.
+
+        Returns:
+            (array_like): Abscissa nominal values.
+        """
+        return unp.nominal_values(self.abscissa.m)
+
+    @property
+    def x_s(self):
+        """
+        Abscissa uncertainties.
+
+        Returns:
+            (array_like): Abscissa uncertainties.
+        """
+        if isinstance(
+            self.abscissa.m.any(), uncertainties.core.AffineScalarFunc
+        ):
+            return unp.std_devs(self.abscissa.m)
+        else:
+            return None
+
+    @property
     def y_n(self):
         """
         Ordinate nominal values.
@@ -167,3 +198,32 @@ class Relationship:
         # The minus one is to remove the abscissa data which is a
         # argument in the assessment function
         return len(getfullargspec(self.function).args) - 1
+
+    def max_likelihood(self):
+        """
+        Determine the variables which offer the maximum likelihood and assign
+        these to the class variable.
+        """
+        self.variables = optimize.max_ln_likelihood(self)
+
+    def prior(self, array):
+        """
+        A broad uniform distribution for the priors, this acts as the default
+        when no priors are given to the MCMC or nested sampling.
+
+        Args:
+            array (array_like): Aa array of random uniform numbers (0, 1].
+                The shape of which is M x N, where M is the number of
+                parameters and N is the number of walkers.
+
+        Returns:
+            (array_like): an array of random uniform numbers broadly
+                distributed in the range [x - x * 10, x + x * 10), where x is
+                the current variable value.
+        """
+        broad = np.copy(array)
+        for i, variable in enumerate(self.variables):
+            loc = variable - variable * 10
+            scale = (variable + variable * 10) - loc
+            broad[i] = uniform.ppf(broad[i], loc=loc, scale=scale)
+        return broad
