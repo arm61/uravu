@@ -70,7 +70,7 @@ class Distribution:
         self.normal = False
         self.add_samples(np.array(samples))
 
-    def __repr__(self):  # pragma: no cover
+    def __repr__(self):
         """
         A custom representation, which is the same as the custom string
         representation.
@@ -80,7 +80,7 @@ class Distribution:
         """
         return self.__str__()
 
-    def __str__(self):  # pragma: no cover
+    def __str__(self):
         """
         A custom string.
 
