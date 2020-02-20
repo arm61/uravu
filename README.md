@@ -11,9 +11,9 @@ Other fun things like prior probabilities for your model parameters can be inclu
 From just a single function and your data, uravu can help you perform:
 
 - Maximum likelihood fitting
-- MCMC modelling for posterior estimation (using `emcee`)
-- Evidence evaluation from nested sampling (using `dynesty`)
-- A plotting library to present the results (using `matplotlib`)
+- MCMC modelling for posterior estimation (using [`emcee`](https://emcee.readthedocs.io/))
+- Evidence evaluation from nested sampling (using [`dynesty`](https://dynesty.readthedocs.io/))
+- A plotting library to present the results (using [`matplotlib`](https://matplotlib.org/) and [`corner`](https://corner.readthedocs.io/))
 
 With this library, we hope to lower the barrier to entry to Bayesian modelling methods, while improving understanding and appreciation for the power of these methods. 
 
