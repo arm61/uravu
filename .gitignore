@@ -1,0 +1,6 @@
+.coverage
+**/.ipynb_checkpoints
+build
+dist
+htmlcov
+uravu.egg-info
