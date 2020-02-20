@@ -2,10 +2,10 @@
 
 உறவு
 
-u-rav-u (from the Tamil for relationship) is a library for fitting, assessing, and optimising analytical relationships using Bayesian methods. 
+u-rav-u (from the Tamil for relationship) is a library for fitting, assessing, and optimising the relationship between a model and some data, using Bayesian methods. 
 
 The world of Bayesian modelling can be a confusing place, but uravu makes it easier. 
-All you need is a function to describe the analytical relationship between some abscissa (which can be multi-dimensional) and ordinate. 
+All you need is a function to describe the analytical relationship and some data that you want to model.
 Other fun things like prior probabilities for your model parameters can be included. 
 
 From just a single function and your data, uravu can help you perform:
