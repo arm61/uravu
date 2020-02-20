@@ -6,7 +6,9 @@ Plotting functions
 # Distributed under the terms of the MIT License
 # author: Andrew R. McCluskey
 
+import numpy as np
 import matplotlib.pyplot as plt
+from scipy.stats import gaussian_kde
 from uravu import UREG, _fig_params
 from uravu.distribution import Distribution
 
@@ -63,4 +65,43 @@ def plot_relationship(relationship, figsize=(10, 6)):  # pragma: no cover
     #            self.abscissa,
     #            self.equation(self.abscissa, *variables),
     #            color=list(_fig_params.TABLEAU)[1], alpha=0.05)
+    return fig, axes
+
+
+def plot_distribution(self, figsize=(10, 6)):  # pragma: no cover
+    """
+    Plot the probability density function for the distribution.
+
+    Args:
+        fig_size (tuple): Horizontal and veritcal size for figure
+            (in inches).
+
+    Returns:
+        (matplotlib.figure.Figure, matplotlib.axes.Axes): Figure and axes
+            for the plot.
+    """
+    fig, axes = plt.subplots(figsize=figsize)
+    kde = gaussian_kde(self.samples)
+    abscissa = np.linspace(self.samples.min(), self.samples.max(), 100)
+    ordinate = kde.evaluate(abscissa)
+    axes.plot(abscissa, ordinate, color=list(_fig_params.TABLEAU)[0])
+    axes.hist(
+        self.samples,
+        bins=25,
+        density=True,
+        color=list(_fig_params.TABLEAU)[0],
+        alpha=0.5,
+    )
+    axes.fill_betweenx(
+        np.linspace(0, ordinate.max() + ordinate.max() * 0.1),
+        self.con_int[0],
+        self.con_int[1],
+        alpha=0.2,
+    )
+    x_label = "{}".format(self.name)
+    if self.unit != UREG.dimensionless:
+        x_label += "/${:~L}$".format(self.unit)
+    axes.set_xlabel(x_label)
+    axes.set_ylabel("$p(${}$)$".format(self.name))
+    axes.set_ylim((0, ordinate.max() + ordinate.max() * 0.1))
     return fig, axes
