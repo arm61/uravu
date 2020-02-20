@@ -68,7 +68,7 @@ def plot_relationship(relationship, figsize=(10, 6)):  # pragma: no cover
     return fig, axes
 
 
-def plot_distribution(self, figsize=(10, 6)):  # pragma: no cover
+def plot_distribution(distro, figsize=(10, 6)):  # pragma: no cover
     """
     Plot the probability density function for the distribution.
 
@@ -81,12 +81,12 @@ def plot_distribution(self, figsize=(10, 6)):  # pragma: no cover
             for the plot.
     """
     fig, axes = plt.subplots(figsize=figsize)
-    kde = gaussian_kde(self.samples)
-    abscissa = np.linspace(self.samples.min(), self.samples.max(), 100)
+    kde = gaussian_kde(distro.samples)
+    abscissa = np.linspace(distro.samples.min(), distro.samples.max(), 100)
     ordinate = kde.evaluate(abscissa)
     axes.plot(abscissa, ordinate, color=list(_fig_params.TABLEAU)[0])
     axes.hist(
-        self.samples,
+        distro.samples,
         bins=25,
         density=True,
         color=list(_fig_params.TABLEAU)[0],
@@ -94,14 +94,14 @@ def plot_distribution(self, figsize=(10, 6)):  # pragma: no cover
     )
     axes.fill_betweenx(
         np.linspace(0, ordinate.max() + ordinate.max() * 0.1),
-        self.con_int[0],
-        self.con_int[1],
+        distro.con_int[0],
+        distro.con_int[1],
         alpha=0.2,
     )
-    x_label = "{}".format(self.name)
-    if self.unit != UREG.dimensionless:
-        x_label += "/${:~L}$".format(self.unit)
+    x_label = "{}".format(distro.name)
+    if distro.unit != UREG.dimensionless:
+        x_label += "/${:~L}$".format(distro.unit)
     axes.set_xlabel(x_label)
-    axes.set_ylabel("$p(${}$)$".format(self.name))
+    axes.set_ylabel("$p(${}$)$".format(distro.name))
     axes.set_ylim((0, ordinate.max() + ordinate.max() * 0.1))
     return fig, axes

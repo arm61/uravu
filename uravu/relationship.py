@@ -16,7 +16,7 @@ import numpy as np
 import uncertainties
 from scipy.stats import uniform
 from uncertainties import unumpy as unp
-from uravu import UREG, optimize
+from uravu import UREG, optimize, sampling
 
 
 class Relationship:
@@ -223,7 +223,44 @@ class Relationship:
         """
         broad = np.copy(array)
         for i, variable in enumerate(self.variables):
-            loc = variable - variable * 10
-            scale = (variable + variable * 10) - loc
+            loc = variable - variable * 5
+            scale = (variable + variable * 5) - loc
             broad[i] = uniform.ppf(broad[i], loc=loc, scale=scale)
         return broad
+
+    def mcmc(
+        self,
+        prior_function=None,
+        walkers=100,
+        n_samples=500,
+        n_burn=500,
+        progress=True,
+    ):
+        """
+        Perform MCMC to get the probability distributions for the variables
+        of the relationship. Note running this method will populate the
+        `relationship.variables` attribute with
+        `uravu.distribution.Distribution` objects.
+
+        Args:
+            relationship (uravu.relationship.Relationship): the relationship to
+                determine the posteriors of.
+            prior_function (callable, optional): the function to populated some
+                prior distributions. Default is the broad uniform priors in
+                uravu.relationship.Relationship.
+            walkers (int, optional): Number of MCMC walkers. Default is `100`.
+            n_samples (int, optional): Number of sample points. Default is
+                `500`.
+            n_burn (int, optional): Number of burn in samples. Default is
+                `500`.
+            progress (bool, optional): Show tqdm progress for sampling.
+                Default is `True`.
+        """
+        self.variables = sampling.mcmc(
+            self,
+            prior_function=prior_function,
+            walkers=walkers,
+            n_samples=n_samples,
+            n_burn=n_burn,
+            progress=progress,
+        )

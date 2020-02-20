@@ -21,11 +21,16 @@ class TestOptimize(unittest.TestCase):
         """
         Test ln_likelihood function.
         """
+        test_x = np.linspace(0, 99, 10)
         test_y = np.ones(10)
-        test_dy = np.ones(10) * 0.1
-        model = np.ones(10) * 1.1
-        expected_lnl = 8.83646559789372
-        actual_lnl = optimize.ln_likelihood(model, test_y, test_dy)
+        test_y_e = np.ones(10) * 0.1
+        test_rel = relationship.Relationship(
+            utils.straight_line, test_x, test_y, test_y_e
+        )
+        expected_lnl = -1724236.163534402
+        actual_lnl = optimize.ln_likelihood(
+            test_rel.variables, test_rel.function, test_rel.x, test_rel.y
+        )
         assert_almost_equal(actual_lnl, expected_lnl)
 
     def test_negative_lnl(self):
