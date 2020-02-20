@@ -8,7 +8,7 @@ The world of Bayesian modelling can be a confusing place, but uravu makes it eas
 All you need is a function to describe the analytical relationship between some abscissa (which can be multi-dimensional) and ordinate. 
 Other fun things like prior probabilities for your model parameters can be included. 
 
-from just a single function and your data, uravu can help you perform:
+From just a single function and your data, uravu can help you perform:
 
 - Maximum likelihood fitting
 - MCMC modelling for posterior estimation (using `emcee`)
