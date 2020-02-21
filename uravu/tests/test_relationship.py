@@ -8,6 +8,7 @@ Tests for relationship module
 
 import unittest
 import numpy as np
+import uncertainties
 from uncertainties import unumpy as unp
 from numpy.testing import assert_almost_equal, assert_equal
 from uravu import UREG, utils
@@ -49,6 +50,36 @@ class TestRelationship(unittest.TestCase):
         assert_almost_equal(unp.nominal_values(test_rel.ordinate.m), test_y)
         assert_almost_equal(unp.std_devs(test_rel.ordinate.m), test_y_e)
         assert_almost_equal(test_rel.variables, np.ones((2)))
+
+    def test_init_additional_uncertainty_one_dimensional(self):
+        """
+        Test the initialisation of the relationship class with one
+        dimensional data and an additional uncertainty.
+        """
+        test_x = np.linspace(0, 99, 100)
+        test_y = np.linspace(0, 199, 100)
+        test_y_e = test_y * 0.1
+        test_rel = Relationship(utils.straight_line, test_x, test_y, test_y_e, unaccounted_uncertainty=True)
+        assert_equal(test_rel.function, utils.straight_line)
+        assert_almost_equal(test_rel.abscissa.m, test_x)
+        assert_almost_equal(unp.nominal_values(test_rel.ordinate.m), test_y)
+        assert_almost_equal(unp.std_devs(test_rel.ordinate.m), test_y_e)
+        assert_almost_equal(test_rel.variables, np.ones((3)))
+
+    def test_init_additional_uncertainty_two_dimensional(self):
+        """
+        Test the initialisation of the relationship class with two
+        dimensional data and an additional uncertainty.
+        """
+        test_x = np.array([np.linspace(0, 99, 100), np.linspace(0, 99, 100)]).T
+        test_y = np.linspace(0, 199, 100)
+        test_y_e = test_y * 0.1
+        test_rel = Relationship(utils.straight_line, test_x, test_y, test_y_e, unaccounted_uncertainty=True)
+        assert_equal(test_rel.function, utils.straight_line)
+        assert_almost_equal(test_rel.abscissa.m, test_x)
+        assert_almost_equal(unp.nominal_values(test_rel.ordinate.m), test_y)
+        assert_almost_equal(unp.std_devs(test_rel.ordinate.m), test_y_e)
+        assert_almost_equal(test_rel.variables, np.ones((3)))
 
     def test_init_different_length_x_and_y_one_dimension(self):
         """
@@ -328,6 +359,37 @@ class TestRelationship(unittest.TestCase):
         test_rel = Relationship(utils.straight_line, test_x, test_y, test_y_e)
         assert_almost_equal(test_rel.y_s, test_y_e)
 
+    def test_variable_medians_b(self):
+        """
+        Test variable_medians property when the variables are Distributions.
+        """
+        test_x = np.linspace(0, 99, 10)
+        test_y = (
+            np.linspace(1, 199, 10)
+            + np.linspace(1, 199, 10) * np.random.randn(10) * 0.05
+        )
+        test_y_e = test_y * 0.2
+        test_rel = Relationship(utils.straight_line, test_x, test_y, test_y_e,)
+        test_rel.max_likelihood()
+        test_rel.mcmc(n_burn=10, n_samples=10)
+        medians = test_rel.variable_medians
+        assert_equal(medians.shape, (2,))
+
+    def test_variable_medians_a(self):
+        """
+        Test variable_medians property when the variables are floats.
+        """
+        test_x = np.linspace(0, 99, 10)
+        test_y = (
+            np.linspace(1, 199, 10)
+            + np.linspace(1, 199, 10) * np.random.randn(10) * 0.05
+        )
+        test_y_e = test_y * 0.2
+        test_rel = Relationship(utils.straight_line, test_x, test_y, test_y_e,)
+        test_rel.max_likelihood()
+        medians = test_rel.variable_medians
+        assert_equal(medians.shape, (2,))
+
     def test_len_parameters(self):
         """
         test the len_parameters function.
@@ -382,3 +444,16 @@ class TestRelationship(unittest.TestCase):
         assert_equal(isinstance(test_rel.variables[1], Distribution), True)
         assert_equal(test_rel.variables[0].size, 1000)
         assert_equal(test_rel.variables[1].size, 1000)
+
+    def test_nested_sampling(self):
+        """
+        Test nested sampling.
+        """
+        test_y = np.ones(10) * np.random.randn(10)
+        test_y_e = np.ones(10) * 0.1
+        test_x = np.linspace(1, 10, 10)
+        test_rel = Relationship(utils.straight_line, test_x, test_y, test_y_e)
+        test_rel.nested_sampling(maxiter=10)
+        assert_equal(
+            isinstance(test_rel.ln_evidence, uncertainties.core.Variable), True
+        )

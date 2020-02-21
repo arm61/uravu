@@ -8,6 +8,7 @@ Tests for sampling module
 
 import unittest
 import numpy as np
+import uncertainties
 from numpy.testing import assert_equal
 from scipy.stats import norm
 from uravu import sampling, utils
@@ -69,3 +70,16 @@ class TestSampling(unittest.TestCase):
         assert_equal(isinstance(actual_variables[1], Distribution), True)
         assert_equal(actual_variables[0].size, 1000)
         assert_equal(actual_variables[1].size, 1000)
+
+    def test_nested_sampling(self):
+        """
+        Test nested sampling.
+        """
+        test_y = np.ones(10) * np.random.randn(10)
+        test_y_e = np.ones(10) * 0.1
+        test_x = np.linspace(1, 10, 10)
+        test_rel = Relationship(utils.straight_line, test_x, test_y, test_y_e)
+        actual_ln_evidence = sampling.nested_sampling(test_rel, maxiter=10)
+        assert_equal(
+            isinstance(actual_ln_evidence, uncertainties.core.Variable), True
+        )

@@ -17,6 +17,7 @@ import uncertainties
 from scipy.stats import uniform
 from uncertainties import unumpy as unp
 from uravu import UREG, optimize, sampling
+from uravu.distribution import Distribution
 
 
 class Relationship:
@@ -36,6 +37,7 @@ class Relationship:
         ordinate_unit=UREG.dimensionless,
         abscissa_name="x",
         ordinate_name="y",
+        unaccounted_uncertainty=False,
     ):
         """
         Args:
@@ -55,8 +57,16 @@ class Relationship:
                 a list with the units for each dimension.
             ordinate_unit (pint.UnitRegistry()): The unit for the
                 ordinate.
+            abscissa_name (str, optional): A name for the abscissa. Default
+                is `'x'`.
+            ordinate_name (str, optional): A name for the ordinate. Default
+                is `'y'`.
+            unaccounted_uncertainty (bool, optional): Should an additional
+                variable be included to account for an unknown uncertainty in
+                the data.
         """
         self.function = function
+        self.unaccounted_uncertainty = unaccounted_uncertainty
         abscissa = np.array(abscissa)
         ordinate = np.array(ordinate)
         ordinate_uncertainty = np.array(ordinate_uncertainty)
@@ -79,9 +89,13 @@ class Relationship:
                 "The number of data points in the abscissa does "
                 "not match that for the ordinate."
             )
-        self.variables = np.ones((self.len_parameters()))
+        if unaccounted_uncertainty:
+            self.variables = np.ones((self.len_parameters() + 1))
+        else:
+            self.variables = np.ones((self.len_parameters()))
         self.abscissa_name = abscissa_name
         self.ordinate_name = ordinate_name
+        self.ln_evidence = None
 
     @property
     def x(self):
@@ -188,6 +202,22 @@ class Relationship:
         """
         return unp.std_devs(self.ordinate.m)
 
+    @property
+    def variable_medians(self):
+        """
+        The mean values for the variables.
+
+        Returns:
+            (list of float): The variable medians
+        """
+        means = np.zeros((len(self.variables)))
+        for i, var in enumerate(self.variables):
+            if isinstance(var, Distribution):
+                means[i] = var.n
+            if isinstance(var, float):
+                means[i] = var
+        return means
+
     def len_parameters(self):
         """
         Determine the number of variables in the assessment function.
@@ -222,7 +252,7 @@ class Relationship:
                 the current variable value.
         """
         broad = np.copy(array)
-        for i, variable in enumerate(self.variables):
+        for i, variable in enumerate(self.variable_medians):
             loc = variable - variable * 5
             scale = (variable + variable * 5) - loc
             broad[i] = uniform.ppf(broad[i], loc=loc, scale=scale)
@@ -263,4 +293,23 @@ class Relationship:
             n_samples=n_samples,
             n_burn=n_burn,
             progress=progress,
+        )
+
+    def nested_sampling(self, prior_function=None, progress=True, **kwargs):
+        """
+        Perform the nested sampling in order to determine the Bayesian
+        natural log evidence.
+
+        Args:
+            prior_function (callable, optional): the function to populated some
+                prior distributions. Default is the broad uniform priors in
+                uravu.relationship.Relationship.
+            progress (bool, optional): Show tqdm progress for sampling.
+                Default is `True`.
+
+        Keyword Args:
+            See the `dynesty.run_nested()` documentation.
+        """
+        self.ln_evidence = sampling.nested_sampling(
+            self, prior_function=prior_function, progress=progress, **kwargs
         )

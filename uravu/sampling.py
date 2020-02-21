@@ -13,6 +13,8 @@ the determination of Bayesian evidence using nested sampling.
 
 import numpy as np
 import emcee
+import dynesty
+from uncertainties import ufloat
 from uravu import optimize
 from uravu.distribution import Distribution
 
@@ -62,6 +64,7 @@ def mcmc(
             relationship.function,
             relationship.abscissa,
             relationship.ordinate,
+            relationship.unaccounted_uncertainty,
         ],
     )
 
@@ -74,3 +77,42 @@ def mcmc(
         distributions.append(Distribution(post_samples[:, i]))
 
     return distributions
+
+
+def nested_sampling(
+    relationship, prior_function=None, progress=True, **kwargs
+):
+    """
+    Perform the nested sampling in order to determine the Bayesian natural log
+    evidence.
+
+    Args:
+        prior_function (callable, optional): the function to populated some
+            prior distributions. Default is the broad uniform priors in
+            uravu.relationship.Relationship.
+        progress (bool, optional): Show tqdm progress for sampling.
+            Default is `True`.
+
+    Keyword Args:
+        See the `dynesty.run_nested()` documentation.
+
+    Returns:
+        (uncertainties.core.Variable): Log-evidence (and uncertainty) as
+            estimated by the nested sampling.
+    """
+    if prior_function is None:
+        prior_function = relationship.prior
+    sampler = dynesty.NestedSampler(
+        optimize.ln_likelihood,
+        prior_function,
+        len(relationship.variables),
+        logl_args=[
+            relationship.function,
+            relationship.abscissa,
+            relationship.ordinate,
+            relationship.unaccounted_uncertainty,
+        ],
+    )
+    sampler.run_nested(print_progress=progress, **kwargs)
+    results = sampler.results
+    return ufloat(results["logz"][-1], results["logzerr"][-1])

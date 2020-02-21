@@ -33,7 +33,7 @@ class TestOptimize(unittest.TestCase):
         )
         assert_almost_equal(actual_lnl, expected_lnl)
 
-    def test_negative_lnl(self):
+    def test_negative_lnl_a(self):
         """
         Test negative_lnl function.
         """
@@ -46,6 +46,22 @@ class TestOptimize(unittest.TestCase):
         expected_negtive_lnl = 1724236.163534402
         actual_negative_lnl = optimize.negative_lnl(
             test_rel.variables, test_rel.function, test_rel.x, test_rel.y
+        )
+        assert_almost_equal(actual_negative_lnl, expected_negtive_lnl)
+
+    def test_negative_lnl_b(self):
+        """
+        Test negative_lnl function with additional uncertainty.
+        """
+        test_x = np.linspace(0, 99, 10)
+        test_y = np.ones(10)
+        test_y_e = np.ones(10) * 0.1
+        test_rel = relationship.Relationship(
+            utils.straight_line, test_x, test_y, test_y_e, unaccounted_uncertainty=True
+        )
+        expected_negtive_lnl = 48.08862931921932
+        actual_negative_lnl = optimize.negative_lnl(
+            test_rel.variables, test_rel.function, test_rel.x, test_rel.y, test_rel.unaccounted_uncertainty
         )
         assert_almost_equal(actual_negative_lnl, expected_negtive_lnl)
 

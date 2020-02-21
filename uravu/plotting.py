@@ -24,6 +24,9 @@ def plot_relationship(relationship, figsize=(10, 6)):  # pragma: no cover
             figure (in inches). Default is `(10, 6)`.
     """
     fig, axes = plt.subplots(figsize=figsize)
+    variables = relationship.variables
+    if relationship.unaccounted_uncertainty:
+        variables = relationship.variables[:-1]
     axes.plot(
         relationship.x_n, relationship.y_n, c=list(_fig_params.TABLEAU)[0]
     )
@@ -50,21 +53,24 @@ def plot_relationship(relationship, figsize=(10, 6)):  # pragma: no cover
             (relationship.y_n + relationship.y_s).max() + 2,
         )
     )
-    if not isinstance(relationship.variables.any(), Distribution):
+    if not isinstance(variables[0], Distribution):
         axes.plot(
             relationship.x_n,
-            relationship.function(relationship.x_n, *relationship.variables),
+            relationship.function(relationship.x_n, *variables),
             color=list(_fig_params.TABLEAU)[1],
         )
-    # else:
-    #    plot_samples = np.random.randint(
-    #        0, self.variables[0].samples.size, size=100)
-    #    for i in plot_samples:
-    #        variables = [var.samples[i] for var in self.variables]
-    #        axes.plot(
-    #            self.abscissa,
-    #            self.equation(self.abscissa, *variables),
-    #            color=list(_fig_params.TABLEAU)[1], alpha=0.05)
+    else:
+        plot_samples = np.random.randint(
+            0, variables[0].samples.size, size=100
+        )
+        for i in plot_samples:
+            float_variables = [var.samples[i] for var in variables]
+            axes.plot(
+                relationship.x_n,
+                relationship.function(relationship.x_n, *float_variables),
+                color=list(_fig_params.TABLEAU)[1],
+                alpha=0.05,
+            )
     return fig, axes
 
 
