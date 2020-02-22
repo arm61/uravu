@@ -12,12 +12,12 @@
 
 The aim of ``uravu`` is to make using the **amazing** Bayesian inference libraries that are available in Python as easy as `scipy.optimize.curve_fit`_.
 Therefore enabling many more to make use of these exciting tools and powerful libraries.
-Plus, we have some nice plotting functionalities available in the :mod:`plotting` module, capable of generating *publication quality* figures. 
+Plus, we have some nice plotting functionalities available in the :mod:`plotting` module, capable of generating publication quality figures. 
 
 In an effect to make the ``uravu`` API friendly to those new to Bayesian inference, ``uravu`` is *opinionated*, making assumptions about priors amoung other things. 
 However, we have endevoured to make it straightforward to ignore these opinions.
 
-In addition to the library and API, we also have some `basic tutorials`_ discussing how Bayesian inference methods can be used in the analysis of *experimental* data. 
+In addition to the library and API, we also have some `basic tutorials`_ discussing how Bayesian inference methods can be used in the analysis of data. 
 
 Bayesian inference in Python
 ----------------------------
