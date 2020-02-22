@@ -2,6 +2,8 @@
 
 உறவு
 
+
+[![Documentation Status](https://readthedocs.org/projects/uravu/badge/?version=latest)](https://uravu.readthedocs.io/en/latest/?badge=latest)
 [![Gitter](https://badges.gitter.im/uravu/community.svg)](https://gitter.im/uravu/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 u-rav-u (from the Tamil for relationship) is a library for fitting, assessing, and optimising the relationship between a model and some data, using Bayesian methods. 
