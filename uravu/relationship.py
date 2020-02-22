@@ -104,7 +104,7 @@ class Relationship:
     @property
     def x(self):
         """
-        Abscissa values.
+        Abscissa values with unit and uncertainty (where present).
 
         Returns:
             (array_like): Abscissa values.
@@ -114,7 +114,7 @@ class Relationship:
     @property
     def y(self):
         """
-        Ordinate values.
+        Ordinate values with unit and uncertainty.
 
         Returns:
             (array_like): Ordinate values.
@@ -177,7 +177,7 @@ class Relationship:
         Abscissa uncertainties.
 
         Returns:
-            (array_like): Abscissa uncertainties.
+            (array_like or None): Abscissa uncertainties.
         """
         if isinstance(
             self.abscissa.m.any(), uncertainties.core.AffineScalarFunc
@@ -209,10 +209,10 @@ class Relationship:
     @property
     def variable_medians(self):
         """
-        The mean values for the variables.
+        The median values for each of the variables.
 
         Returns:
-            (list of float): The variable medians
+            (array_like): The variable medians.
         """
         means = np.zeros((len(self.variables)))
         for i, var in enumerate(self.variables):
@@ -235,25 +235,24 @@ class Relationship:
 
     def max_likelihood(self):
         """
-        Determine the variables which offer the maximum likelihood and assign
-        these to the class variable.
+        Determine values for the variables which maximise the likelihood for the relationship.
         """
         self.variables = optimize.max_ln_likelihood(self)
 
     def prior(self, array):
         """
-        A broad uniform distribution for the priors, this acts as the default
-        when no priors are given to the MCMC or nested sampling.
-
+        *Standard priors*. Broad, uniform distributions spread evenly around the current values for the variables. 
+        
+        This is used as the default where no priors are given.
+        
         Args:
-            array (array_like): Aa array of random uniform numbers (0, 1].
+            array (array_like): An array of random uniform numbers (0, 1].
                 The shape of which is M x N, where M is the number of
                 parameters and N is the number of walkers.
 
         Returns:
             (array_like): an array of random uniform numbers broadly
-                distributed in the range [x - x * 10, x + x * 10), where x is
-                the current variable value.
+                distributed in the range [x - x * 10, x + x * 10), where x is the current variable value.
         """
         broad = np.copy(array)
         for i, variable in enumerate(self.variable_medians):
@@ -271,24 +270,17 @@ class Relationship:
         progress=True,
     ):
         """
-        Perform MCMC to get the probability distributions for the variables
+        Perform MCMC to get the posterior probability distributions for the variables
         of the relationship. Note running this method will populate the
         `relationship.variables` attribute with
         `uravu.distribution.Distribution` objects.
 
         Args:
-            relationship (uravu.relationship.Relationship): the relationship to
-                determine the posteriors of.
-            prior_function (callable, optional): the function to populated some
-                prior distributions. Default is the broad uniform priors in
-                uravu.relationship.Relationship.
+            prior_function (callable, optional): the function to populated some prior distributions. Default is the broad uniform priors in uravu.relationship.Relationship.
             walkers (int, optional): Number of MCMC walkers. Default is `100`.
-            n_samples (int, optional): Number of sample points. Default is
-                `500`.
-            n_burn (int, optional): Number of burn in samples. Default is
-                `500`.
-            progress (bool, optional): Show tqdm progress for sampling.
-                Default is `True`.
+            n_samples (int, optional): Number of sample points. Default is `500`.
+            n_burn (int, optional): Number of burn in samples. Default is `500`.
+            progress (bool, optional): Show tqdm progress for sampling. Default is `True`.
         """
         self.variables = sampling.mcmc(
             self,
@@ -301,8 +293,8 @@ class Relationship:
 
     def nested_sampling(self, prior_function=None, progress=True, **kwargs):
         """
-        Perform the nested sampling in order to determine the Bayesian
-        natural log evidence.
+        Perform nested sampling to determine the Bayesian
+        natural-log evidence.
 
         Args:
             prior_function (callable, optional): the function to populated some
