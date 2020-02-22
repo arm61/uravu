@@ -9,7 +9,7 @@ likelihood evaluation, Markiv chain Monte Carlo (MCMC) for
 posterior probabiltiy determination and Bayesian evidence 
 estimation by nested sampling. 
 
-See the tutorials online (uravu.rtfd.io) so more guidence of 
+See the [tutorials online](uravu.rtfd.io) for more guidence of 
 how to use this package
 """
 
