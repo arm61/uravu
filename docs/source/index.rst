@@ -33,7 +33,7 @@ To see which publications you should reference in your work, the :class:`Relatio
 
    from uravu.Relationship import Relationship
    
-   modeller = Relationship(function, abscissa, ordinate)
+   modeller = Relationship(function, abscissa, ordinate, ordinate_error)
    modeller.max_likelihood()
    modeller.mcmc()
    modeller.nested_sampling()
