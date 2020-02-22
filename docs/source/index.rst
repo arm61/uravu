@@ -29,7 +29,7 @@ There are a couple of fantastic Bayesian inference libraries available in Python
 
 To see which publications you should reference in your work, the :class:`Relationship` has a property that will return the relevant citations based on what analyses have been performed.
 
-.. code_block:: python 
+.. code-block:: python 
 
    from uravu.Relationship import Relationship
    
