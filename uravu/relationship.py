@@ -1,10 +1,16 @@
 """
-This is the Relationship class, which allows for the storage and manipulation
-of analytical relationships between and abscissa and ordinate.
+The ``Relationship`` class is a foundational component of the 
+``uravu`` package, and acts as an API for use of the package. 
+This class enables the storage of the relationship between 
+the model and the data. 
 
-This enables the determination of maximum likelihood, the evalulation of
-posterior probability distributions by Markov chain Monte-Carlo (MCMC) and
-the determination of Bayesian evidence using nested sampling.
+Objects of this class offer easy methods to perform maximum
+likelihood evaluation, Markiv chain Monte Carlo (MCMC) for 
+posterior probabiltiy determination and Bayesian evidence 
+estimation by nested sampling. 
+
+See the tutorials online (uravu.rtfd.io) so more guidence of 
+how to use this package
 """
 
 # Copyright (c) Andrew R. McCluskey
