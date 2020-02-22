@@ -17,7 +17,7 @@ Plus, we have some nice plotting functionalities available in the :mod:`plotting
 In an effect to make the ``uravu`` API friendly to those new to Bayesian inference, ``uravu`` is *opinionated*, making assumptions about priors amoung other things. 
 However, we have endevoured to make it straightforward to ignore these opinions.
 
-In addition to the library and API, we also have some basic tutorials discussing how Bayesian inference methods can be used in the analysis of *experimental* data. 
+In addition to the library and API, we also have some `basic tutorials`_ discussing how Bayesian inference methods can be used in the analysis of *experimental* data. 
 
 Bayesian inference in Python
 ----------------------------
@@ -41,6 +41,7 @@ To see which publications you should reference in your work, the :class:`Relatio
    print(modeller.citations)
 
 .. _scipy.optimize.curve_fit: https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html
+.. _basic tutorials: ./tutorials
 .. _emcee: https://emcee.readthedocs.io/
 .. _dynesty: https://dynesty.readthedocs.io/
 .. _Goodman & Weare’s Affine Invariant Markov chain Monte Carlo (MCMC) Ensemble sampler: https://doi.org/10.2140/camcos.2010.5.65
