@@ -32,20 +32,27 @@ class Relationship:
     The ``Relationship`` class is the base of the ``uravu`` package, enabling the use of Bayesian inference for the assessment of a model's ability to describe some data.
     
     Attributes:
-        function (callable): the function that is modelled.
-
+        function (callable): The function that is modelled.
+        abscissa (array_like with pint.UnitRegistry()): The abscissa data that the modelling should be performed from. This includes some unit from the `pint`_ package.
+        abscissa_name (str): A name for the abscissa data, used in the production of plots.
+        ordinate (unumpy.array_like with pint.UnitRegistry()): The ordinate data against with the model should be compared. This will include uncertainty values and some unit. 
+        ordinate_name (str): A name for the ordinate data, used in the production of plots.
+        unaccounted_uncertainty (bool): This boolean describes if an unaccounted for uncertainty should be considered in the modelling process. 
+        ln_evidence (uncertainties.core.Variable): The natural-log of the Bayesian evidence for the model to the given data. 
     
     Args:
-        function (callable): the functional relationship to be considered.
-        abscissa (array_like): the abscissa data. If multi-dimensional, the array is expected to have the shape `(N, d)`, where `N` is the number of data points and `d` is the dimensionality.
-        ordinate (array_like): the ordinate data. This should have a shape `(N,)`.
-        ordinate_uncertainty (array_like): the uncertainty in each of the ordinate data points. This should have a shape `(N,)`.
-        abscissa_uncertainty (array_like, optional): the uncertainty in each of the absiccsa data points. This should have a shape `(N, d)`. Default is no uncertainties on absicca.
+        function (callable): The functional relationship to be modelled.
+        abscissa (array_like): The abscissa data. If multi-dimensional, the array is expected to have the shape `(N, d)`, where `N` is the number of data points and `d` is the dimensionality.
+        ordinate (array_like): The ordinate data. This should have a shape `(N,)`.
+        ordinate_uncertainty (array_like): The uncertainty in each of the ordinate data points. This should have a shape `(N,)`.
+        abscissa_uncertainty (array_like, optional): The uncertainty in each of the absiccsa data points. This should have a shape `(N, d)`. Default is no uncertainties on absicca.
         abscissa_unit (pint.UnitRegistry()): The unit for the abscissa. If `abscissa` is multi-dimensional, this should be a list with the units for each dimension.
         ordinate_unit (pint.UnitRegistry()): The unit for the ordinate.
         abscissa_name (str, optional): A name for the abscissa. Default is `'x'`.
         ordinate_name (str, optional): A name for the ordinate. Default is `'y'`.
-        unaccounted_uncertainty (bool, optional): Should an additional variable be included to account for an unknown uncertainty in the data.
+        unaccounted_uncertainty (bool, optional): Describes if an additional variable be included to account for an unknown uncertainty in the data.
+        
+    .. _pint: https://pint.readthedocs.io/
     """
 
     def __init__(
