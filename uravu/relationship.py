@@ -30,6 +30,11 @@ from uravu.distribution import Distribution
 class Relationship:
     """
     The ``Relationship`` class is the base of the ``uravu`` package, enabling the use of Bayesian inference for the assessment of a model's ability to describe some data.
+    
+    Attributes:
+        function (callable): the function that is modelled.
+
+    
     Args:
         function (callable): the functional relationship to be considered.
         abscissa (array_like): the abscissa data. If multi-dimensional, the array is expected to have the shape `(N, d)`, where `N` is the number of data points and `d` is the dimensionality.
