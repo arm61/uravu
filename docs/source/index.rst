@@ -19,8 +19,28 @@ However, we have endevoured to make it straightforward to ignore these opinions.
 
 In addition to the library and API, we also have some basic tutorials discussing how Bayesian inference methods can be used in the analysis of *experimental* data. 
 
-.. _scipy.optimize.curve_fit: https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html
+Bayesian inference in Python
+----------------------------
 
+There are a couple of fantastic Bayesian inference libraries available in Python that `uravu` makes use of:
+
+- [`emcee`](https://emcee.readthedocs.io/): enables the use of the [Goodman & Weare’s Affine Invariant Markov chain Monte Carlo (MCMC) Ensemble sampler](https://doi.org/10.2140/camcos.2010.5.65) to evaluate the structure of the model parameter posterior distributions
+- [`dynesty`](https://dynesty.readthedocs.io/): implemented [nested sampling](https://doi.org/10.1063/1.1835238) and [dynamic nested sampling] (https://doi.org/10.1007/s11222-018-9844-0)algorithms for evidence estimation
+
+To see which publications you should reference in your work, the :class:`Relationship` has a property that will return the relevant citations based on what analyses have been performed.
+
+.. code_block:: python 
+
+   from uravu.Relationship import Relationship
+   
+   modeller = Relationship(function, abscissa, ordinate)
+   modeller.max_likelihood()
+   modeller.mcmc()
+   modeller.nested_sampling()
+   
+   print(modeller.citations)
+
+.. _scipy.optimize.curve_fit: https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html
 
 .. toctree::
    :hidden:
