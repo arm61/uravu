@@ -11,4 +11,4 @@ If you want to go even deeper, then check out `Information Theory, Inference, an
 
 .. _Hogg, Bovy, and Lang: https://arxiv.org/abs/1008.4686
 .. _Information Theory, Inference, and Learning Algorithms: https://www.inference.org.uk/itprnn/book.pdf
-.. _Maximum likelihood: ./max_likelihood
+.. _Maximum likelihood: ./max_likelihood.html

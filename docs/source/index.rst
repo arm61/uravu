@@ -41,7 +41,7 @@ To see which publications you should reference in your work, the :class:`Relatio
    print(modeller.citations)
 
 .. _scipy.optimize.curve_fit: https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html
-.. _basic tutorials: ./tutorials
+.. _basic tutorials: ./tutorials.html
 .. _emcee: https://emcee.readthedocs.io/
 .. _dynesty: https://dynesty.readthedocs.io/
 .. _Goodman & Weare’s Affine Invariant Markov chain Monte Carlo (MCMC) Ensemble sampler: https://doi.org/10.2140/camcos.2010.5.65
