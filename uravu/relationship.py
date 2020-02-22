@@ -33,7 +33,7 @@ class Relationship:
     
     Attributes:
         function (callable): The function that is modelled.
-        abscissa (array_like with pint.UnitRegistry()): The abscissa data that the modelling should be performed from. This includes some unit from the `pint`_ package.
+        abscissa (array_like with pint.UnitRegistry()): The abscissa data that the modelling should be performed from. This includes some unit from the `pint`_ package and possibly some uncertainty from the `uncertainties`_ package.
         abscissa_name (str): A name for the abscissa data, used in the production of plots.
         ordinate (unumpy.array_like with pint.UnitRegistry()): The ordinate data against with the model should be compared. This will include uncertainty values and some unit. 
         ordinate_name (str): A name for the ordinate data, used in the production of plots.
@@ -53,6 +53,7 @@ class Relationship:
         unaccounted_uncertainty (bool, optional): Describes if an additional variable be included to account for an unknown uncertainty in the data.
         
     .. _pint: https://pint.readthedocs.io/
+    .. _uncertainties: https://uncertainties-python-package.readthedocs.io/
     """
 
     def __init__(
