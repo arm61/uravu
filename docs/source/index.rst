@@ -52,6 +52,7 @@ To see which publications you should reference in your work, the :class:`Relatio
    :hidden:
    :maxdepth: 2
 
+   tutorials
    api
 
 Searching
