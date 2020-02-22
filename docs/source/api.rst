@@ -1,5 +1,5 @@
-uravu modules
-=============
+API
+===
 
 .. toctree::
    :maxdepth: 4
