@@ -9,8 +9,9 @@ likelihood evaluation, Markiv chain Monte Carlo (MCMC) for
 posterior probabiltiy determination and Bayesian evidence 
 estimation by nested sampling. 
 
-See the [tutorials online](uravu.rtfd.io) for more guidence of 
-how to use this package
+See the `tutorials online`_ for more guidence of how to use this package
+
+.. _tutorials online: https://uravu.rtfd.io
 """
 
 # Copyright (c) Andrew R. McCluskey
@@ -28,8 +29,18 @@ from uravu.distribution import Distribution
 
 class Relationship:
     """
-    The `Relationship` class enables the investigation of variable
-    distributions in mathematical models.
+    The ``Relationship`` class is the base of the ``uravu`` package, enabling the use of Bayesian inference for the assessment of a model's ability to describe some data.
+    Args:
+        function (callable): the functional relationship to be considered.
+        abscissa (array_like): the abscissa data. If multi-dimensional, the array is expected to have the shape `(N, d)`, where `N` is the number of data points and `d` is the dimensionality.
+        ordinate (array_like): the ordinate data. This should have a shape `(N,)`.
+        ordinate_uncertainty (array_like): the uncertainty in each of the ordinate data points. This should have a shape `(N,)`.
+        abscissa_uncertainty (array_like, optional): the uncertainty in each of the absiccsa data points. This should have a shape `(N, d)`. Default is no uncertainties on absicca.
+        abscissa_unit (pint.UnitRegistry()): The unit for the abscissa. If `abscissa` is multi-dimensional, this should be a list with the units for each dimension.
+        ordinate_unit (pint.UnitRegistry()): The unit for the ordinate.
+        abscissa_name (str, optional): A name for the abscissa. Default is `'x'`.
+        ordinate_name (str, optional): A name for the ordinate. Default is `'y'`.
+        unaccounted_uncertainty (bool, optional): Should an additional variable be included to account for an unknown uncertainty in the data.
     """
 
     def __init__(
@@ -45,32 +56,6 @@ class Relationship:
         ordinate_name="y",
         unaccounted_uncertainty=False,
     ):
-        """
-        Args:
-            f (callable): the functional relationship to be considered.
-            abscissa (array_like): the abscissa data. If multi-dimensional,
-                the array is expected to have the shape `(N, d)`, where `N`
-                is the number of data points and `d` is the dimensionality.
-            ordinate (array_like): the ordinate data. This should have a
-                shape `(N,)`.
-            ordinate_uncertainty (array_like): the uncertainty in each of the
-                ordinate data points. This should have a shape `(N,)`.
-            abscissa_uncertainty (array_like, optional): the uncertainty in
-                each of the absiccsa data points. This should have a shape
-                `(N, d)`. Default is no uncertainties on absicca.
-            abscissa_unit (pint.UnitRegistry()): The unit for the
-                abscissa. If `abscissa` is multi-dimensional, this should be
-                a list with the units for each dimension.
-            ordinate_unit (pint.UnitRegistry()): The unit for the
-                ordinate.
-            abscissa_name (str, optional): A name for the abscissa. Default
-                is `'x'`.
-            ordinate_name (str, optional): A name for the ordinate. Default
-                is `'y'`.
-            unaccounted_uncertainty (bool, optional): Should an additional
-                variable be included to account for an unknown uncertainty in
-                the data.
-        """
         self.function = function
         self.unaccounted_uncertainty = unaccounted_uncertainty
         abscissa = np.array(abscissa)
