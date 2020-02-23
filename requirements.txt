@@ -6,3 +6,6 @@ dynesty
 tqdm
 pint
 uncertainties
+nbsphinx
+jupyter-sphinx
+sphinx_rtd_theme
