@@ -682,6 +682,17 @@ class TestRelationship(unittest.TestCase):
             var.normal = True
         assert_equal(test_rel.__str__(), STRING_G)
 
+    def test_repr(self):
+        """
+        Test __repr__ function.
+        """
+        np.random.seed(1)
+        test_y = np.ones(10) * np.random.randn(10)
+        test_y_e = np.ones(10) * 0.1
+        test_x = np.linspace(1, 10, 10)
+        test_rel = Relationship(utils.straight_line, test_x, test_y, test_y_e)
+        assert_equal(test_rel.__repr__(), STRING_A)
+
     def test_bic(self):
         """
         Test bayesian_information_criteria function.
