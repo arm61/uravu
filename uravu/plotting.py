@@ -13,7 +13,7 @@ from uravu import UREG, _fig_params
 from uravu.distribution import Distribution
 
 
-def plot_relationship(relationship, figsize=(10, 6)):  # pragma: no cover
+def plot_relationship(relationship, axes=None, figsize=(10, 6)):  # pragma: no cover
     """
     Plot the relationship. Additional plots will be included on this if
     the MCMC sampling has been used to find the activation_energy
@@ -23,7 +23,8 @@ def plot_relationship(relationship, figsize=(10, 6)):  # pragma: no cover
         fig_size (tuple, optional): horizontal and veritcal size for
             figure (in inches). Default is `(10, 6)`.
     """
-    fig, axes = plt.subplots(figsize=figsize)
+    if axes is None:
+        axes = plt.subplots(figsize=figsize)[1]
     variables = relationship.variables
     if relationship.unaccounted_uncertainty:
         variables = relationship.variables[:-1]
@@ -71,10 +72,10 @@ def plot_relationship(relationship, figsize=(10, 6)):  # pragma: no cover
                 color=list(_fig_params.TABLEAU)[1],
                 alpha=0.05,
             )
-    return fig, axes
+    return axes
 
 
-def plot_distribution(distro, figsize=(10, 6)):  # pragma: no cover
+def plot_distribution(distro, axes=None, figsize=(10, 6)):  # pragma: no cover
     """
     Plot the probability density function for the distribution.
 
@@ -86,7 +87,8 @@ def plot_distribution(distro, figsize=(10, 6)):  # pragma: no cover
         (matplotlib.figure.Figure, matplotlib.axes.Axes): Figure and axes
             for the plot.
     """
-    fig, axes = plt.subplots(figsize=figsize)
+    if axes is None:
+        axes = plt.subplots(figsize=figsize)[1]    
     kde = gaussian_kde(distro.samples)
     abscissa = np.linspace(distro.samples.min(), distro.samples.max(), 100)
     ordinate = kde.evaluate(abscissa)
@@ -110,4 +112,4 @@ def plot_distribution(distro, figsize=(10, 6)):  # pragma: no cover
     axes.set_xlabel(x_label)
     axes.set_ylabel("$p(${}$)$".format(distro.name))
     axes.set_ylim((0, ordinate.max() + ordinate.max() * 0.1))
-    return fig, axes
+    return axes

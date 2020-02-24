@@ -12,7 +12,7 @@ from scipy.optimize import minimize
 from uncertainties import unumpy as unp
 
 
-def max_ln_likelihood(relationship):
+def max_ln_likelihood(relationship, x0=None, **kwargs):
     """
     Determine the maximum natural log likelihood for the relationship object.
 
@@ -23,15 +23,18 @@ def max_ln_likelihood(relationship):
     Return:
         (array_like): optimized variables for the relationship.
     """
+    if x0 is None:
+        x0 = relationship.variables
     return minimize(
         negative_lnl,
-        relationship.variables,
+        x0,
         args=(
             relationship.function,
             relationship.abscissa,
             relationship.ordinate,
             relationship.unaccounted_uncertainty,
         ),
+        **kwargs,
     ).x
 
 

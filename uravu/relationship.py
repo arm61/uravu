@@ -381,12 +381,17 @@ class Relationship:
         # argument in the assessment function
         return len(getfullargspec(self.function).args) - 1
 
-    def max_likelihood(self):
+    def max_likelihood(self, x0=None, **kwargs):
         """
         Determine values for the variables which maximise the likelihood
         for the relationship.
+
+        Keyword Args:
+            See the `scipy.optimize.minimize()`_ documentation.
+
+        .. _scipy.optimize.minimize(): https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html
         """
-        self.variables = optimize.max_ln_likelihood(self)
+        self.variables = optimize.max_ln_likelihood(self, x0, **kwargs)
 
     def prior(self, array):
         """
@@ -402,7 +407,7 @@ class Relationship:
 
         Returns:
             (array_like): an array of random uniform numbers broadly
-            distributed in the range [x - x * 10, x + x * 10), where x is the
+            distributed in the range [x - x * 5, x + x * 5), where x is the
             current variable value.
         """
         broad = np.copy(array)
@@ -460,7 +465,9 @@ class Relationship:
                 Default is `True`.
 
         Keyword Args:
-            See the `dynesty.run_nested()` documentation.
+            See the `dynesty.run_nested()`_ documentation.
+
+        .. _dynesty.run_nested(): https://dynesty.readthedocs.io/en/latest/api.html#dynesty.sampler.Sampler.run_nested
         """
         self.ln_evidence = sampling.nested_sampling(
             self, prior_function=prior_function, progress=progress, **kwargs
