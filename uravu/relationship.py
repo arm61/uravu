@@ -381,6 +381,18 @@ class Relationship:
         # argument in the assessment function
         return len(getfullargspec(self.function).args) - 1
 
+    def bayesian_information_criteria(self):
+        """
+        Calculate the Bayesian information criteria for the relationship.
+
+        Returns:
+            (float): Bayesian information criteria.
+        """
+        return np.log(self.x_n.size) * self.len_parameters() - 2 * optimize.ln_likelihood(self.variable_medians, self.function,
+            self.abscissa,
+            self.ordinate,
+            self.unaccounted_uncertainty)
+
     def max_likelihood(self, x0=None, **kwargs):
         """
         Determine values for the variables which maximise the likelihood

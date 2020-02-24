@@ -683,3 +683,17 @@ class TestRelationship(unittest.TestCase):
         for var in test_rel.variables:
             var.normal = True
         assert_equal(test_rel.__str__(), STRING_G)
+
+    def test_bic(self):
+        """
+        Test bayesian_information_criteria function.
+        """
+        test_x = np.linspace(0, 99, 10)
+        test_y = np.ones(10)
+        test_y_e = np.ones(10) * 0.1
+        test_rel = Relationship(
+            utils.straight_line, test_x, test_y, test_y_e
+        )
+        expected_bic = np.log(10) * 2 - 2 * -1724236.163534402
+        actual_bic = test_rel.bayesian_information_criteria()
+        assert_almost_equal(actual_bic, expected_bic)
