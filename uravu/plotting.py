@@ -49,13 +49,6 @@ def plot_relationship(
         color=list(_fig_params.TABLEAU)[0],
         lw=0,
     )
-    axes.set_xlim((relationship.x_n.min() - 2, relationship.x_n.max() + 2))
-    axes.set_ylim(
-        (
-            (relationship.y_n - relationship.y_s).min() - 2,
-            (relationship.y_n + relationship.y_s).max() + 2,
-        )
-    )
     if not isinstance(variables[0], Distribution):
         axes.plot(
             relationship.x_n,
