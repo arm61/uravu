@@ -19,98 +19,89 @@ from uravu.distribution import Distribution
 STRING_A = (
     "Function Name: straight_line \n"
     "Abscissa: [ 1.00e+00 2.00e+00 ... 9.00e+00 1.00e+01 ] \n"
-    "Ordinate: [ -7.97e-02 -1.52e+00 ... -1.14e-01 -1.90e-01 ] \n"
-    "Ordinate uncertainty: "
-    "[ 1.00e-01 1.00e-01 ... 1.00e-01 1.00e-01 ]\n"
-    "Abscissa Name: x \nOrdinate Name: y \n"
-    "Abscissa Unit: dimensionless \n"
-    "Ordinate Unit: dimensionless \n"
-    "Variables: [ 1.00e+00 1.00e+00 ] \n"
-    "Unaccounted uncertainty: False \n"
-    "MCMC performed: False \nNested sampling performed: False \n"
+    "Ordinate: [ 1.62e+00 -6.12e-01 ... 3.19e-01 -2.49e-01 ] \n"
+    "Ordinate uncertainty: [ 1.00e-01 1.00e-01 ... 1.00e-01 1.00e-01 ]\n"
+    "Abscissa Name: x \nOrdinate Name: y \nAbscissa Unit: dimensionless \n"
+    "Ordinate Unit: dimensionless \nVariables: [ 1.00e+00 1.00e+00 ] \n"
+    "Unaccounted uncertainty: False \nMCMC performed: False \n"
+    "Nested sampling performed: False \n"
 )
+
 STRING_B = (
     "Function Name: straight_line \n"
     "Abscissa: [ 1.00e+00 5.50e+00 1.00e+01 ] \n"
-    "Ordinate: [ 1.26e+00 -7.52e-01 -2.83e-01 ] \n"
+    "Ordinate: [ 1.62e+00 -6.12e-01 -5.28e-01 ] \n"
     "Ordinate uncertainty: [ 1.00e-01 1.00e-01 1.00e-01 ] \n"
-    "Abscissa Name: x \nOrdinate Name: y \n"
-    "Abscissa Unit: dimensionless \n"
-    "Ordinate Unit: dimensionless \n"
-    "Variables: [ 1.00e+00 1.00e+00 ] \n"
-    "Unaccounted uncertainty: False \n"
-    "MCMC performed: False \nNested sampling performed: False \n"
+    "Abscissa Name: x \nOrdinate Name: y \nAbscissa Unit: dimensionless \n"
+    "Ordinate Unit: dimensionless \nVariables: [ 1.00e+00 1.00e+00 ] \n"
+    "Unaccounted uncertainty: False \nMCMC performed: False \n"
+    "Nested sampling performed: False \n"
 )
+
 STRING_C = (
     "Function Name: straight_line \n"
     "Abscissa: [ 1.00e+00 2.00e+00 ... 9.00e+00 1.00e+01 ] \n"
-    "Ordinate: [ -1.29e+00 9.67e-02 ... 4.04e-01 -9.75e-01 ] \n"
-    "Ordinate uncertainty: "
-    "[ 1.00e-01 1.00e-01 ... 1.00e-01 1.00e-01 ]\n"
-    "Abscissa Name: x \nOrdinate Name: y \n"
-    "Abscissa Unit: dimensionless \n"
-    "Ordinate Unit: dimensionless \n"
-    "Variables: [ 1.00e+00 1.00e+00 ] \n"
-    "ln(evidence): (-3.66+/-0.00)e+02 \n"
-    "Unaccounted uncertainty: False \n"
+    "Ordinate: [ 1.62e+00 -6.12e-01 ... 3.19e-01 -2.49e-01 ] \n"
+    "Ordinate uncertainty: [ 1.00e-01 1.00e-01 ... 1.00e-01 1.00e-01 ]\n"
+    "Abscissa Name: x \nOrdinate Name: y \nAbscissa Unit: dimensionless \n"
+    "Ordinate Unit: dimensionless \nVariables: [ 1.00e+00 1.00e+00 ] \n"
+    "ln(evidence): (-7.89+/-nan)e+02 \nUnaccounted uncertainty: False \n"
     "MCMC performed: False \nNested sampling performed: True \n"
 )
+
 STRING_D = (
     "Function Name: straight_line \n"
     "Abscissa: [ 1.00e+00 5.50e+00 1.00e+01 ] \n"
     "Abscissa uncertainty: [ 1.00e-01 1.00e-01 1.00e-01 ] \n"
-    "Ordinate: [ 5.26e-01 9.32e-01 7.00e-01 ] \n"
+    "Ordinate: [ 1.62e+00 -6.12e-01 -5.28e-01 ] \n"
     "Ordinate uncertainty: [ 1.00e-01 1.00e-01 1.00e-01 ] \n"
-    "Abscissa Name: x \n"
-    "Ordinate Name: y \n"
-    "Abscissa Unit: dimensionless \n"
-    "Ordinate Unit: dimensionless \n"
-    "Variables: [ 1.00e+00 1.00e+00 ] \n"
-    "Unaccounted uncertainty: False \n"
-    "MCMC performed: False \nNested sampling performed: False \n"
+    "Abscissa Name: x \nOrdinate Name: y \nAbscissa Unit: dimensionless \n"
+    "Ordinate Unit: dimensionless \nVariables: [ 1.00e+00 1.00e+00 ] \n"
+    "Unaccounted uncertainty: False \nMCMC performed: False \n"
+    "Nested sampling performed: False \n"
 )
+
 STRING_E = (
     "Function Name: straight_line \n"
     "Abscissa: [ 1.00e+00 3.25e+00 ... 7.75e+00 1.00e+01 ] \n"
-    "Abscissa: [ 1.00e-01 1.00e-01 ... 1.00e-01 1.00e-01 ] \n"
-    "Ordinate: [ 1.03e+00 -3.48e-01 ... 1.00e+00 4.50e-01 ] \n"
-    "Ordinate uncertainty: "
-    "[ 1.00e-01 1.00e-01 ... 1.00e-01 1.00e-01 ]\n"
-    "Abscissa Name: x \nOrdinate Name: y \n"
-    "Abscissa Unit: dimensionless \n"
-    "Ordinate Unit: dimensionless \n"
-    "Variables: [ 1.00e+00 1.00e+00 ] \n"
-    "Unaccounted uncertainty: False \n"
-    "MCMC performed: False \nNested sampling performed: False \n"
+    "Abscissa uncertainty: [ 1.00e-01 1.00e-01 ... 1.00e-01 1.00e-01 ] \n"
+    "Ordinate: [ 1.62e+00 -6.12e-01 ... -1.07e+00 8.65e-01 ] \n"
+    "Ordinate uncertainty: [ 1.00e-01 1.00e-01 ... 1.00e-01 1.00e-01 ]\n"
+    "Abscissa Name: x \nOrdinate Name: y \nAbscissa Unit: dimensionless \n"
+    "Ordinate Unit: dimensionless \nVariables: [ 1.00e+00 1.00e+00 ] \n"
+    "Unaccounted uncertainty: False \nMCMC performed: False \n"
+    "Nested sampling performed: False \n"
 )
+
 STRING_F = (
     "Function Name: straight_line \n"
     "Abscissa: [ 1.00e+00 2.00e+00 ... 9.00e+00 1.00e+01 ] \n"
-    "Ordinate: [ 1.12e+00 -4.41e-01 ... 2.10e-01 -5.88e-01 ] \n"
-    "Ordinate uncertainty: "
-    "[ 1.00e-01 1.00e-01 ... 1.00e-01 1.00e-01 ]\n"
-    "Abscissa Name: x \nOrdinate Name: y \n"
-    "Abscissa Unit: dimensionless \n"
+    "Ordinate: [ 1.62e+00 -6.12e-01 ... 3.19e-01 -2.49e-01 ] \n"
+    "Ordinate uncertainty: [ 1.00e-01 1.00e-01 ... 1.00e-01 1.00e-01 ]\n"
+    "Abscissa Name: x \nOrdinate Name: y \nAbscissa Unit: dimensionless \n"
     "Ordinate Unit: dimensionless \n"
-    "Variables: "
-    "[ 5.87e-02+3.09e+00-1.03e+00 7.42e-01+6.98e+00-5.48e+00 ] \n"
-    "Unaccounted uncertainty: False \nMCMC performed: True \n"
-    "Nested sampling performed: False \n"
-)
-STRING_G = (
-    "Function Name: straight_line \n"
-    "Abscissa: [ 1.00e+00 2.00e+00 ... 9.00e+00 1.00e+01 ] \n"
-    "Ordinate: [ 2.06e-01 -3.44e-01 ... -1.37e-01 2.62e+00 ] \n"
-    "Ordinate uncertainty: "
-    "[ 1.00e-01 1.00e-01 ... 1.00e-01 1.00e-01 ]\n"
-    "Abscissa Name: x \nOrdinate Name: y \n"
-    "Abscissa Unit: dimensionless \nOrdinate Unit: dimensionless \n"
-    "Variables: [ -1.39e-01+/-9.35e-01 1.87e+00+/-2.97e+00 ] \n"
+    "Variables: [ 1.13e-02+3.17e+00-9.35e-01 3.41e-01+4.90e+00-3.18e+00 ] \n"
     "Unaccounted uncertainty: False \nMCMC performed: True \n"
     "Nested sampling performed: False \n"
 )
 
-np.random.seed(1)
+STRING_G = (
+    "Function Name: straight_line \n"
+    "Abscissa: [ 1.00e+00 2.00e+00 ... 9.00e+00 1.00e+01 ] \n"
+    "Ordinate: [ 1.62e+00 -6.12e-01 ... 3.19e-01 -2.49e-01 ] \n"
+    "Ordinate uncertainty: [ 1.00e-01 1.00e-01 ... 1.00e-01 1.00e-01 ]\n"
+    "Abscissa Name: x \nOrdinate Name: y \nAbscissa Unit: dimensionless \n"
+    "Ordinate Unit: dimensionless \n"
+    "Variables: [ 1.13e-02+/-9.35e-01 3.41e-01+/-3.18e+00 ] \n"
+    "Unaccounted uncertainty: False \nMCMC performed: True \n"
+    "Nested sampling performed: False \n"
+)
+
+CITATION_A = ("Please consider citing the following:\n - Publication of uravu (to come).\n - Zenodo DOI for uravu version: 0.0.1\n")
+CITATION_B = ("Please consider citing the following:\n - Publication of uravu (to come).\n - Zenodo DOI for uravu version: 0.0.1\nThe scipy.optimize.minimize function was used to maximise the ln likelihood. Please consider citing:\n - P. Virtanen, r. Gommers, T. E. Oliphant, M. Haberland, T. Reddy, D. Cournapeau, E. Burovski, P. Peterson, W. Weckesser, J. Bright, S. J. van der Walt, M. Brett, J./ Wilson, K. J. Millman, N. Mayorov, A. R. J. Nelson, E. Jones, R. Kern, E. Larson, C. Carey, I. Polat, Y. Feng, E. W. Moore, J. VanderPlas, D. Laxalde, J. Perktold, R. Cimrman, I. Henriksen, E. A. Quintero, C. R Harris, A. M. Archibald, A. H. Ribeiro, F. Pedregosa, P. van Mulbregt, & SciPy 1.0 Contributors, (2020). Nature Methods, in press. DOI: 10.1038/s41592-019-0686-2\n")
+CITATION_C = ("Please consider citing the following:\n - Publication of uravu (to come).\n - Zenodo DOI for uravu version: 0.0.1\nThe scipy.optimize.minimize function was used to maximise the ln likelihood. Please consider citing:\n - P. Virtanen, r. Gommers, T. E. Oliphant, M. Haberland, T. Reddy, D. Cournapeau, E. Burovski, P. Peterson, W. Weckesser, J. Bright, S. J. van der Walt, M. Brett, J./ Wilson, K. J. Millman, N. Mayorov, A. R. J. Nelson, E. Jones, R. Kern, E. Larson, C. Carey, I. Polat, Y. Feng, E. W. Moore, J. VanderPlas, D. Laxalde, J. Perktold, R. Cimrman, I. Henriksen, E. A. Quintero, C. R Harris, A. M. Archibald, A. H. Ribeiro, F. Pedregosa, P. van Mulbregt, & SciPy 1.0 Contributors, (2020). Nature Methods, in press. DOI: 10.1038/s41592-019-0686-2\nThe emcee package was used to perform the MCMC analysis. Please consider citing:\n - D. Foreman-Mackey, W. Farr, M. Sinha, A. Archibald, D. Hogg, J. Sanders, J. Zuntz, P. Williams, A. Nelson, M. de Val-Borro, T. Erhardt, I. Pashchenko, & O. Pla, (2019). Journal of Open Source Software, 4(43), 1864. DOI: 10.21105/joss.01864\n - J. Goodman & J. Weare, (2010). Communications in applied mathematics and computational science, 5(1), 65. DOI: 10.2140/camcos.2010.5.65\n")  
+CITATION_D = ("Please consider citing the following:\n - Publication of uravu (to come).\n - Zenodo DOI for uravu version: 0.0.1\nThe scipy.optimize.minimize function was used to maximise the ln likelihood. Please consider citing:\n - P. Virtanen, r. Gommers, T. E. Oliphant, M. Haberland, T. Reddy, D. Cournapeau, E. Burovski, P. Peterson, W. Weckesser, J. Bright, S. J. van der Walt, M. Brett, J./ Wilson, K. J. Millman, N. Mayorov, A. R. J. Nelson, E. Jones, R. Kern, E. Larson, C. Carey, I. Polat, Y. Feng, E. W. Moore, J. VanderPlas, D. Laxalde, J. Perktold, R. Cimrman, I. Henriksen, E. A. Quintero, C. R Harris, A. M. Archibald, A. H. Ribeiro, F. Pedregosa, P. van Mulbregt, & SciPy 1.0 Contributors, (2020). Nature Methods, in press. DOI: 10.1038/s41592-019-0686-2\nThe dynesty package was used to carry out the nested sampling. Please consider citing:\n - J. S. Speagle, (2019), Monthly Notices of the Royal Astronomical Society, staa278. DOI: 10.1093/mnras/staa278.\n - J. Skilling (2004), AIP Conference Proceedings, 735(1), 395. DOI: 10.1063/1.1835238.\n - J. Skilling (2006), Bayesian Analysis, 1(4), 833. DOI: 10.1214/06-BA127.\n")  
+
 
 
 class TestRelationship(unittest.TestCase):
@@ -599,6 +590,7 @@ class TestRelationship(unittest.TestCase):
         """
         Test __str__ function A.
         """
+        np.random.seed(1)
         test_y = np.ones(10) * np.random.randn(10)
         test_y_e = np.ones(10) * 0.1
         test_x = np.linspace(1, 10, 10)
@@ -609,6 +601,7 @@ class TestRelationship(unittest.TestCase):
         """
         Test __str__ function B.
         """
+        np.random.seed(1)
         test_y = np.ones(3) * np.random.randn(3)
         test_y_e = np.ones(3) * 0.1
         test_x = np.linspace(1, 10, 3)
@@ -619,6 +612,7 @@ class TestRelationship(unittest.TestCase):
         """
         Test __str__ function C.
         """
+        np.random.seed(1)
         test_y = np.ones(10) * np.random.randn(10)
         test_y_e = np.ones(10) * 0.1
         test_x = np.linspace(1, 10, 10)
@@ -630,6 +624,7 @@ class TestRelationship(unittest.TestCase):
         """
         Test __str__ function d.
         """
+        np.random.seed(1)
         test_y = np.ones(3) * np.random.randn(3)
         test_y_e = np.ones(3) * 0.1
         test_x = np.linspace(1, 10, 3)
@@ -647,6 +642,7 @@ class TestRelationship(unittest.TestCase):
         """
         Test __str__ function d.
         """
+        np.random.seed(1)
         test_y = np.ones(5) * np.random.randn(5)
         test_y_e = np.ones(5) * 0.1
         test_x = np.linspace(1, 10, 5)
@@ -664,6 +660,7 @@ class TestRelationship(unittest.TestCase):
         """
         Test __str__ function F.
         """
+        np.random.seed(1)
         test_y = np.ones(10) * np.random.randn(10)
         test_y_e = np.ones(10) * 0.1
         test_x = np.linspace(1, 10, 10)
@@ -675,6 +672,7 @@ class TestRelationship(unittest.TestCase):
         """
         Test __str__ function G.
         """
+        np.random.seed(1)
         test_y = np.ones(10) * np.random.randn(10)
         test_y_e = np.ones(10) * 0.1
         test_x = np.linspace(1, 10, 10)
@@ -697,3 +695,58 @@ class TestRelationship(unittest.TestCase):
         expected_bic = np.log(10) * 2 - 2 * -1724236.163534402
         actual_bic = test_rel.bayesian_information_criteria()
         assert_almost_equal(actual_bic, expected_bic)
+
+    def test_citations_a(self):
+        """
+        test citations a.
+        """
+        test_x = np.linspace(0, 99, 10)
+        test_y = np.ones(10)
+        test_y_e = np.ones(10) * 0.1
+        test_rel = Relationship(
+            utils.straight_line, test_x, test_y, test_y_e
+        )
+        assert_equal(test_rel.citations, CITATION_A)
+
+    def test_citations_b(self):
+        """
+        test citations b.
+        """
+        test_x = np.linspace(0, 99, 10)
+        test_y = np.ones(10) * 2
+        test_y_e = np.ones(10) * 0.1
+        test_rel = Relationship(
+            utils.straight_line, test_x, test_y, test_y_e
+        )
+        test_rel.max_likelihood()
+        assert_equal(test_rel.citations, CITATION_B)
+
+    def test_citations_c(self):
+        """
+        test citations c.
+        """
+        test_x = np.linspace(0, 99, 10)
+        test_y = (
+            np.linspace(1, 199, 10)
+            + np.linspace(1, 199, 10) * np.random.randn(10) * 0.05
+        )
+        test_y_e = test_y * 0.2
+        test_rel = Relationship(utils.straight_line, test_x, test_y, test_y_e,)
+        test_rel.max_likelihood()
+        test_rel.mcmc(n_burn=10, n_samples=10)
+        assert_equal(test_rel.citations, CITATION_C)
+
+    def test_citations_d(self):
+        """
+        test citations d.
+        """
+        test_x = np.linspace(0, 99, 10)
+        test_y = (
+            np.linspace(1, 199, 10)
+            + np.linspace(1, 199, 10) * np.random.randn(10) * 0.05
+        )
+        test_y_e = test_y * 0.2
+        test_rel = Relationship(utils.straight_line, test_x, test_y, test_y_e,)
+        test_rel.max_likelihood()
+        test_rel.nested_sampling(maxiter=10)
+        assert_equal(test_rel.citations, CITATION_D)
