@@ -67,6 +67,27 @@ def plot_relationship(
                 color=list(_fig_params.TABLEAU)[1],
                 alpha=0.05,
             )
+    if relationship.unaccounted_uncertainty:
+        var = relationship.variable_medians
+        additional_uncertainty = var[-1] * relationship.function(
+            relationship.x_n, *var[:-1]
+        )
+        axes.fill_between(
+            relationship.x_n,
+            relationship.y_n + relationship.y_s,
+            relationship.y_n + relationship.y_s + additional_uncertainty,
+            alpha=0.5,
+            color=list(_fig_params.TABLEAU)[2],
+            lw=0,
+        )
+        axes.fill_between(
+            relationship.x_n,
+            relationship.y_n - relationship.y_s,
+            relationship.y_n - relationship.y_s - additional_uncertainty,
+            alpha=0.5,
+            color=list(_fig_params.TABLEAU)[2],
+            lw=0,
+        )
     return axes
 
 
