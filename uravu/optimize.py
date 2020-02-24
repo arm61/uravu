@@ -35,7 +35,9 @@ def max_ln_likelihood(relationship):
     ).x
 
 
-def negative_lnl(variables, function, abscissa, ordinate, unaccounted_uncertainty=False):
+def negative_lnl(
+    variables, function, abscissa, ordinate, unaccounted_uncertainty=False
+):
     """
     Evaluate the negative natural logarithm of the joint likelihood, when
     there is no uncertainty in the abscissa.
@@ -47,10 +49,18 @@ def negative_lnl(variables, function, abscissa, ordinate, unaccounted_uncertaint
     Returns:
         (float): negative ln-likelihood between model and data.
     """
-    return -ln_likelihood(variables, function, abscissa, ordinate, unaccounted_uncertainty=unaccounted_uncertainty)
+    return -ln_likelihood(
+        variables,
+        function,
+        abscissa,
+        ordinate,
+        unaccounted_uncertainty=unaccounted_uncertainty,
+    )
 
 
-def ln_likelihood(variables, function, abscissa, ordinate, unaccounted_uncertainty=False):
+def ln_likelihood(
+    variables, function, abscissa, ordinate, unaccounted_uncertainty=False
+):
     """
     The natural logarithm of the joint likelihood, when there is no
     uncertainty in the abscissa equation from
@@ -74,4 +84,6 @@ def ln_likelihood(variables, function, abscissa, ordinate, unaccounted_uncertain
     dy_data = unp.std_devs(ordinate.m)
 
     sigma2 = dy_data ** 2 + uu_f ** 2 * model ** 2
-    return -0.5 * np.sum((model - y_data) ** 2 / sigma2 + np.log(2 * np.pi * sigma2))
+    return -0.5 * np.sum(
+        (model - y_data) ** 2 / sigma2 + np.log(2 * np.pi * sigma2)
+    )

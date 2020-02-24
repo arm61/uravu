@@ -57,11 +57,19 @@ class TestOptimize(unittest.TestCase):
         test_y = np.ones(10)
         test_y_e = np.ones(10) * 0.1
         test_rel = relationship.Relationship(
-            utils.straight_line, test_x, test_y, test_y_e, unaccounted_uncertainty=True
+            utils.straight_line,
+            test_x,
+            test_y,
+            test_y_e,
+            unaccounted_uncertainty=True,
         )
         expected_negtive_lnl = 48.08862931921932
         actual_negative_lnl = optimize.negative_lnl(
-            test_rel.variables, test_rel.function, test_rel.x, test_rel.y, test_rel.unaccounted_uncertainty
+            test_rel.variables,
+            test_rel.function,
+            test_rel.x,
+            test_rel.y,
+            test_rel.unaccounted_uncertainty,
         )
         assert_almost_equal(actual_negative_lnl, expected_negtive_lnl)
 
