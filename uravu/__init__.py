@@ -16,7 +16,7 @@ set_application_registry(UREG)
 def __version__():
     """
     Return the current version of uravu.
-    
+
     Returns:
         (str): Version number.
     """

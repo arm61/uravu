@@ -384,17 +384,59 @@ class Relationship:
         if not np.isclose(
             self.variable_medians, np.ones((self.len_parameters()))
         ).all():
-            string += "The scipy.optimize.minimize function was used to maximise the ln likelihood. Please consider citing:\n"
-            string += " - P. Virtanen, r. Gommers, T. E. Oliphant, M. Haberland, T. Reddy, D. Cournapeau, E. Burovski, P. Peterson, W. Weckesser, J. Bright, S. J. van der Walt, M. Brett, J./ Wilson, K. J. Millman, N. Mayorov, A. R. J. Nelson, E. Jones, R. Kern, E. Larson, C. Carey, I. Polat, Y. Feng, E. W. Moore, J. VanderPlas, D. Laxalde, J. Perktold, R. Cimrman, I. Henriksen, E. A. Quintero, C. R Harris, A. M. Archibald, A. H. Ribeiro, F. Pedregosa, P. van Mulbregt, & SciPy 1.0 Contributors, (2020). Nature Methods, in press. DOI: 10.1038/s41592-019-0686-2\n"
+            string += (
+                "The scipy.optimize.minimize function was used to "
+                "maximise the ln likelihood. Please consider citing:\n"
+            )
+            string += (
+                " - P. Virtanen, R. Gommers, T. E. Oliphant, M. "
+                "Haberland, T. Reddy, D. Cournapeau, E. Burovski, P. "
+                "Peterson, W. Weckesser, J. Bright, S. J. van der "
+                "Walt, M. Brett, J. Wilson, K. J. Millman, N. "
+                "Mayorov, A. R. J. Nelson, E. Jones, R. Kern, E. "
+                "Larson, C. Carey, I. Polat, Y. Feng, E. W. Moore, "
+                "J. VanderPlas, D. Laxalde, J. Perktold, R. Cimrman, "
+                "I. Henriksen, E. A. Quintero, C. R Harris, A. M. "
+                "Archibald, A. H. Ribeiro, F. Pedregosa, P. van "
+                "Mulbregt, & SciPy 1.0 Contributors, (2020). Nature "
+                "Methods, in press. DOI: 10.1038/s41592-019-0686-2\n"
+            )
         if self.mcmc_done:
-            string += "The emcee package was used to perform the MCMC analysis. Please consider citing:\n"
-            string += " - D. Foreman-Mackey, W. Farr, M. Sinha, A. Archibald, D. Hogg, J. Sanders, J. Zuntz, P. Williams, A. Nelson, M. de Val-Borro, T. Erhardt, I. Pashchenko, & O. Pla, (2019). Journal of Open Source Software, 4(43), 1864. DOI: 10.21105/joss.01864\n"
-            string += " - J. Goodman & J. Weare, (2010). Communications in applied mathematics and computational science, 5(1), 65. DOI: 10.2140/camcos.2010.5.65\n"
+            string += (
+                "The emcee package was used to perform the MCMC "
+                "analysis. Please consider citing:\n"
+            )
+            string += (
+                " - D. Foreman-Mackey, W. Farr, M. Sinha, A. "
+                "Archibald, D. Hogg, J. Sanders, J. Zuntz, P. "
+                "Williams, A. Nelson, M. de Val-Borro, T. Erhardt, "
+                "I. Pashchenko, & O. Pla, (2019). Journal of Open "
+                "Source Software, 4(43), 1864. DOI: "
+                "10.21105/joss.01864\n"
+            )
+            string += (
+                " - J. Goodman & J. Weare, (2010). Communications in "
+                "applied mathematics and computational science, 5(1), "
+                "65. DOI: 10.2140/camcos.2010.5.65\n"
+            )
         if self.nested_sampling_done:
-            string += "The dynesty package was used to carry out the nested sampling. Please consider citing:\n"
-            string += " - J. S. Speagle, (2019), Monthly Notices of the Royal Astronomical Society, staa278. DOI: 10.1093/mnras/staa278.\n"
-            string += " - J. Skilling (2004), AIP Conference Proceedings, 735(1), 395. DOI: 10.1063/1.1835238.\n"
-            string += " - J. Skilling (2006), Bayesian Analysis, 1(4), 833. DOI: 10.1214/06-BA127.\n"
+            string += (
+                "The dynesty package was used to carry out the nested "
+                "sampling. Please consider citing:\n"
+            )
+            string += (
+                " - J. S. Speagle, (2019), Monthly Notices of the "
+                "Royal Astronomical Society, staa278. DOI: "
+                "10.1093/mnras/staa278.\n"
+            )
+            string += (
+                " - J. Skilling (2004), AIP Conference Proceedings, "
+                "735(1), 395. DOI: 10.1063/1.1835238.\n"
+            )
+            string += (
+                " - J. Skilling (2006), Bayesian Analysis, "
+                "1(4), 833. DOI: 10.1214/06-BA127.\n"
+            )
         return string
 
     def len_parameters(self):
@@ -429,13 +471,10 @@ class Relationship:
     def max_likelihood(self, x0=None, **kwargs):
         """
         Determine values for the variables which maximise the likelihood
-        for the relationship.
+        for the relationship. For keyword arguments see the
+        `scipy.optimize.minimize()`_ documentation.
 
-        Keyword Args:
-            See the `scipy.optimize.minimize()`_ documentation.
-
-        .. _scipy.optimize.minimize(): https://docs.scipy.org/doc/scipy/
-        reference/generated/scipy.optimize.minimize.html
+        .. _scipy.optimize.minimize(): https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html
         """
         self.variables = optimize.max_ln_likelihood(self, x0, **kwargs)
 
@@ -501,7 +540,8 @@ class Relationship:
     def nested_sampling(self, prior_function=None, progress=True, **kwargs):
         """
         Perform nested sampling to determine the Bayesian
-        natural-log evidence.
+        natural-log evidence. For keyword arguments see the
+        `dynesty.run_nested()`_ documentation.
 
         Args:
             prior_function (callable, optional): the function to populated some
@@ -510,11 +550,7 @@ class Relationship:
             progress (bool, optional): Show tqdm progress for sampling.
                 Default is `True`.
 
-        Keyword Args:
-            See the `dynesty.run_nested()`_ documentation.
-
-        .. _dynesty.run_nested(): https://dynesty.readthedocs.io/en/latest/
-        api.html#dynesty.sampler.Sampler.run_nested
+        .. _dynesty.run_nested(): https://dynesty.readthedocs.io/en/latest/api.html#dynesty.sampler.Sampler.run_nested
         """
         self.ln_evidence = sampling.nested_sampling(
             self, prior_function=prior_function, progress=progress, **kwargs
