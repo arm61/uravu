@@ -381,7 +381,9 @@ class Relationship:
         string = "Please consider citing the following:\n"
         string += " - Publication of uravu (to come).\n"
         string += " - Zenodo DOI for uravu version: {}\n".format(__version__())
-        if not np.isclose(self.variable_medians, np.ones((self.len_parameters()))).all():
+        if not np.isclose(
+            self.variable_medians, np.ones((self.len_parameters()))
+        ).all():
             string += "The scipy.optimize.minimize function was used to maximise the ln likelihood. Please consider citing:\n"
             string += " - P. Virtanen, r. Gommers, T. E. Oliphant, M. Haberland, T. Reddy, D. Cournapeau, E. Burovski, P. Peterson, W. Weckesser, J. Bright, S. J. van der Walt, M. Brett, J./ Wilson, K. J. Millman, N. Mayorov, A. R. J. Nelson, E. Jones, R. Kern, E. Larson, C. Carey, I. Polat, Y. Feng, E. W. Moore, J. VanderPlas, D. Laxalde, J. Perktold, R. Cimrman, I. Henriksen, E. A. Quintero, C. R Harris, A. M. Archibald, A. H. Ribeiro, F. Pedregosa, P. van Mulbregt, & SciPy 1.0 Contributors, (2020). Nature Methods, in press. DOI: 10.1038/s41592-019-0686-2\n"
         if self.mcmc_done:
@@ -413,10 +415,16 @@ class Relationship:
         Returns:
             (float): Bayesian information criteria.
         """
-        return np.log(self.x_n.size) * self.len_parameters() - 2 * optimize.ln_likelihood(self.variable_medians, self.function,
+        self.max_likelihood()
+        return np.log(
+            self.x_n.size
+        ) * self.len_parameters() - 2 * optimize.ln_likelihood(
+            self.variable_medians,
+            self.function,
             self.abscissa,
             self.ordinate,
-            self.unaccounted_uncertainty)
+            self.unaccounted_uncertainty,
+        )
 
     def max_likelihood(self, x0=None, **kwargs):
         """
@@ -426,7 +434,8 @@ class Relationship:
         Keyword Args:
             See the `scipy.optimize.minimize()`_ documentation.
 
-        .. _scipy.optimize.minimize(): https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html
+        .. _scipy.optimize.minimize(): https://docs.scipy.org/doc/scipy/
+        reference/generated/scipy.optimize.minimize.html
         """
         self.variables = optimize.max_ln_likelihood(self, x0, **kwargs)
 
@@ -504,7 +513,8 @@ class Relationship:
         Keyword Args:
             See the `dynesty.run_nested()`_ documentation.
 
-        .. _dynesty.run_nested(): https://dynesty.readthedocs.io/en/latest/api.html#dynesty.sampler.Sampler.run_nested
+        .. _dynesty.run_nested(): https://dynesty.readthedocs.io/en/latest/
+        api.html#dynesty.sampler.Sampler.run_nested
         """
         self.ln_evidence = sampling.nested_sampling(
             self, prior_function=prior_function, progress=progress, **kwargs

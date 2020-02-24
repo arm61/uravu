@@ -13,7 +13,9 @@ from uravu import UREG, _fig_params
 from uravu.distribution import Distribution
 
 
-def plot_relationship(relationship, axes=None, figsize=(10, 6)):  # pragma: no cover
+def plot_relationship(
+    relationship, axes=None, figsize=(10, 6)
+):  # pragma: no cover
     """
     Plot the relationship. Additional plots will be included on this if
     the MCMC sampling has been used to find the activation_energy
@@ -88,7 +90,7 @@ def plot_distribution(distro, axes=None, figsize=(10, 6)):  # pragma: no cover
             for the plot.
     """
     if axes is None:
-        axes = plt.subplots(figsize=figsize)[1]    
+        axes = plt.subplots(figsize=figsize)[1]
     kde = gaussian_kde(distro.samples)
     abscissa = np.linspace(distro.samples.min(), distro.samples.max(), 100)
     ordinate = kde.evaluate(abscissa)

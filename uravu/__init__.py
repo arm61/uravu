@@ -12,6 +12,7 @@ with warnings.catch_warnings():
 Q_ = UREG.Quantity
 set_application_registry(UREG)
 
+
 def __version__():
     """
     Return the current version of uravu.

@@ -97,11 +97,10 @@ STRING_G = (
     "Nested sampling performed: False \n"
 )
 
-CITATION_A = ("Please consider citing the following:\n - Publication of uravu (to come).\n - Zenodo DOI for uravu version: 0.0.1\n")
-CITATION_B = ("Please consider citing the following:\n - Publication of uravu (to come).\n - Zenodo DOI for uravu version: 0.0.1\nThe scipy.optimize.minimize function was used to maximise the ln likelihood. Please consider citing:\n - P. Virtanen, r. Gommers, T. E. Oliphant, M. Haberland, T. Reddy, D. Cournapeau, E. Burovski, P. Peterson, W. Weckesser, J. Bright, S. J. van der Walt, M. Brett, J./ Wilson, K. J. Millman, N. Mayorov, A. R. J. Nelson, E. Jones, R. Kern, E. Larson, C. Carey, I. Polat, Y. Feng, E. W. Moore, J. VanderPlas, D. Laxalde, J. Perktold, R. Cimrman, I. Henriksen, E. A. Quintero, C. R Harris, A. M. Archibald, A. H. Ribeiro, F. Pedregosa, P. van Mulbregt, & SciPy 1.0 Contributors, (2020). Nature Methods, in press. DOI: 10.1038/s41592-019-0686-2\n")
-CITATION_C = ("Please consider citing the following:\n - Publication of uravu (to come).\n - Zenodo DOI for uravu version: 0.0.1\nThe scipy.optimize.minimize function was used to maximise the ln likelihood. Please consider citing:\n - P. Virtanen, r. Gommers, T. E. Oliphant, M. Haberland, T. Reddy, D. Cournapeau, E. Burovski, P. Peterson, W. Weckesser, J. Bright, S. J. van der Walt, M. Brett, J./ Wilson, K. J. Millman, N. Mayorov, A. R. J. Nelson, E. Jones, R. Kern, E. Larson, C. Carey, I. Polat, Y. Feng, E. W. Moore, J. VanderPlas, D. Laxalde, J. Perktold, R. Cimrman, I. Henriksen, E. A. Quintero, C. R Harris, A. M. Archibald, A. H. Ribeiro, F. Pedregosa, P. van Mulbregt, & SciPy 1.0 Contributors, (2020). Nature Methods, in press. DOI: 10.1038/s41592-019-0686-2\nThe emcee package was used to perform the MCMC analysis. Please consider citing:\n - D. Foreman-Mackey, W. Farr, M. Sinha, A. Archibald, D. Hogg, J. Sanders, J. Zuntz, P. Williams, A. Nelson, M. de Val-Borro, T. Erhardt, I. Pashchenko, & O. Pla, (2019). Journal of Open Source Software, 4(43), 1864. DOI: 10.21105/joss.01864\n - J. Goodman & J. Weare, (2010). Communications in applied mathematics and computational science, 5(1), 65. DOI: 10.2140/camcos.2010.5.65\n")  
-CITATION_D = ("Please consider citing the following:\n - Publication of uravu (to come).\n - Zenodo DOI for uravu version: 0.0.1\nThe scipy.optimize.minimize function was used to maximise the ln likelihood. Please consider citing:\n - P. Virtanen, r. Gommers, T. E. Oliphant, M. Haberland, T. Reddy, D. Cournapeau, E. Burovski, P. Peterson, W. Weckesser, J. Bright, S. J. van der Walt, M. Brett, J./ Wilson, K. J. Millman, N. Mayorov, A. R. J. Nelson, E. Jones, R. Kern, E. Larson, C. Carey, I. Polat, Y. Feng, E. W. Moore, J. VanderPlas, D. Laxalde, J. Perktold, R. Cimrman, I. Henriksen, E. A. Quintero, C. R Harris, A. M. Archibald, A. H. Ribeiro, F. Pedregosa, P. van Mulbregt, & SciPy 1.0 Contributors, (2020). Nature Methods, in press. DOI: 10.1038/s41592-019-0686-2\nThe dynesty package was used to carry out the nested sampling. Please consider citing:\n - J. S. Speagle, (2019), Monthly Notices of the Royal Astronomical Society, staa278. DOI: 10.1093/mnras/staa278.\n - J. Skilling (2004), AIP Conference Proceedings, 735(1), 395. DOI: 10.1063/1.1835238.\n - J. Skilling (2006), Bayesian Analysis, 1(4), 833. DOI: 10.1214/06-BA127.\n")  
-
+CITATION_A = "Please consider citing the following:\n - Publication of uravu (to come).\n - Zenodo DOI for uravu version: 0.0.1\n"
+CITATION_B = "Please consider citing the following:\n - Publication of uravu (to come).\n - Zenodo DOI for uravu version: 0.0.1\nThe scipy.optimize.minimize function was used to maximise the ln likelihood. Please consider citing:\n - P. Virtanen, r. Gommers, T. E. Oliphant, M. Haberland, T. Reddy, D. Cournapeau, E. Burovski, P. Peterson, W. Weckesser, J. Bright, S. J. van der Walt, M. Brett, J./ Wilson, K. J. Millman, N. Mayorov, A. R. J. Nelson, E. Jones, R. Kern, E. Larson, C. Carey, I. Polat, Y. Feng, E. W. Moore, J. VanderPlas, D. Laxalde, J. Perktold, R. Cimrman, I. Henriksen, E. A. Quintero, C. R Harris, A. M. Archibald, A. H. Ribeiro, F. Pedregosa, P. van Mulbregt, & SciPy 1.0 Contributors, (2020). Nature Methods, in press. DOI: 10.1038/s41592-019-0686-2\n"
+CITATION_C = "Please consider citing the following:\n - Publication of uravu (to come).\n - Zenodo DOI for uravu version: 0.0.1\nThe scipy.optimize.minimize function was used to maximise the ln likelihood. Please consider citing:\n - P. Virtanen, r. Gommers, T. E. Oliphant, M. Haberland, T. Reddy, D. Cournapeau, E. Burovski, P. Peterson, W. Weckesser, J. Bright, S. J. van der Walt, M. Brett, J./ Wilson, K. J. Millman, N. Mayorov, A. R. J. Nelson, E. Jones, R. Kern, E. Larson, C. Carey, I. Polat, Y. Feng, E. W. Moore, J. VanderPlas, D. Laxalde, J. Perktold, R. Cimrman, I. Henriksen, E. A. Quintero, C. R Harris, A. M. Archibald, A. H. Ribeiro, F. Pedregosa, P. van Mulbregt, & SciPy 1.0 Contributors, (2020). Nature Methods, in press. DOI: 10.1038/s41592-019-0686-2\nThe emcee package was used to perform the MCMC analysis. Please consider citing:\n - D. Foreman-Mackey, W. Farr, M. Sinha, A. Archibald, D. Hogg, J. Sanders, J. Zuntz, P. Williams, A. Nelson, M. de Val-Borro, T. Erhardt, I. Pashchenko, & O. Pla, (2019). Journal of Open Source Software, 4(43), 1864. DOI: 10.21105/joss.01864\n - J. Goodman & J. Weare, (2010). Communications in applied mathematics and computational science, 5(1), 65. DOI: 10.2140/camcos.2010.5.65\n"
+CITATION_D = "Please consider citing the following:\n - Publication of uravu (to come).\n - Zenodo DOI for uravu version: 0.0.1\nThe scipy.optimize.minimize function was used to maximise the ln likelihood. Please consider citing:\n - P. Virtanen, r. Gommers, T. E. Oliphant, M. Haberland, T. Reddy, D. Cournapeau, E. Burovski, P. Peterson, W. Weckesser, J. Bright, S. J. van der Walt, M. Brett, J./ Wilson, K. J. Millman, N. Mayorov, A. R. J. Nelson, E. Jones, R. Kern, E. Larson, C. Carey, I. Polat, Y. Feng, E. W. Moore, J. VanderPlas, D. Laxalde, J. Perktold, R. Cimrman, I. Henriksen, E. A. Quintero, C. R Harris, A. M. Archibald, A. H. Ribeiro, F. Pedregosa, P. van Mulbregt, & SciPy 1.0 Contributors, (2020). Nature Methods, in press. DOI: 10.1038/s41592-019-0686-2\nThe dynesty package was used to carry out the nested sampling. Please consider citing:\n - J. S. Speagle, (2019), Monthly Notices of the Royal Astronomical Society, staa278. DOI: 10.1093/mnras/staa278.\n - J. Skilling (2004), AIP Conference Proceedings, 735(1), 395. DOI: 10.1063/1.1835238.\n - J. Skilling (2006), Bayesian Analysis, 1(4), 833. DOI: 10.1214/06-BA127.\n"
 
 
 class TestRelationship(unittest.TestCase):
@@ -700,10 +699,8 @@ class TestRelationship(unittest.TestCase):
         test_x = np.linspace(0, 99, 10)
         test_y = np.ones(10)
         test_y_e = np.ones(10) * 0.1
-        test_rel = Relationship(
-            utils.straight_line, test_x, test_y, test_y_e
-        )
-        expected_bic = np.log(10) * 2 - 2 * -1724236.163534402
+        test_rel = Relationship(utils.straight_line, test_x, test_y, test_y_e)
+        expected_bic = -23.06776100915812
         actual_bic = test_rel.bayesian_information_criteria()
         assert_almost_equal(actual_bic, expected_bic)
 
@@ -714,9 +711,7 @@ class TestRelationship(unittest.TestCase):
         test_x = np.linspace(0, 99, 10)
         test_y = np.ones(10)
         test_y_e = np.ones(10) * 0.1
-        test_rel = Relationship(
-            utils.straight_line, test_x, test_y, test_y_e
-        )
+        test_rel = Relationship(utils.straight_line, test_x, test_y, test_y_e)
         assert_equal(test_rel.citations, CITATION_A)
 
     def test_citations_b(self):
@@ -726,9 +721,7 @@ class TestRelationship(unittest.TestCase):
         test_x = np.linspace(0, 99, 10)
         test_y = np.ones(10) * 2
         test_y_e = np.ones(10) * 0.1
-        test_rel = Relationship(
-            utils.straight_line, test_x, test_y, test_y_e
-        )
+        test_rel = Relationship(utils.straight_line, test_x, test_y, test_y_e)
         test_rel.max_likelihood()
         assert_equal(test_rel.citations, CITATION_B)
 
