@@ -11,9 +11,9 @@
 
 ``uravu`` (from the Tamil for relationship) is about the relationship between some data and a function that may be used to describe the data. 
 
-The aim of ``uravu`` is to make using the **amazing** Bayesian inference libraries that are available in Python as easy as `scipy.optimize.curve_fit`_.
+The aim of ``uravu`` is to make using the **amazing** Bayesian inference libraries that are available in Python as easy as [scipy.optimize.curve_fit](https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html).
 Therefore enabling many more to make use of these exciting tools and powerful libraries.
-Plus, we have some nice plotting functionalities available in the :mod:`plotting` module, capable of generating publication quality figures.
+Plus, we have some nice plotting functionalities available in the `plotting` module, capable of generating publication quality figures.
 
 ![An example of the type of figures that uravu can produce. Showing straight line distribution with increasing uncertainty.](./docs/sample_fig.png)
 
@@ -26,8 +26,8 @@ In addition to the library and API, we also have some [basic tutorials](https://
 
 There are a couple of fantastic Bayesian inference libraries available in Python that `uravu` makes use of:
 
-- `emcee`_: enables the use of the `Goodman & Weare’s Affine Invariant Markov chain Monte Carlo (MCMC) Ensemble sampler`_ to evaluate the structure of the model parameter posterior distributions,
-- `dynesty`_: implements `nested sampling`_ and `dynamic nested sampling`_ algorithms for evidence estimation.
+- [emcee](https://emcee.readthedocs.io/): enables the use of the [Goodman & Weare’s Affine Invariant Markov chain Monte Carlo (MCMC) Ensemble sampler](https://doi.org/10.2140/camcos.2010.5.65) to evaluate the structure of the model parameter posterior distributions,
+- [dynesty](https://dynesty.readthedocs.io/): implements the [nested sampling](https://doi.org/10.1063/1.1835238) algorithm for evidence estimation.
 
 ## Problems
 
