@@ -12,8 +12,6 @@ environment:
       MINICONDA: "C:\\Miniconda"
     - PYTHON: "C:\\Python38-x64"
       MINICONDA: "C:\\Miniconda"
-    - PYTHON: "C:\\Python39-x64"
-      MINICONDA: "C:\\Miniconda"
 
 install:
   # We need wheel installed to build wheels
