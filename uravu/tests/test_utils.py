@@ -36,7 +36,7 @@ class TestUtils(unittest.TestCase):
         expected_result = -4
         actual_result = utils.bayes_factor(model_1, model_2)
         assert_almost_equal(actual_result, expected_result)
-    
+
     def test_bayes_factor_b(self):
         """
         Test the bayes factor function with uncertainties.
