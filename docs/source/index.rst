@@ -28,7 +28,7 @@ Bayesian inference in Python
 There are a couple of fantastic Bayesian inference libraries available in Python that `uravu` makes use of:
 
 - `emcee`_: enables the use of the `Goodman & Weare’s Affine Invariant Markov chain Monte Carlo (MCMC) Ensemble sampler`_ to evaluate the structure of the model parameter posterior distributions,
-- `dynesty`_: implements `nested sampling`_ and `dynamic nested sampling`_ algorithms for evidence estimation.
+- `dynesty`_: implements the `nested sampling`_ algorithm for evidence estimation.
 
 To see which publications you should reference in your work, the :class:`Relationship` has a property that will return the relevant citations based on what analyses have been performed.
 
@@ -49,7 +49,6 @@ To see which publications you should reference in your work, the :class:`Relatio
 .. _dynesty: https://dynesty.readthedocs.io/
 .. _Goodman & Weare’s Affine Invariant Markov chain Monte Carlo (MCMC) Ensemble sampler: https://doi.org/10.2140/camcos.2010.5.65
 .. _nested sampling: https://doi.org/10.1063/1.1835238
-.. _dynamic nested sampling: https://doi.org/10.1007/s11222-018-9844-0
 
 .. toctree::
    :hidden:
