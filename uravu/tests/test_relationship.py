@@ -621,6 +621,36 @@ class TestRelationship(unittest.TestCase):
             True,
         )
 
+    def test_prior_b(self):
+        """
+        Test prior function with unaccounted uncertainty.
+        """
+        test_x = np.linspace(0, 99, 100)
+        test_y = np.linspace(1, 199, 100)
+        test_y_e = test_y * 0.1
+        test_rel = Relationship(utils.straight_line, test_x, test_y, test_y_e, unaccounted_uncertainty=True)
+        test_rel.max_likelihood()
+        result_priors = test_rel.prior()
+        assert_equal(len(result_priors), 3)
+        assert_equal(
+            isinstance(
+                result_priors[0], scipy.stats._distn_infrastructure.rv_frozen
+            ),
+            True,
+        )
+        assert_equal(
+            isinstance(
+                result_priors[1], scipy.stats._distn_infrastructure.rv_frozen
+            ),
+            True,
+        )
+        assert_equal(
+            isinstance(
+                result_priors[2], scipy.stats._distn_infrastructure.rv_frozen
+            ),
+            True,
+        )
+
     def test_mcmc(self):
         """
         Test mcmc function.
