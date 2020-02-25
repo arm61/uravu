@@ -19,12 +19,18 @@ def plot_relationship(
 ):  # pragma: no cover
     """
     Plot the relationship. Additional plots will be included on this if
-    the MCMC sampling has been used to find the activation_energy
-    and prefactor distributions.
+    the MCMC sampling has been used to find distributions.
 
     Args:
+        relationship (uravu.relationship.Relationship): The relationship to
+            be plotted.
+        axes (matplotlib.axes): Axes to which the plot should be added.
+            If none given new axes will be created.
         fig_size (tuple, optional): horizontal and veritcal size for
             figure (in inches). Default is `(10, 6)`.
+    
+    Returns: 
+        (matplotlib.axes): The axes with new plots.
     """
     if axes is None:
         axes = plt.subplots(figsize=figsize)[1]
@@ -94,15 +100,16 @@ def plot_relationship(
 
 def plot_distribution(distro, axes=None, figsize=(10, 6)):  # pragma: no cover
     """
-    Plot the probability density function for the distribution.
+    Plot the probability density function for a distribution.
 
     Args:
+        distro (uravu.distriobution.Distribution): The distribution to be
+            plotted.
         fig_size (tuple): Horizontal and veritcal size for figure
             (in inches).
 
-    Returns:
-        (matplotlib.figure.Figure, matplotlib.axes.Axes): Figure and axes
-            for the plot.
+    Returns: 
+        (matplotlib.axes): The axes with new plots.
     """
     if axes is None:
         axes = plt.subplots(figsize=figsize)[1]
@@ -138,8 +145,13 @@ def plot_corner(relationship, figsize=(8, 8)):  # pragma: no cover
     relationships variables.
 
     Args:
+        relationship (uravu.relationship.Relationship): The relationship
+            containing the distributions to be plotted.
         fig_size (tuple, optional): horizontal and veritcal size for
             figure (in inches). Default is `(10, 6)`.
+
+    Returns: 
+        (matplotlib.axes): The axes with new plots.
     """
     n = len(relationship.variables)
     if not all(
@@ -150,7 +162,7 @@ def plot_corner(relationship, figsize=(8, 8)):  # pragma: no cover
             "variables must be Distributions. Please run MCMC before "
             "plotting the corner."
         )
-    fig, ax = plt.subplots(n, n, figsize=figsize)
+    ax = plt.subplots(n, n, figsize=figsize)[1]
     var_labels = []
     for i in range(n):
         if relationship.variable_units[i] == UREG.dimensionless:
