@@ -1,5 +1,10 @@
 """
-Plotting functions
+These are plotting functions that take either :class:`Relationship`
+or :class:`Distribution` class objects. 
+
+The aim is to produce *publication quality* plots. However, we
+recognise that taste exists, and ours may be different from yours. 
+The colorscheme in this work was chosen to be colorblind friendly. 
 """
 
 # Copyright (c) Andrew R. McCluskey

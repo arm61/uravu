@@ -1,5 +1,6 @@
 """
-Some utility functions for the uravu package.
+A few additional utility functions to improve the usability of 
+``uravu``. 
 """
 
 # Copyright (c) Andrew R. McCluskey

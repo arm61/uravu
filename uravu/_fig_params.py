@@ -1,12 +1,10 @@
 """
-Figure parameters for kinisi to help make nice plots.
-
-Copyright (c) Andrew R. McCluskey and Benjamin J. Morgan
-
-Distributed under the terms of the MIT License
-
-@author: Andrew R. McCluskey
+Figure parameters for uravu to help make nice plots.
 """
+
+# Copyright (c) Andrew R. McCluskey
+# Distributed under the terms of the MIT License
+# author: Andrew R. McCluskey
 
 from collections import OrderedDict
 from matplotlib import rcParams, cycler

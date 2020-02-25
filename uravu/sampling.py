@@ -1,10 +1,10 @@
 """
-This is the Relationship class, which allows for the storage and manipulation
-of analytical relationships between and abscissa and ordinate.
+The :mod:`sampling` module implements the use of a generalised 
+MCMC (using `emcee`_) and nested sampling (using `dynesty`_) for the 
+:class:`Relationship` objects. 
 
-This enables the determination of maximum likelihood, the evalulation of
-posterior probability distributions by Markov chain Monte-Carlo (MCMC) and
-the determination of Bayesian evidence using nested sampling.
+.. _emcee: https://emcee.readthedocs.io/
+.. _dynesty: https://dynesty.readthedocs.io/
 """
 
 # Copyright (c) Andrew R. McCluskey
