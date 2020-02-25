@@ -200,4 +200,4 @@ def plot_corner(relationship, figsize=(8, 8)):  # pragma: no cover
                 )
             ]
         )
-    return fig, ax
+    return ax
