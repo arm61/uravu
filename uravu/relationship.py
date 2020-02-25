@@ -478,29 +478,25 @@ class Relationship:
         """
         self.variables = optimize.max_ln_likelihood(self, x0, **kwargs)
 
-    def prior(self, array):
+    def prior(self):
         """
-        *Standard priors*. Broad, uniform distributions spread evenly
-        around the current values for the variables.
-
-        This is used as the default where no priors are given.
-
-        Args:
-            array (array_like): An array of random uniform numbers (0, 1].
-                The shape of which is M x N, where M is the number of
-                parameters and N is the number of walkers.
+        *Standard priors* for the relationship. These priors are broad,
+        uninformative, for normal variables running the range
+        [x - x * 10, x + x * 10) (where x is the variable). For an unaccounted
+        uncertainty natural log factor the range is [-10, 1).
 
         Returns:
-            (array_like): an array of random uniform numbers broadly
-            distributed in the range [x - x * 5, x + x * 5), where x is the
-            current variable value.
+            (list of scipy.stats.rv_continuous): scipy.stats functions
+                describing the priors.
         """
-        broad = np.copy(array)
-        for i, variable in enumerate(self.variable_medians):
-            loc = variable - variable * 5
-            scale = (variable + variable * 5) - loc
-            broad[i] = uniform.ppf(broad[i], loc=loc, scale=scale)
-        return broad
+        priors = []
+        for var in self.variable_medians:
+            loc = var - np.abs(var) * 10
+            scale = (var + np.abs(var) * 10) - loc
+            priors.append(uniform(loc=loc, scale=scale))
+        if self.unaccounted_uncertainty:
+            priors[-1] = uniform(loc=-10, scale=11)
+        return priors
 
     def mcmc(
         self,

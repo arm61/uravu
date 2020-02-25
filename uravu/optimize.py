@@ -78,15 +78,14 @@ def ln_likelihood(
         (float): ln-likelihood between model and data.
     """
     if unaccounted_uncertainty:
-        variables = variables[:-1]
-        uu_f = variables[-1]
+        var = variables[:-1]
+        log_f = variables[-1]
     else:
-        uu_f = 0
-    model = function(abscissa.m, *variables)
+        var = variables
+        log_f = -np.inf
     y_data = unp.nominal_values(ordinate.m)
     dy_data = unp.std_devs(ordinate.m)
+    model = function(abscissa.m, *var)
 
-    sigma2 = dy_data ** 2 + uu_f ** 2 * model ** 2
-    return -0.5 * np.sum(
-        (model - y_data) ** 2 / sigma2 + np.log(2 * np.pi * sigma2)
-    )
+    sigma2 = dy_data ** 2 + model ** 2 * np.exp(2 * log_f)
+    return -0.5 * np.sum((model - y_data) ** 2 / sigma2 + np.log(sigma2))

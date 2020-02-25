@@ -49,22 +49,25 @@ def mcmc(
         (list of uravu.distribution.Distribution): a
             uravu.distribution.Distribution to describe each of the variables.
     """
-    uniform = np.random.uniform(size=(len(relationship.variables), walkers))
     if prior_function is None:
-        initial_prior = relationship.prior(uniform).T
-    else:
-        initial_prior = prior_function(uniform).T
+        prior_function = relationship.prior
+
+    initial_prior = relationship.variable_medians + 1e-4 * np.random.randn(
+        walkers, len(relationship.variable_medians)
+    )
     ndims = initial_prior.shape[1]
+    k = prior_function()
 
     sampler = emcee.EnsembleSampler(
         walkers,
         ndims,
-        optimize.ln_likelihood,
+        ln_probability,
         args=[
             relationship.function,
             relationship.abscissa,
             relationship.ordinate,
             relationship.unaccounted_uncertainty,
+            k,
         ],
     )
 
@@ -77,6 +80,20 @@ def mcmc(
         distributions.append(Distribution(post_samples[:, i]))
 
     return distributions
+
+
+def ln_probability(
+    variables, function, abscissa, ordinate, unaccounted_uncertainty, priors
+):
+    """
+    Determine the natural log probability for a given set of variables.
+    """
+    log_prior = 0
+    for i, var in enumerate(variables):
+        log_prior += priors[i].logpdf(var)
+    return log_prior + optimize.ln_likelihood(
+        variables, function, abscissa, ordinate, unaccounted_uncertainty
+    )
 
 
 def nested_sampling(
@@ -102,9 +119,10 @@ def nested_sampling(
     """
     if prior_function is None:
         prior_function = relationship.prior
+    priors = prior_function()
     sampler = dynesty.NestedSampler(
         optimize.ln_likelihood,
-        prior_function,
+        nested_prior,
         len(relationship.variables),
         logl_args=[
             relationship.function,
@@ -112,7 +130,31 @@ def nested_sampling(
             relationship.ordinate,
             relationship.unaccounted_uncertainty,
         ],
+        ptform_args=[priors,],
     )
     sampler.run_nested(print_progress=progress, **kwargs)
     results = sampler.results
     return ufloat(results["logz"][-1], results["logzerr"][-1])
+
+
+def nested_prior(array, priors):
+    """
+    *Standard priors*. Broad, uniform distributions spread evenly
+    around the current values for the variables.
+
+    This is used as the default where no priors are given.
+
+    Args:
+        array (array_like): An array of random uniform numbers (0, 1].
+            The shape of which is M x N, where M is the number of
+            parameters and N is the number of walkers.
+
+    Returns:
+        (array_like): an array of random uniform numbers broadly
+        distributed in the range [x - x * 5, x + x * 5), where x is the
+        current variable value.
+    """
+    broad = np.copy(array)
+    for i, prior in enumerate(priors):
+        broad[i] = prior.ppf(broad[i])
+    return broad

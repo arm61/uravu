@@ -69,8 +69,8 @@ def plot_relationship(
             )
     if relationship.unaccounted_uncertainty:
         var = relationship.variable_medians
-        additional_uncertainty = var[-1] * relationship.function(
-            relationship.x_n, *var[:-1]
+        additional_uncertainty = np.abs(
+            var[-1] * relationship.function(relationship.x_n, *var[:-1])
         )
         axes.fill_between(
             relationship.x_n,
