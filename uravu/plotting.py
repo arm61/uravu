@@ -151,6 +151,7 @@ def plot_corner(relationship, figsize=(8, 8)):  # pragma: no cover
             figure (in inches). Default is `(10, 6)`.
 
     Returns: 
+        (matplotlib.figure): The figure with new plots.
         (matplotlib.axes): The axes with new plots.
     """
     n = len(relationship.variables)
@@ -162,7 +163,7 @@ def plot_corner(relationship, figsize=(8, 8)):  # pragma: no cover
             "variables must be Distributions. Please run MCMC before "
             "plotting the corner."
         )
-    ax = plt.subplots(n, n, figsize=figsize)[1]
+    fig, ax = plt.subplots(n, n, figsize=figsize)[1]
     var_labels = []
     for i in range(n):
         if relationship.variable_units[i] == UREG.dimensionless:
@@ -200,4 +201,4 @@ def plot_corner(relationship, figsize=(8, 8)):  # pragma: no cover
                 )
             ]
         )
-    return ax
+    return fig, ax
