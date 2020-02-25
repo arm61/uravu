@@ -1,6 +1,7 @@
 """
-This module enables the optimization of the maximum likelihood, amoung other
-features.
+The optimize module includes the functionality necessary for maximum
+likelihood determination. Further, the natural log likelihood function used
+in the ``mcmc`` and ``nested_sampling`` methods may be found here. 
 """
 
 # Copyright (c) Andrew R. McCluskey
@@ -14,14 +15,21 @@ from uncertainties import unumpy as unp
 
 def max_ln_likelihood(relationship, x0=None, **kwargs):
     """
-    Determine the maximum natural log likelihood for the relationship object.
+    Determine the variable values which maximize the likelihood for the
+    given relationship. For keyword arguments see the 
+    `scipy.optimize.minimize()`_ documentation.
 
     Args:
-        relationship (uravu.relationship.Relationship): the relationship to be
-            evaluated.
+        relationship (uravu.relationship.Relationship): The relationship for
+            which variables should be found.
+        x0 (array_like, optional): Initial guesses for the variable values.
+            Default to the current ``relationship.variables`` values which
+            are initialized as all ones.
 
     Return:
         (array_like): optimized variables for the relationship.
+
+    .. _scipy.optimize.minimize(): https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html
     """
     if x0 is None:
         x0 = relationship.variables
@@ -42,15 +50,19 @@ def negative_lnl(
     variables, function, abscissa, ordinate, unaccounted_uncertainty=False
 ):
     """
-    Evaluate the negative natural logarithm of the joint likelihood, when
-    there is no uncertainty in the abscissa.
+    Calculate the negative natural logarithm of the likelihood given a set
+    of variables, when there is no uncertainty in the abscissa.
 
     Args:
-        model (array_like): Model ordinate data.
-        y_data (array_like): Actual ordinate data.
+        variables (array_like): Variables for the function evaluation. 
+        function (callable): The function to be evaluated. 
+        abscissa (array_like): The abscissa values. 
+        ordinate (array_like): The ordinate values.
+        unaccounted_uncertainty (bool, optional): Should an unaccounted
+            uncertainty parameter be considered. Default is ``False``.
 
     Returns:
-        (float): negative ln-likelihood between model and data.
+        (float): Negative ln-likelihood between model and data.
     """
     return -ln_likelihood(
         variables,
@@ -65,14 +77,16 @@ def ln_likelihood(
     variables, function, abscissa, ordinate, unaccounted_uncertainty=False
 ):
     """
-    The natural logarithm of the joint likelihood, when there is no
-    uncertainty in the abscissa equation from
-    DOI: 10.1107/S1600576718017296.
+    Calculate the natural logarithm of the likelihood given a set of
+    variables, when there is no uncertainty in the abscissa.
 
     Args:
-        model (array_like): Model ordinate data.
-        y_data (array_like): Experimental ordinate data.
-        dy_data (array_like): Experimental ordinate-uncertainty data.
+        variables (array_like): Variables for the function evaluation. 
+        function (callable): The function to be evaluated. 
+        abscissa (array_like): The abscissa values. 
+        ordinate (array_like): The ordinate values.
+        unaccounted_uncertainty (bool, optional): Should an unaccounted
+            uncertainty parameter be considered. Default is ``False``.
 
     Returns:
         (float): ln-likelihood between model and data.
