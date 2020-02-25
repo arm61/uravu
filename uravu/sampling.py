@@ -76,7 +76,7 @@ def mcmc(
 
     distributions = []
     for i in range(ndims):
-        distributions.append(Distribution(post_samples[:, i]))
+        distributions.append(Distribution(post_samples[:, i], name=relationship.variable_names[i], unit=relationship.variable_units[i]))
 
     results = {
         "distributions": distributions,

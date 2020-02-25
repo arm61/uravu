@@ -61,17 +61,23 @@ class Relationship:
             shape `(N,)`.
         ordinate_uncertainty (array_like): The uncertainty in each of the
             ordinate data points. This should have a shape `(N,)`.
-        abscissa_uncertainty (array_like, optional): The uncertainty in each of
-            the absiccsa data points. This should have a shape `(N, d)`.
+        abscissa_uncertainty (array_like, optional): The uncertainty in each
+            of the absiccsa data points. This should have a shape `(N, d)`.
             Default is no uncertainties on absicca.
-        abscissa_unit (pint.UnitRegistry()): The unit for the abscissa.
-            If `abscissa` is multi-dimensional, this should be a list with
-            the units for each dimension.
-        ordinate_unit (pint.UnitRegistry()): The unit for the ordinate.
+        abscissa_unit (pint.UnitRegistry(), optional): The unit for the
+            abscissa. If `abscissa` is multi-dimensional, this should be a
+            list with the units for each dimension. Default is dimensionless.
+        ordinate_unit (pint.UnitRegistry(), optional): The unit for the
+            ordinate. Default is dimensionless.
         abscissa_name (str, optional): A name for the abscissa. Default
             is `'x'`.
         ordinate_name (str, optional): A name for the ordinate. Default
             is `'y'`.
+        variable_names (list of str, optional): Names for each of the
+            variables. Default is the variable name in the ``function``
+            definition.
+        variable_units (pint.UnitRegistry(), optional): The units for the
+            variables. Default is dimensionless. 
         unaccounted_uncertainty (bool, optional): Describes if an additional
             variable be included to account for an unknown uncertainty in the
             data.
@@ -91,6 +97,8 @@ class Relationship:
         ordinate_unit=UREG.dimensionless,
         abscissa_name="x",
         ordinate_name="y",
+        variable_names=None,
+        variable_units=None,
         unaccounted_uncertainty=False,
     ):
         self.function = function
@@ -128,6 +136,18 @@ class Relationship:
             self.variables = np.ones((self.len_parameters()))
         self.abscissa_name = abscissa_name
         self.ordinate_name = ordinate_name
+        if variable_names is None:
+            self.variable_names = getfullargspec(self.function).args[1:]
+        else:
+            if len(variable_names) != self.len_parameters():
+                raise ValueError('The number of variable names does not match the number of variables.')
+            self.variable_names = variable_names
+        if variable_units is None:
+            self.variable_units = [UREG.dimensionless for i in range(self.len_parameters())]
+        else:
+            if len(variable_units) != self.len_parameters():
+                raise ValueError('The number of variable units does not match the number of variables.')
+            self.variable_units = variable_units
         self.ln_evidence = None
 
     def __str__(self):

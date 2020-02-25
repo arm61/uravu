@@ -151,12 +151,19 @@ def plot_corner(relationship, figsize=(8, 8)):  # pragma: no cover
             "plotting the corner."
         )
     fig, ax = plt.subplots(n, n, figsize=figsize)
+    var_labels = []
+    for i in range(n):
+        if relationship.variable_units[i] == UREG.dimensionless:
+            var_labels.append('{}'.format(relationship.variable_names[i]))
+        else:
+            var_labels.append('{}/${:L}$'.format(relationship.variable_names[i], relationship.variable_units[i]))
     corner(
         relationship.mcmc_results["samples"],
         color=list(_fig_params.TABLEAU)[0],
         hist_kwargs={"lw": 4, "histtype": "stepfilled"},
         label_kwargs={"fontsize": _fig_params.rcParams["axes.labelsize"]},
         fig=fig,
+        labels=var_labels
     )
     for j in range(n):
         ax[n - 1, j].set_xticks(
