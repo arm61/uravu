@@ -163,7 +163,7 @@ def plot_corner(relationship, figsize=(8, 8)):  # pragma: no cover
             "variables must be Distributions. Please run MCMC before "
             "plotting the corner."
         )
-    fig, ax = plt.subplots(n, n, figsize=figsize)[1]
+    fig, ax = plt.subplots(n, n, figsize=figsize)
     var_labels = []
     for i in range(n):
         if relationship.variable_units[i] == UREG.dimensionless:
