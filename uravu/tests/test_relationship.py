@@ -597,7 +597,7 @@ class TestRelationship(unittest.TestCase):
         test_rel.max_likelihood()
         assert_almost_equal(test_rel.variables, np.array([2, 1]))
 
-    def test_prior(self):
+    def test_prior_a(self):
         """
         Test prior function.
         """
