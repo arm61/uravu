@@ -8,7 +8,6 @@ Tests for sampling module
 
 import unittest
 import numpy as np
-import uncertainties
 from numpy.testing import assert_equal
 from scipy.stats import norm
 from uravu import sampling, utils
@@ -34,10 +33,14 @@ class TestSampling(unittest.TestCase):
         test_rel = Relationship(utils.straight_line, test_x, test_y, test_y_e,)
         test_rel.max_likelihood()
         actual_results = sampling.mcmc(test_rel, n_burn=10, n_samples=10)
-        assert_equal(isinstance(actual_results['distributions'][0], Distribution), True)
-        assert_equal(isinstance(actual_results['distributions'][1], Distribution), True)
-        assert_equal(actual_results['distributions'][0].size, 1000)
-        assert_equal(actual_results['distributions'][1].size, 1000)
+        assert_equal(
+            isinstance(actual_results["distributions"][0], Distribution), True
+        )
+        assert_equal(
+            isinstance(actual_results["distributions"][1], Distribution), True
+        )
+        assert_equal(actual_results["distributions"][0].size, 1000)
+        assert_equal(actual_results["distributions"][1].size, 1000)
 
     def test_mcmc_b(self):
         """
@@ -66,10 +69,14 @@ class TestSampling(unittest.TestCase):
         actual_results = sampling.mcmc(
             test_rel, prior_function=other_prior, n_burn=10, n_samples=10
         )
-        assert_equal(isinstance(actual_results['distributions'][0], Distribution), True)
-        assert_equal(isinstance(actual_results['distributions'][1], Distribution), True)
-        assert_equal(actual_results['distributions'][0].size, 1000)
-        assert_equal(actual_results['distributions'][1].size, 1000)
+        assert_equal(
+            isinstance(actual_results["distributions"][0], Distribution), True
+        )
+        assert_equal(
+            isinstance(actual_results["distributions"][1], Distribution), True
+        )
+        assert_equal(actual_results["distributions"][0].size, 1000)
+        assert_equal(actual_results["distributions"][1].size, 1000)
 
     def test_nested_sampling_a(self):
         """
@@ -80,11 +87,9 @@ class TestSampling(unittest.TestCase):
         test_x = np.linspace(1, 10, 10)
         test_rel = Relationship(utils.straight_line, test_x, test_y, test_y_e)
         actual_results = sampling.nested_sampling(test_rel, maxiter=10)
-        assert_equal(
-            isinstance(actual_results, dict), True
-        )
-        assert_equal(isinstance(actual_results['logz'][-1], float), True)
-        assert_equal(isinstance(actual_results['logzerr'][-1], float), True)
+        assert_equal(isinstance(actual_results, dict), True)
+        assert_equal(isinstance(actual_results["logz"][-1], float), True)
+        assert_equal(isinstance(actual_results["logzerr"][-1], float), True)
 
     def test_nested_sampling_b(self):
         """
@@ -110,8 +115,6 @@ class TestSampling(unittest.TestCase):
         actual_results = sampling.nested_sampling(
             test_rel, prior_function=other_prior, maxiter=10
         )
-        assert_equal(
-            isinstance(actual_results, dict), True
-        )
-        assert_equal(isinstance(actual_results['logz'][-1], float), True)
-        assert_equal(isinstance(actual_results['logzerr'][-1], float), True)
+        assert_equal(isinstance(actual_results, dict), True)
+        assert_equal(isinstance(actual_results["logz"][-1], float), True)
+        assert_equal(isinstance(actual_results["logzerr"][-1], float), True)

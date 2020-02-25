@@ -8,6 +8,7 @@ Plotting functions
 
 import numpy as np
 import matplotlib.pyplot as plt
+from corner import corner
 from scipy.stats import gaussian_kde
 from uravu import UREG, _fig_params
 from uravu.distribution import Distribution
@@ -129,3 +130,50 @@ def plot_distribution(distro, axes=None, figsize=(10, 6)):  # pragma: no cover
     axes.set_ylabel("$p(${}$)$".format(distro.name))
     axes.set_ylim((0, ordinate.max() + ordinate.max() * 0.1))
     return axes
+
+
+def plot_corner(relationship, figsize=(8, 8)):  # pragma: no cover
+    """
+    Plot the corner (named for the Python package) plot between the
+    relationships variables.
+
+    Args:
+        fig_size (tuple, optional): horizontal and veritcal size for
+            figure (in inches). Default is `(10, 6)`.
+    """
+    n = len(relationship.variables)
+    if not all(
+        [isinstance(relationship.variables[i], Distribution) for i in range(n)]
+    ):
+        raise ValueError(
+            "In order to use the corner plot functionality, all relationship "
+            "variables must be Distributions. Please run MCMC before "
+            "plotting the corner."
+        )
+    fig, ax = plt.subplots(n, n, figsize=figsize)
+    corner(
+        relationship.mcmc_results["samples"],
+        color=list(_fig_params.TABLEAU)[0],
+        hist_kwargs={"lw": 4, "histtype": "stepfilled"},
+        label_kwargs={"fontsize": _fig_params.rcParams["axes.labelsize"]},
+        fig=fig,
+    )
+    for j in range(n):
+        ax[n - 1, j].set_xticks(
+            [
+                np.round(i, 2)
+                for i in np.percentile(
+                    relationship.variables[j].samples, [2.5, 50, 97.5]
+                )
+            ]
+        )
+    for j in range(n - 1):
+        ax[j + 1, 0].set_yticks(
+            [
+                np.round(i, 2)
+                for i in np.percentile(
+                    relationship.variables[j + 1].samples, [2.5, 50, 97.5]
+                )
+            ]
+        )
+    return fig, ax

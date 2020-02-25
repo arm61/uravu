@@ -78,7 +78,11 @@ def mcmc(
     for i in range(ndims):
         distributions.append(Distribution(post_samples[:, i]))
 
-    results = {'distributions': distributions, 'chain': sampler.get_chain().reshape((-1, ndims)), 'samples': post_samples}
+    results = {
+        "distributions": distributions,
+        "chain": sampler.get_chain().reshape((-1, ndims)),
+        "samples": post_samples,
+    }
     return results
 
 

@@ -628,7 +628,13 @@ class TestRelationship(unittest.TestCase):
         test_x = np.linspace(0, 99, 100)
         test_y = np.linspace(1, 199, 100)
         test_y_e = test_y * 0.1
-        test_rel = Relationship(utils.straight_line, test_x, test_y, test_y_e, unaccounted_uncertainty=True)
+        test_rel = Relationship(
+            utils.straight_line,
+            test_x,
+            test_y,
+            test_y_e,
+            unaccounted_uncertainty=True,
+        )
         test_rel.max_likelihood()
         result_priors = test_rel.prior()
         assert_equal(len(result_priors), 3)
