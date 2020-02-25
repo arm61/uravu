@@ -314,6 +314,50 @@ class TestRelationship(unittest.TestCase):
         assert_almost_equal(unp.std_devs(test_rel.ordinate.m), test_y_e)
         assert_almost_equal(test_rel.variables, np.ones((2)))
 
+    def test_init_variable_units(self):
+        """
+        Test the initialisation of the relationship class with one
+        dimensional data and variable units.
+        """
+        test_x = np.linspace(0, 99, 100)
+        test_y = np.linspace(0, 199, 100)
+        test_y_e = test_y * 0.1
+        test_rel = Relationship(
+            utils.straight_line,
+            test_x,
+            test_y,
+            test_y_e,
+            variable_units=[UREG.meter, UREG.second],
+        )
+        assert_equal(test_rel.function, utils.straight_line)
+        assert_almost_equal(test_rel.abscissa.m, test_x)
+        assert_almost_equal(unp.nominal_values(test_rel.ordinate.m), test_y)
+        assert_almost_equal(unp.std_devs(test_rel.ordinate.m), test_y_e)
+        assert_almost_equal(test_rel.variables, np.ones((2)))
+        assert_equal(test_rel.variable_units, [UREG.meter, UREG.second])
+
+    def test_init_variable_names(self):
+        """
+        Test the initialisation of the relationship class with one
+        dimensional data and variable names.
+        """
+        test_x = np.linspace(0, 99, 100)
+        test_y = np.linspace(0, 199, 100)
+        test_y_e = test_y * 0.1
+        test_rel = Relationship(
+            utils.straight_line,
+            test_x,
+            test_y,
+            test_y_e,
+            variable_names=["g", "a"],
+        )
+        assert_equal(test_rel.function, utils.straight_line)
+        assert_almost_equal(test_rel.abscissa.m, test_x)
+        assert_almost_equal(unp.nominal_values(test_rel.ordinate.m), test_y)
+        assert_almost_equal(unp.std_devs(test_rel.ordinate.m), test_y_e)
+        assert_almost_equal(test_rel.variables, np.ones((2)))
+        assert_equal(test_rel.variable_names, ["g", "a"])
+
     def test_init_x_unit_one_dimensional(self):
         """
         Test the initialisation of the relationship class with one

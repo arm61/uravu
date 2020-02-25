@@ -77,7 +77,7 @@ class Relationship:
             variables. Default is the variable name in the ``function``
             definition.
         variable_units (pint.UnitRegistry(), optional): The units for the
-            variables. Default is dimensionless. 
+            variables. Default is dimensionless.
         unaccounted_uncertainty (bool, optional): Describes if an additional
             variable be included to account for an unknown uncertainty in the
             data.
@@ -140,13 +140,21 @@ class Relationship:
             self.variable_names = getfullargspec(self.function).args[1:]
         else:
             if len(variable_names) != self.len_parameters():
-                raise ValueError('The number of variable names does not match the number of variables.')
+                raise ValueError(
+                    "The number of variable names does not match the number "
+                    "of variables."
+                )
             self.variable_names = variable_names
         if variable_units is None:
-            self.variable_units = [UREG.dimensionless for i in range(self.len_parameters())]
+            self.variable_units = [
+                UREG.dimensionless for i in range(self.len_parameters())
+            ]
         else:
             if len(variable_units) != self.len_parameters():
-                raise ValueError('The number of variable units does not match the number of variables.')
+                raise ValueError(
+                    "The number of variable units does not match the number "
+                    "of variables."
+                )
             self.variable_units = variable_units
         self.ln_evidence = None
 
