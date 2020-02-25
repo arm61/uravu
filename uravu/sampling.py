@@ -31,11 +31,11 @@ def mcmc(
     of the relationship.
 
     Args:
-        relationship (uravu.relationship.Relationship): the relationship to
+        relationship (uravu.relationship.Relationship): The relationship to
             determine the posteriors of.
-        prior_function (callable, optional): the function to populated some
-            prior distributions. Default is the broad uniform priors in
-            uravu.relationship.Relationship.
+        prior_function (callable, optional): The function to populated some
+            prior distributions. Default is
+            uravu.relationship.Relationship.prior.
         walkers (int, optional): Number of MCMC walkers. Default is `100`.
         n_samples (int, optional): Number of sample points. Default is
             `500`.
@@ -45,8 +45,9 @@ def mcmc(
             Default is `True`.
 
     Returns:
-        (list of uravu.distribution.Distribution): a
-            uravu.distribution.Distribution to describe each of the variables.
+        (dict): a dictionary with the Distrbutions as a list
+            ('distributions'), the chain ('chain') and the samples as an
+            ``array_like`` ('samples').
     """
     if prior_function is None:
         prior_function = relationship.prior
@@ -96,7 +97,23 @@ def ln_probability(
     variables, function, abscissa, ordinate, unaccounted_uncertainty, priors
 ):
     """
-    Determine the natural log probability for a given set of variables.
+    Determine the natural log probability for a given set of variables, by
+    summing the prior and likelihood.
+
+    Args:
+        variables (array_like): Variables for the function evaluation.
+        function (callable): The function to be evaluated.
+        abscissa (array_like): The abscissa values.
+        ordinate (array_like): The ordinate values.
+        unaccounted_uncertainty (bool): Should an unaccounted
+            uncertainty parameter be considered.
+        prior_function (callable, optional): The function to populated some
+            prior distributions. Default is
+            uravu.relationship.Relationship.prior.
+
+    Returns:
+        (float): Negative ln-probability between model and data, considering
+            priors.
     """
     log_prior = 0
     for i, var in enumerate(variables):
@@ -114,6 +131,8 @@ def nested_sampling(
     evidence.
 
     Args:
+        relationship (uravu.relationship.Relationship): The relationship to
+            estimate the evidence for.
         prior_function (callable, optional): the function to populated some
             prior distributions. Default is the broad uniform priors in
             uravu.relationship.Relationship.
@@ -124,8 +143,7 @@ def nested_sampling(
         See the `dynesty.run_nested()` documentation.
 
     Returns:
-        (uncertainties.core.Variable): Log-evidence (and uncertainty) as
-            estimated by the nested sampling.
+        (dict): The results from the dynesty run.
     """
     if prior_function is None:
         prior_function = relationship.prior
@@ -149,20 +167,19 @@ def nested_sampling(
 
 def nested_prior(array, priors):
     """
-    *Standard priors*. Broad, uniform distributions spread evenly
-    around the current values for the variables.
-
-    This is used as the default where no priors are given.
+    Convert to dynesty prior style from at used within ``uravu`` 
 
     Args:
         array (array_like): An array of random uniform numbers (0, 1].
             The shape of which is M x N, where M is the number of
             parameters and N is the number of walkers.
+        prior_function (callable, optional): The function to populated some
+            prior distributions. Default is
+            uravu.relationship.Relationship.prior.
 
     Returns:
-        (array_like): an array of random uniform numbers broadly
-        distributed in the range [x - x * 5, x + x * 5), where x is the
-        current variable value.
+        (array_like): an array of random uniform numbers distributed in
+            agreement with the priors.
     """
     broad = np.copy(array)
     for i, prior in enumerate(priors):
