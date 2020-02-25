@@ -9,6 +9,7 @@ Tests for relationship module
 import unittest
 import numpy as np
 import uncertainties
+import scipy.stats
 from uncertainties import unumpy as unp
 from numpy.testing import assert_almost_equal, assert_equal
 from uravu import UREG, utils
@@ -39,14 +40,14 @@ STRING_B = (
 )
 
 STRING_C = (
-    "Function Name: straight_line \n"
-    "Abscissa: [ 1.00e+00 2.00e+00 ... 9.00e+00 1.00e+01 ] \n"
-    "Ordinate: [ 1.62e+00 -6.12e-01 ... 3.19e-01 -2.49e-01 ] \n"
-    "Ordinate uncertainty: [ 1.00e-01 1.00e-01 ... 1.00e-01 1.00e-01 ]\n"
-    "Abscissa Name: x \nOrdinate Name: y \nAbscissa Unit: dimensionless \n"
-    "Ordinate Unit: dimensionless \nVariables: [ 1.00e+00 1.00e+00 ] \n"
-    "ln(evidence): (-7.89+/-nan)e+02 \nUnaccounted uncertainty: False \n"
-    "MCMC performed: False \nNested sampling performed: True \n"
+    "Function Name: straight_line \nAbscissa: [ 1.00e+00 2.00e+00 ... "
+    "9.00e+00 1.00e+01 ] \nOrdinate: [ 1.62e+00 -6.12e-01 ... 3.19e-01 "
+    "-2.49e-01 ] \nOrdinate uncertainty: [ 1.00e-01 1.00e-01 ... 1.00e-01 "
+    "1.00e-01 ]\nAbscissa Name: x \nOrdinate Name: y \nAbscissa Unit: "
+    "dimensionless \nOrdinate Unit: dimensionless \nVariables: [ 1.00e+00 "
+    "1.00e+00 ] \nln(evidence): (-7.84+/-0.01)e+02 \nUnaccounted "
+    "uncertainty: False \nMCMC performed: False \nNested sampling performed: "
+    "True \n"
 )
 
 STRING_D = (
@@ -74,27 +75,24 @@ STRING_E = (
 )
 
 STRING_F = (
-    "Function Name: straight_line \n"
-    "Abscissa: [ 1.00e+00 2.00e+00 ... 9.00e+00 1.00e+01 ] \n"
-    "Ordinate: [ 1.62e+00 -6.12e-01 ... 3.19e-01 -2.49e-01 ] \n"
-    "Ordinate uncertainty: [ 1.00e-01 1.00e-01 ... 1.00e-01 1.00e-01 ]\n"
-    "Abscissa Name: x \nOrdinate Name: y \nAbscissa Unit: dimensionless \n"
-    "Ordinate Unit: dimensionless \n"
-    "Variables: [ 1.13e-02+3.17e+00-9.35e-01 3.41e-01+4.90e+00-3.18e+00 ] \n"
-    "Unaccounted uncertainty: False \nMCMC performed: True \n"
-    "Nested sampling performed: False \n"
+    "Function Name: straight_line \nAbscissa: [ 1.00e+00 2.00e+00 ... "
+    "9.00e+00 1.00e+01 ] \nOrdinate: [ 1.62e+00 -6.12e-01 ... 3.19e-01 "
+    "-2.49e-01 ] \nOrdinate uncertainty: [ 1.00e-01 1.00e-01 ... 1.00e-01 "
+    "1.00e-01 ]\nAbscissa Name: x \nOrdinate Name: y \nAbscissa Unit: "
+    "dimensionless \nOrdinate Unit: dimensionless \nVariables: [ "
+    "9.99e-01+2.00e+00-1.23e-02 1.00e+00+2.01e+00-1.45e-02 ] \nUnaccounted "
+    "uncertainty: False \nMCMC performed: True \nNested sampling performed: "
+    "False \n"
 )
 
 STRING_G = (
-    "Function Name: straight_line \n"
-    "Abscissa: [ 1.00e+00 2.00e+00 ... 9.00e+00 1.00e+01 ] \n"
-    "Ordinate: [ 1.62e+00 -6.12e-01 ... 3.19e-01 -2.49e-01 ] \n"
-    "Ordinate uncertainty: [ 1.00e-01 1.00e-01 ... 1.00e-01 1.00e-01 ]\n"
-    "Abscissa Name: x \nOrdinate Name: y \nAbscissa Unit: dimensionless \n"
-    "Ordinate Unit: dimensionless \n"
-    "Variables: [ 1.13e-02+/-9.35e-01 3.41e-01+/-3.18e+00 ] \n"
-    "Unaccounted uncertainty: False \nMCMC performed: True \n"
-    "Nested sampling performed: False \n"
+    "Function Name: straight_line \nAbscissa: [ 1.00e+00 2.00e+00 ... "
+    "9.00e+00 1.00e+01 ] \nOrdinate: [ 1.62e+00 -6.12e-01 ... 3.19e-01 "
+    "-2.49e-01 ] \nOrdinate uncertainty: [ 1.00e-01 1.00e-01 ... 1.00e-01 "
+    "1.00e-01 ]\nAbscissa Name: x \nOrdinate Name: y \nAbscissa Unit: "
+    "dimensionless \nOrdinate Unit: dimensionless \nVariables: [ "
+    "9.99e-01+/-1.23e-02 1.00e+00+/-1.45e-02 ] \nUnaccounted uncertainty: "
+    "False \nMCMC performed: True \nNested sampling performed: False \n"
 )
 
 CITATION_A = (
@@ -608,12 +606,20 @@ class TestRelationship(unittest.TestCase):
         test_y_e = test_y * 0.1
         test_rel = Relationship(utils.straight_line, test_x, test_y, test_y_e)
         test_rel.max_likelihood()
-        result_priors = test_rel.prior(np.random.random((2, 100)))
-        assert_equal(result_priors.shape, (2, 100))
-        assert_equal(result_priors[0].min() > -18, True)
-        assert_equal(result_priors[0].max() < 22, True)
-        assert_equal(result_priors[1].min() > -9, True)
-        assert_equal(result_priors[1].max() < 11, True)
+        result_priors = test_rel.prior()
+        assert_equal(len(result_priors), 2)
+        assert_equal(
+            isinstance(
+                result_priors[0], scipy.stats._distn_infrastructure.rv_frozen
+            ),
+            True,
+        )
+        assert_equal(
+            isinstance(
+                result_priors[1], scipy.stats._distn_infrastructure.rv_frozen
+            ),
+            True,
+        )
 
     def test_mcmc(self):
         """
@@ -765,7 +771,7 @@ class TestRelationship(unittest.TestCase):
         test_y = np.ones(10)
         test_y_e = np.ones(10) * 0.1
         test_rel = Relationship(utils.straight_line, test_x, test_y, test_y_e)
-        expected_bic = -23.06776100915812
+        expected_bic = -41.44653167325224
         actual_bic = test_rel.bayesian_information_criteria()
         assert_almost_equal(actual_bic, expected_bic)
 

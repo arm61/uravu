@@ -27,7 +27,7 @@ class TestOptimize(unittest.TestCase):
         test_rel = relationship.Relationship(
             utils.straight_line, test_x, test_y, test_y_e
         )
-        expected_lnl = -1724236.163534402
+        expected_lnl = -1724226.97414907
         actual_lnl = optimize.ln_likelihood(
             test_rel.variables, test_rel.function, test_rel.x, test_rel.y
         )
@@ -43,7 +43,7 @@ class TestOptimize(unittest.TestCase):
         test_rel = relationship.Relationship(
             utils.straight_line, test_x, test_y, test_y_e
         )
-        expected_negtive_lnl = 1724236.163534402
+        expected_negtive_lnl = 1724226.97414907
         actual_negative_lnl = optimize.negative_lnl(
             test_rel.variables, test_rel.function, test_rel.x, test_rel.y
         )
@@ -63,7 +63,7 @@ class TestOptimize(unittest.TestCase):
             test_y_e,
             unaccounted_uncertainty=True,
         )
-        expected_negtive_lnl = 48.08862931921932
+        expected_negtive_lnl = 45.21123241122563
         actual_negative_lnl = optimize.negative_lnl(
             test_rel.variables,
             test_rel.function,

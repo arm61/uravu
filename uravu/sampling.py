@@ -130,7 +130,7 @@ def nested_sampling(
             relationship.ordinate,
             relationship.unaccounted_uncertainty,
         ],
-        ptform_args=[priors,],
+        ptform_args=[priors],
     )
     sampler.run_nested(print_progress=progress, **kwargs)
     results = sampler.results

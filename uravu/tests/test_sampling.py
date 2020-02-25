@@ -52,16 +52,16 @@ class TestSampling(unittest.TestCase):
         test_rel = Relationship(utils.straight_line, test_x, test_y, test_y_e,)
         test_rel.max_likelihood()
 
-        def other_prior(array):
+        def other_prior():
             """
             Another potential prior.
             """
-            broad = np.copy(array)
+            priors = []
             for i, variable in enumerate(test_rel.variables):
-                loc = variable - variable * 5
-                scale = (variable + variable * 5) - loc
-                broad[i] = norm.ppf(broad[i], loc=loc, scale=scale)
-            return broad
+                loc = variable
+                scale = 1
+                priors.append(norm(loc=loc, scale=scale))
+            return priors
 
         actual_variables = sampling.mcmc(
             test_rel, prior_function=other_prior, n_burn=10, n_samples=10
@@ -94,16 +94,16 @@ class TestSampling(unittest.TestCase):
         test_rel = Relationship(utils.straight_line, test_x, test_y, test_y_e)
         test_rel.max_likelihood()
 
-        def other_prior(array):
+        def other_prior():
             """
             Another potential prior.
             """
-            broad = np.copy(array)
+            priors = []
             for i, variable in enumerate(test_rel.variables):
                 loc = variable
                 scale = 1
-                broad[i] = norm.ppf(broad[i], loc=loc, scale=scale)
-            return broad
+                priors.append(norm(loc=loc, scale=scale))
+            return priors
 
         actual_ln_evidence = sampling.nested_sampling(
             test_rel, prior_function=other_prior, maxiter=10
