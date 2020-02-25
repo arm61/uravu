@@ -1,7 +1,7 @@
 """
 The optimize module includes the functionality necessary for maximum
 likelihood determination. Further, the natural log likelihood function used
-in the ``mcmc`` and ``nested_sampling`` methods may be found here. 
+in the ``mcmc`` and ``nested_sampling`` methods may be found here.
 """
 
 # Copyright (c) Andrew R. McCluskey
@@ -16,7 +16,7 @@ from uncertainties import unumpy as unp
 def max_ln_likelihood(relationship, x0=None, **kwargs):
     """
     Determine the variable values which maximize the likelihood for the
-    given relationship. For keyword arguments see the 
+    given relationship. For keyword arguments see the
     `scipy.optimize.minimize()`_ documentation.
 
     Args:
@@ -54,9 +54,9 @@ def negative_lnl(
     of variables, when there is no uncertainty in the abscissa.
 
     Args:
-        variables (array_like): Variables for the function evaluation. 
-        function (callable): The function to be evaluated. 
-        abscissa (array_like): The abscissa values. 
+        variables (array_like): Variables for the function evaluation.
+        function (callable): The function to be evaluated.
+        abscissa (array_like): The abscissa values.
         ordinate (array_like): The ordinate values.
         unaccounted_uncertainty (bool, optional): Should an unaccounted
             uncertainty parameter be considered. Default is ``False``.
@@ -81,9 +81,9 @@ def ln_likelihood(
     variables, when there is no uncertainty in the abscissa.
 
     Args:
-        variables (array_like): Variables for the function evaluation. 
-        function (callable): The function to be evaluated. 
-        abscissa (array_like): The abscissa values. 
+        variables (array_like): Variables for the function evaluation.
+        function (callable): The function to be evaluated.
+        abscissa (array_like): The abscissa values.
         ordinate (array_like): The ordinate values.
         unaccounted_uncertainty (bool, optional): Should an unaccounted
             uncertainty parameter be considered. Default is ``False``.
