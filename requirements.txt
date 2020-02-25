@@ -5,6 +5,7 @@ emcee
 dynesty
 tqdm
 pint
+corner
 uncertainties
 nbsphinx
 jupyter-sphinx
