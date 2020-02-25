@@ -14,7 +14,6 @@ the determination of Bayesian evidence using nested sampling.
 import numpy as np
 import emcee
 import dynesty
-from uncertainties import ufloat
 from uravu import optimize
 from uravu.distribution import Distribution
 
@@ -79,7 +78,8 @@ def mcmc(
     for i in range(ndims):
         distributions.append(Distribution(post_samples[:, i]))
 
-    return distributions
+    results = {'distributions': distributions, 'chain': sampler.get_chain().reshape((-1, ndims)), 'samples': post_samples}
+    return results
 
 
 def ln_probability(
@@ -134,7 +134,7 @@ def nested_sampling(
     )
     sampler.run_nested(print_progress=progress, **kwargs)
     results = sampler.results
-    return ufloat(results["logz"][-1], results["logzerr"][-1])
+    return results
 
 
 def nested_prior(array, priors):

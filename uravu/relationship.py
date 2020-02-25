@@ -22,6 +22,7 @@ import numpy as np
 import uncertainties
 from scipy.stats import uniform
 from uncertainties import unumpy as unp
+from uncertainties import ufloat
 from uravu import UREG, optimize, sampling, __version__
 from uravu.distribution import Distribution
 
@@ -524,7 +525,7 @@ class Relationship:
             progress (bool, optional): Show tqdm progress for sampling.
                 Default is `True`.
         """
-        self.variables = sampling.mcmc(
+        self.mcmc_results = sampling.mcmc(
             self,
             prior_function=prior_function,
             walkers=walkers,
@@ -532,6 +533,7 @@ class Relationship:
             n_burn=n_burn,
             progress=progress,
         )
+        self.variables = self.mcmc_results['distributions']
 
     def nested_sampling(self, prior_function=None, progress=True, **kwargs):
         """
@@ -548,6 +550,8 @@ class Relationship:
 
         .. _dynesty.run_nested(): https://dynesty.readthedocs.io/en/latest/api.html#dynesty.sampler.Sampler.run_nested
         """
-        self.ln_evidence = sampling.nested_sampling(
+        self.nested_sampling_results = sampling.nested_sampling(
             self, prior_function=prior_function, progress=progress, **kwargs
         )
+        self.ln_evidence = ufloat(self.nested_sampling_results["logz"][-1], self.nested_sampling_results["logzerr"][-1])
+
