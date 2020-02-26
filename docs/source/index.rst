@@ -3,10 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-``uravu`` 
-=========
-
-**making Bayesian modelling easy(er)**
+making Bayesian modelling easy(er)
+==================================
 
 ``uravu`` is about the relationship between some data and a function that may be used to describe the data. 
 
