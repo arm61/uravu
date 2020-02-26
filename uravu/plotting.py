@@ -1,10 +1,10 @@
 """
 These are plotting functions that take either :class:`Relationship`
-or :class:`Distribution` class objects. 
+or :class:`Distribution` class objects.
 
 The aim is to produce *publication quality* plots. However, we
-recognise that taste exists, and ours may be different from yours. 
-The colorscheme in this work was chosen to be colorblind friendly. 
+recognise that taste exists, and ours may be different from yours.
+The colorscheme in this work was chosen to be colorblind friendly.
 """
 
 # Copyright (c) Andrew R. McCluskey
@@ -33,8 +33,8 @@ def plot_relationship(
             If none given new axes will be created.
         fig_size (tuple, optional): horizontal and veritcal size for
             figure (in inches). Default is `(10, 6)`.
-    
-    Returns: 
+
+    Returns:
         (matplotlib.axes): The axes with new plots.
     """
     if axes is None:
@@ -113,7 +113,7 @@ def plot_distribution(distro, axes=None, figsize=(10, 6)):  # pragma: no cover
         fig_size (tuple): Horizontal and veritcal size for figure
             (in inches).
 
-    Returns: 
+    Returns:
         (matplotlib.axes): The axes with new plots.
     """
     if axes is None:
@@ -155,7 +155,7 @@ def plot_corner(relationship, figsize=(8, 8)):  # pragma: no cover
         fig_size (tuple, optional): horizontal and veritcal size for
             figure (in inches). Default is `(10, 6)`.
 
-    Returns: 
+    Returns:
         (matplotlib.figure): The figure with new plots.
         (matplotlib.axes): The axes with new plots.
     """

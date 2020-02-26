@@ -91,7 +91,7 @@ STRING_G = (
     "-2.49e-01 ] \nOrdinate uncertainty: [ 1.00e-01 1.00e-01 ... 1.00e-01 "
     "1.00e-01 ]\nAbscissa Name: x \nOrdinate Name: y \nAbscissa Unit: "
     "dimensionless \nOrdinate Unit: dimensionless \nVariables: [ "
-    "9.99e-01+/-1.23e-02 1.00e+00+/-1.45e-02 ] \nUnaccounted uncertainty: "
+    "1.81e-03+/-2.04e+00 3.35e-02+/-2.03e+00 ] \nUnaccounted uncertainty: "
     "False \nMCMC performed: True \nNested sampling performed: False \n"
 )
 
@@ -828,8 +828,8 @@ class TestRelationship(unittest.TestCase):
         test_x = np.linspace(1, 10, 10)
         test_rel = Relationship(utils.straight_line, test_x, test_y, test_y_e)
         test_rel.mcmc(n_burn=10, n_samples=10)
-        for var in test_rel.variables:
-            var.normal = True
+        for i in range(len(test_rel.variables)):
+            test_rel.variables[i] = Distribution(np.random.randn((1000)))
         assert_equal(test_rel.__str__(), STRING_G)
 
     def test_repr(self):

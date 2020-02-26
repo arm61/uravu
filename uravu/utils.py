@@ -1,6 +1,6 @@
 """
-A few additional utility functions to improve the usability of 
-``uravu``. 
+A few additional utility functions to improve the usability of
+``uravu``.
 """
 
 # Copyright (c) Andrew R. McCluskey
@@ -10,6 +10,7 @@ A few additional utility functions to improve the usability of
 
 import numpy as np
 from scipy.stats import pearsonr
+
 
 def straight_line(abscissa, gradient, intercept):
     """
@@ -41,27 +42,24 @@ def bayes_factor(model_1, model_2):
             Factor between the two models.
     """
     return 2 * (model_1 - model_2)
-    
+
+
 def correlation_matrix(relationship):
     """
     Evalutate the Pearsons correlation coefficient matrix for the
     variables in a given relationship.
-    
-    Args: 
+
+    Args:
         relationship (uravu.relationship.Relationship): The relationship
             to determine the posteriors of.
-    
+
     Returns:
         (array_like): The correlation matrix for the relationships
-            variables. 
+            variables.
     """
     n = len(relationship.variables)
     matrix = np.zeros((n, n))
-    subset = np.random.randint(
-        0,
-        relationship.variables[0].size,
-        size=400
-    )
+    subset = np.random.randint(0, relationship.variables[0].size, size=400)
     for i in range(n):
         samples_i = relationship.variables[i].samples[subset]
         for j in range(i, n):
@@ -69,4 +67,3 @@ def correlation_matrix(relationship):
             matrix[i, j] = pearsonr(samples_i, samples_j)[0]
             matrix[j, i] = pearsonr(samples_j, samples_i)[0]
     return matrix
-    

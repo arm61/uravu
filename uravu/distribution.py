@@ -1,6 +1,6 @@
 """
-This is the Distribution class, where information about probability
-distributions may be stored.
+The Distribution class allows the storage and analysis of probability
+distributions.
 """
 
 # Copyright (c) Andrew R. McCluskey
@@ -15,23 +15,18 @@ from uravu import UREG
 
 class Distribution:
     """
-    The container for probability distribution information.
+    The storage of probability distributions is fundamental to Bayesian
+    inference, this class enables this. In addition to storage some basic
+    analysis of the distribution is possible.
 
     Attributes:
         name (str): A name for the distribution.
-        unit (pint.UnitRegistry(), optional): The unit for the
-            abscissa.
-        size (int): Number of samples in distribution.
+        unit (pint.UnitRegistry(), optional): The unit of the values in the
+            Distribution.
         samples (array_like): Samples in the distribution.
-        n (float): Median of distribution (using the vocabulary of the
-            `uncertainties` package).
-        s (float): Symetrical uncertainty on value, taken as 95 %
-            confidence interval (using the vocabulary of the `uncertainties`
-            package). `None` if distribution is not normal.
-        ci_points (tuple): A tuple of two. The percentiles to be stored as
-            confidence interval.
-        con_int (array_like): Confidence interval values.
-        normal (bool): Distribution normally distributed.
+        ci_points (array_like, optional): The percentiles at which
+            confidence intervals should be found. Default is
+            `[2.5, 97.5]` (a 95 % confidence interval).
     """
 
     def __init__(
@@ -54,10 +49,7 @@ class Distribution:
         """
         self.name = name
         self.unit = unit
-        self.size = 0
         self.samples = np.array([])
-        self.n = None
-        self.s = None
         if ci_points is None:
             self.ci_points = [2.5, 97.5]
         else:
@@ -66,9 +58,70 @@ class Distribution:
                     "The ci_points must be an array or tuple of length two."
                 )
             self.ci_points = ci_points
-        self.con_int = np.array([])
-        self.normal = False
         self.add_samples(np.array(samples))
+
+    @property
+    def size(self):
+        """
+        Get the number of samples in the distribution.
+
+        Returns:
+            (int): Number of samples.
+        """
+        return self.samples.size
+
+    @property
+    def normal(self):
+        """
+        Uses a Shapiro-Wilks statistical test to evaluate if samples are
+        normally distributed.
+
+        Returns:
+            (bool): If the distribution is normal.
+        """
+        alpha = 0.05
+        if self.size <= 3:
+            return False
+        sampled = np.random.choice(self.samples, size=100)
+        p_value = shapiro(sampled)[1]
+        if p_value > alpha:
+            return True
+        return False
+
+    @property
+    def n(self):
+        """
+        Get the median value of the distribution (for a normal distribution
+        this is the same as the mean).
+
+        Returns:
+            (float): Median value.
+        """
+        return np.percentile(self.samples, [50])[0]
+
+    @property
+    def s(self):
+        """
+        Get the standard deviation of the distribution. For a non-normal
+        distribution, this will return ``None``.
+
+        Returns:
+            (float, or None): Standard deviation of the distribution.
+        """
+        if self.normal:
+            return np.std(self.samples)
+        else:
+            return None
+
+    @property
+    def con_int(self):
+        """
+        Get the extrema of the confidence intervals of the distribution.
+
+        Returns:
+            (array_like): The confidence interval values.
+        """
+        return np.percentile(self.samples, self.ci_points)
 
     def __repr__(self):
         """
@@ -105,7 +158,7 @@ class Distribution:
             )
             representation += "]\n"
         representation += "Median: {:.2e}\n".format(self.n)
-        if self.check_normality():
+        if self.normal:
             representation += "Symetrical Error: {:.2e}\n".format(self.s)
         representation += "Confidence intervals: ["
         representation += " ".join(["{:.2e}".format(i) for i in self.con_int])
@@ -115,7 +168,8 @@ class Distribution:
         representation += "]\n"
         if self.n is not None:
             representation += "Reporting Value: "
-            if self.check_normality():
+            if self.normal:
+                print(self.normal)
                 representation += "{}\n".format(ufloat(self.n, self.s))
             else:
                 representation += "{:.2e}+{:.2e}-{:.2e}\n".format(
@@ -124,32 +178,6 @@ class Distribution:
         representation += "Unit: {}\n".format(self.unit)
         representation += "Normal: {}\n".format(self.normal)
         return representation
-
-    def check_normality(self, alpha=0.05):
-        """
-        Uses a Shapiro-Wilks statistical test to evaluate if samples are
-        normally distributed.
-
-        Args:
-            alpha (float): Threshold value for the statistical test. Default
-                is `0.05` (5 %).
-
-        Returns:
-            (bool): If the distribution is normal.
-        """
-        if self.size <= 3:
-            self.normal = False
-            self.s = None
-            return False
-        sampled = np.random.choice(self.samples, size=500)
-        p_value = shapiro(sampled)[1]
-        if p_value > alpha:
-            self.normal = True
-            self.s = np.std(self.samples)
-            return True
-        self.normal = False
-        self.s = None
-        return False
 
     def add_samples(self, samples):
         """
@@ -160,10 +188,3 @@ class Distribution:
             samples (array_like): Samples to be added to the distribution.
         """
         self.samples = np.append(self.samples, np.array(samples).flatten())
-        self.size = self.samples.size
-        self.n = np.percentile(self.samples, 50.0)
-        if self.size > 1:
-            self.con_int = np.array(
-                [np.percentile(self.samples, i) for i in self.ci_points]
-            )
-        self.check_normality()

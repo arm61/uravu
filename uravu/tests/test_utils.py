@@ -48,7 +48,7 @@ class TestUtils(unittest.TestCase):
         actual_result = utils.bayes_factor(model_1, model_2)
         assert_almost_equal(actual_result.n, expected_result.n)
         assert_almost_equal(actual_result.s, expected_result.s)
-        
+
     def test_correlation_matrix(self):
         """
         Test correlation_matrix function.
@@ -68,4 +68,3 @@ class TestUtils(unittest.TestCase):
         assert_almost_equal(actual_matrix[0, 0], 1.0)
         assert_almost_equal(actual_matrix[1, 1], 1.0)
         assert_equal(test_rel.mcmc_done, True)
-

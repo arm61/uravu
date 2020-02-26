@@ -1,7 +1,7 @@
 """
-The :mod:`sampling` module implements the use of a generalised 
-MCMC (using `emcee`_) and nested sampling (using `dynesty`_) for the 
-:class:`Relationship` objects. 
+The :mod:`sampling` module implements the use of a generalised
+MCMC (using `emcee`_) and nested sampling (using `dynesty`_) for the
+:class:`Relationship` objects.
 
 .. _emcee: https://emcee.readthedocs.io/
 .. _dynesty: https://dynesty.readthedocs.io/
@@ -167,7 +167,7 @@ def nested_sampling(
 
 def nested_prior(array, priors):
     """
-    Convert to dynesty prior style from at used within ``uravu`` 
+    Convert to dynesty prior style from at used within ``uravu``.
 
     Args:
         array (array_like): An array of random uniform numbers (0, 1].
