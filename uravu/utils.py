@@ -64,8 +64,9 @@ def correlation_matrix(relationship):
     )
     for i in range(n):
         samples_i = relationship.variables[i].samples[subset]
-        for j in range(n):
+        for j in range(i, n):
             samples_j = relationship.variables[j].samples[subset]
             matrix[i, j] = pearsonr(samples_i, samples_j)
+            matrix[j, i] = pearsonr(samples_j, samples_i)
     return matrix
     

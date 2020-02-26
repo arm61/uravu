@@ -47,3 +47,22 @@ class TestUtils(unittest.TestCase):
         actual_result = utils.bayes_factor(model_1, model_2)
         assert_almost_equal(actual_result.n, expected_result.n)
         assert_almost_equal(actual_result.s, expected_result.s)
+        
+    def test_mcmc(self):
+        """
+        Test mcmc function.
+        """
+        test_x = np.linspace(0, 99, 10)
+        test_y = (
+            np.linspace(1, 199, 10)
+            + np.linspace(1, 199, 10) * np.random.randn(10) * 0.05
+        )
+        test_y_e = test_y * 0.2
+        test_rel = Relationship(utils.straight_line, test_x, test_y, test_y_e,)
+        test_rel.max_likelihood()
+        test_rel.mcmc(n_burn=10, n_samples=10)
+        actual_matrix = utils.correlation_matrix(test_rel)
+        assert_equal(actual_matrix.shape, (2, 2))
+        assert_almost_equal(actual_matrix[1, 0], -actual_matrix[0, 1])
+        assert_equal(test_rel.mcmc_done, True)
+
