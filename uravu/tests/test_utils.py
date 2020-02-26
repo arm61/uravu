@@ -9,7 +9,7 @@ Tests for utils module
 import unittest
 import numpy as np
 from uncertainties import ufloat
-from numpy.testing import assert_almost_equal
+from numpy.testing import assert_almost_equal, assert_equal
 from uravu import utils
 from uravu.relationship import Relationship
 
@@ -49,9 +49,9 @@ class TestUtils(unittest.TestCase):
         assert_almost_equal(actual_result.n, expected_result.n)
         assert_almost_equal(actual_result.s, expected_result.s)
         
-    def test_mcmc(self):
+    def test_correlation_matrix(self):
         """
-        Test mcmc function.
+        Test correlation_matrix function.
         """
         test_x = np.linspace(0, 99, 10)
         test_y = (
@@ -64,6 +64,8 @@ class TestUtils(unittest.TestCase):
         test_rel.mcmc(n_burn=10, n_samples=10)
         actual_matrix = utils.correlation_matrix(test_rel)
         assert_equal(actual_matrix.shape, (2, 2))
-        assert_almost_equal(actual_matrix[1, 0], -actual_matrix[0, 1])
+        assert_almost_equal(actual_matrix[1, 0], actual_matrix[0, 1])
+        assert_almost_equal(actual_matrix[0, 0], 1.0)
+        assert_almost_equal(actual_matrix[1, 1], 1.0)
         assert_equal(test_rel.mcmc_done, True)
 
