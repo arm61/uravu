@@ -8,6 +8,7 @@ If you want to go even deeper, then check out `Information Theory, Inference, an
 
 1. `Maximum likelihood`_
 2. `Markov chain Monte Carlo`_
+3. `Nested Sampling`_
 
 
 .. toctree::
@@ -16,9 +17,11 @@ If you want to go even deeper, then check out `Information Theory, Inference, an
 
    max_likelihood
    mcmc
+   nested_sampling
 
 
 .. _Hogg, Bovy, and Lang: https://arxiv.org/abs/1008.4686
 .. _Information Theory, Inference, and Learning Algorithms: https://www.inference.org.uk/itprnn/book.pdf
 .. _Maximum likelihood: ./max_likelihood.html
 .. _Markov chain Monte Carlo: ./mcmc.html
+.. _Nested Sampling: ./nested_sampling.html
