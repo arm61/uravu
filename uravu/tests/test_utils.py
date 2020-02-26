@@ -11,6 +11,7 @@ import numpy as np
 from uncertainties import ufloat
 from numpy.testing import assert_almost_equal
 from uravu import utils
+from uravu.relationship import Relationship
 
 
 class TestUtils(unittest.TestCase):
