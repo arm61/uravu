@@ -1,4 +1,4 @@
-# uravu
+![uravu logo](./docs/source/logo/uravu_logo.png)
 
 **making Bayesian modelling easy(er)**
 

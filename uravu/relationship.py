@@ -138,6 +138,8 @@ class Relationship:
         self.ordinate_name = ordinate_name
         if variable_names is None:
             self.variable_names = getfullargspec(self.function).args[1:]
+            if self.unaccounted_uncertainty:
+                self.variable_names.append('unaccounted uncertainty')
         else:
             if len(variable_names) != self.len_parameters():
                 raise ValueError(
@@ -149,6 +151,8 @@ class Relationship:
             self.variable_units = [
                 UREG.dimensionless for i in range(self.len_parameters())
             ]
+            if self.unaccounted_uncertainty:
+                self.variable_units.append(self.ordinate.u)
         else:
             if len(variable_units) != self.len_parameters():
                 raise ValueError(
