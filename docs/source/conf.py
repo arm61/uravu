@@ -186,3 +186,6 @@ html_theme_options = {"logo_only": True}
 
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 todo_include_todos = True
+
+def setup(app):
+    app.add_css_file('custom.css')
