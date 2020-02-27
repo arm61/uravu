@@ -19,7 +19,7 @@ from uravu.distribution import Distribution
 EXPECTED_STRING1 = (
     "Distribution: Distribution\n"
     "Size: 4\n"
-    "Samples: [1.62e+00 -6.12e-01 -5.28e-01 -1.07e+00]\n"
+    "Samples: [1.62e+00 -6.12e-01 ... -5.28e-01 -1.07e+00]\n"
     "Median: -5.70e-01\n"
     "Confidence intervals: [-1.04e+00 1.46e+00]\n"
     "Confidence interval points: [2.5 97.5]\n"
