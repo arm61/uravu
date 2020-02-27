@@ -61,6 +61,19 @@ class Distribution:
         self.add_samples(np.array(samples))
 
     @property
+    def mean(self):
+        """
+        Get the mean value and uncertainty. Will return ``None`` if distribution
+        is not normal.
+
+        Returns:
+            (uncertainties.core.Variable or None): Mean value with uncertainty.
+        """
+        if self.normal:
+            return ufloat(self.n, self.s)
+        return None
+
+    @property
     def size(self):
         """
         Get the number of samples in the distribution.
