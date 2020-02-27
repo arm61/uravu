@@ -32,7 +32,7 @@ def max_ln_likelihood(relationship, x0=None, **kwargs):
     .. _scipy.optimize.minimize(): https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html
     """
     if x0 is None:
-        x0 = relationship.variables
+        x0 = relationship.variable_means
     return minimize(
         negative_lnl,
         x0,
