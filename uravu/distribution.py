@@ -80,7 +80,7 @@ class Distribution:
             (bool): If the distribution is normal.
         """
         alpha = 0.05
-        if self.size <= 3:
+        if self.size <= 8:
             return False
         #sampled = np.random.choice(self.samples, size=1000)
         p_value = normaltest(self.samples)[1]
@@ -144,19 +144,11 @@ class Distribution:
             self.name, self.size
         )
         representation += "Samples: "
-        if self.size > 5:
-            representation += "[{:.2e} {:.2e} ... {:.2e} {:.2e}]\n".format(
-                self.samples[0],
-                self.samples[1],
-                self.samples[-2],
-                self.samples[-1],
-            )
-        else:
-            representation += "["
-            representation += " ".join(
-                ["{:.2e}".format(i) for i in self.samples]
-            )
-            representation += "]\n"
+        representation += "["
+        representation += " ".join(
+            ["{:.2e}".format(i) for i in self.samples]
+        )
+        representation += "]\n"
         representation += "Median: {:.2e}\n".format(self.n)
         if self.normal:
             representation += "Symetrical Error: {:.2e}\n".format(self.s)
