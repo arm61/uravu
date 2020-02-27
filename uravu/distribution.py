@@ -8,7 +8,7 @@ distributions.
 # author: Andrew R. McCluskey
 
 import numpy as np
-from scipy.stats import shapiro
+from scipy.stats import normaltest
 from uncertainties import ufloat
 from uravu import UREG
 
@@ -82,8 +82,8 @@ class Distribution:
         alpha = 0.05
         if self.size <= 3:
             return False
-        sampled = np.random.choice(self.samples, size=1000)
-        p_value = shapiro(sampled)[1]
+        #sampled = np.random.choice(self.samples, size=1000)
+        p_value = normaltest(self.samples)[1]
         if p_value > alpha:
             return True
         return False
