@@ -82,7 +82,7 @@ class Distribution:
         alpha = 0.05
         if self.size <= 3:
             return False
-        sampled = np.random.choice(self.samples, size=100)
+        sampled = np.random.choice(self.samples, size=1000)
         p_value = shapiro(sampled)[1]
         if p_value > alpha:
             return True
