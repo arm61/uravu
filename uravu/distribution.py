@@ -146,7 +146,11 @@ class Distribution:
         representation += "Samples: "
         representation += "["
         representation += " ".join(
-            ["{:.2e}".format(i) for i in self.samples]
+            ["{:.2e}".format(i) for i in self.samples[:2]]
+        )
+        representation += " ... "
+        representation += " ".join(
+            ["{:.2e}".format(i) for i in self.samples[-2:]]
         )
         representation += "]\n"
         representation += "Median: {:.2e}\n".format(self.n)
