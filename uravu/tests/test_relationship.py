@@ -63,15 +63,14 @@ STRING_D = (
 )
 
 STRING_E = (
-    "Function Name: straight_line \n"
-    "Abscissa: [ 1.00e+00 3.25e+00 ... 7.75e+00 1.00e+01 ] \n"
-    "Abscissa uncertainty: [ 1.00e-01 1.00e-01 ... 1.00e-01 1.00e-01 ] \n"
-    "Ordinate: [ 1.62e+00 -6.12e-01 ... -1.07e+00 8.65e-01 ] \n"
-    "Ordinate uncertainty: [ 1.00e-01 1.00e-01 ... 1.00e-01 1.00e-01 ]\n"
-    "Abscissa Name: x \nOrdinate Name: y \nAbscissa Unit: dimensionless \n"
-    "Ordinate Unit: dimensionless \nVariables: [ 1.00e+00 1.00e+00 ] \n"
-    "Unaccounted uncertainty: False \nMCMC performed: False \n"
-    "Nested sampling performed: False \n"
+    "Function Name: straight_line \nAbscissa: [ 1.00e+00 2.12e+00 ... "
+    "8.88e+00 1.00e+01 ] \nAbscissa uncertainty: [ 1.00e-01 1.00e-01 ... "
+    "1.00e-01 1.00e-01 ] \nOrdinate: [ 1.62e+00 -6.12e-01 ... -7.61e-01 "
+    "3.19e-01 ] \nOrdinate uncertainty: [ 1.00e-01 1.00e-01 ... 1.00e-01 "
+    "1.00e-01 ]\nAbscissa Name: x \nOrdinate Name: y \nAbscissa Unit: "
+    "dimensionless \nOrdinate Unit: dimensionless \nVariables: [ 1.00e+00 "
+    "1.00e+00 ] \nUnaccounted uncertainty: False \nMCMC performed: False "
+    "\nNested sampling performed: False \n"
 )
 
 STRING_F = (
@@ -756,7 +755,7 @@ class TestRelationship(unittest.TestCase):
         test_y_e = np.ones(3) * 0.1
         test_x = np.linspace(1, 10, 3)
         test_rel = Relationship(utils.straight_line, test_x, test_y, test_y_e)
-        #assert_equal(test_rel.__str__(), STRING_B)
+        assert_equal(test_rel.__str__(), STRING_B)
 
     def test_str_c(self):
         """
@@ -786,17 +785,17 @@ class TestRelationship(unittest.TestCase):
             test_y_e,
             abscissa_uncertainty=test_x_e,
         )
-        #assert_equal(test_rel.__str__(), STRING_D)
+        assert_equal(test_rel.__str__(), STRING_D)
 
     def test_str_e(self):
         """
         Test __str__ function d.
         """
         np.random.seed(1)
-        test_y = np.ones(5) * np.random.randn(5)
-        test_y_e = np.ones(5) * 0.1
-        test_x = np.linspace(1, 10, 5)
-        test_x_e = np.ones(5) * 0.1
+        test_y = np.ones(9) * np.random.randn(9)
+        test_y_e = np.ones(9) * 0.1
+        test_x = np.linspace(1, 10, 9)
+        test_x_e = np.ones(9) * 0.1
         test_rel = Relationship(
             utils.straight_line,
             test_x,
@@ -804,7 +803,7 @@ class TestRelationship(unittest.TestCase):
             test_y_e,
             abscissa_uncertainty=test_x_e,
         )
-        #assert_equal(test_rel.__str__(), STRING_E)
+        assert_equal(test_rel.__str__(), STRING_E)
 
     def test_str_f(self):
         """
