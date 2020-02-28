@@ -290,6 +290,28 @@ class TestRelationship(unittest.TestCase):
             test_y_e = np.linspace(0, 199, 99)
             Relationship(utils.straight_line, test_x, test_y, test_y_e)
 
+    def test_init_different_variables_and_names(self):
+        """
+        Test initialisation with different length variable_names and
+        variables
+        """
+        with self.assertRaises(ValueError):
+            test_x = np.linspace(0, 99, 100)
+            test_y = np.linspace(0, 199, 100)
+            test_y_e = np.linspace(0, 199, 99)
+            Relationship(utils.straight_line, test_x, test_y, test_y_e, variable_names=['a'])
+    
+    def test_init_different_variables_and_units(self):
+        """
+        Test initialisation with different length variable_units and
+        variables
+        """
+        with self.assertRaises(ValueError):
+            test_x = np.linspace(0, 99, 100)
+            test_y = np.linspace(0, 199, 100)
+            test_y_e = np.linspace(0, 199, 99)
+            Relationship(utils.straight_line, test_x, test_y, test_y_e, variable_names=[UREG.meter])
+
     def test_init_x_u_one_dimensional(self):
         """
         Test the initialisation of the relationship class with one
