@@ -515,7 +515,7 @@ class Relationship:
         """
         *Standard priors* for the relationship. These priors are broad,
         uninformative, for normal variables running the range
-        [x - x * 5, x + x * 5) (where x is the variable). For an unaccounted
+        [x - x * 10, x + x * 10) (where x is the variable). For an unaccounted
         uncertainty natural log factor the range is [-10, 1).
 
         Returns:
@@ -524,8 +524,8 @@ class Relationship:
         """
         priors = []
         for var in self.variable_medians:
-            loc = var - np.abs(var) * 5
-            scale = (var + np.abs(var) * 5) - loc
+            loc = var - np.abs(var) * 10
+            scale = (var + np.abs(var) * 10) - loc
             priors.append(uniform(loc=loc, scale=scale))
         if self.unaccounted_uncertainty:
             priors[-1] = uniform(loc=-10, scale=11)
