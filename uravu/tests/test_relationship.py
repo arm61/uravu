@@ -79,7 +79,7 @@ STRING_F = (
     "-2.49e-01 ] \nOrdinate uncertainty: [ 1.00e-01 1.00e-01 ... 1.00e-01 "
     "1.00e-01 ]\nAbscissa Name: x \nOrdinate Name: y \nAbscissa Unit: "
     "dimensionless \nOrdinate Unit: dimensionless \nVariables: [ "
-    "1.40e-01+1.28e+00-5.61e-01 6.56e-01+3.23e+00-1.99e+00 ] \nUnaccounted "
+    "1.40e-01+1.00e+00-5.61e-01 6.56e-01+1.92e+00-1.99e+00 ] \nUnaccounted "
     "uncertainty: False \nMCMC performed: True \nNested sampling performed: "
     "False \n"
 )

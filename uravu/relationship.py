@@ -231,7 +231,7 @@ class Relationship:
                     )
                 else:
                     string += "{:.2e}+{:.2e}-{:.2e} ".format(
-                        var.n, var.con_int[1] + var.n, var.n - var.con_int[0]
+                        var.n, var.con_int[1] - var.n, var.n - var.con_int[0]
                     )
             else:
                 string += "{:.2e} ".format(var)
