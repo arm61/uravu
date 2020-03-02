@@ -58,7 +58,9 @@ class Distribution:
                     "The ci_points must be an array or tuple of length two."
                 )
             self.ci_points = ci_points
+        self.normal = False
         self.add_samples(np.array(samples))
+        self.check_normality()
 
     @property
     def mean(self):
@@ -83,23 +85,19 @@ class Distribution:
         """
         return self.samples.size
 
-    @property
-    def normal(self):
+    def check_normality(self):
         """
         Uses a Shapiro-Wilks statistical test to evaluate if samples are
         normally distributed.
-
-        Returns:
-            (bool): If the distribution is normal.
         """
         alpha = 0.05
         if self.size <= 8:
             return False
-        #sampled = np.random.choice(self.samples, size=1000)
         p_value = normaltest(self.samples)[1]
         if p_value > alpha:
-            return True
-        return False
+            self.normal = True
+        else:
+            self.normal = False
 
     @property
     def n(self):
@@ -178,7 +176,6 @@ class Distribution:
         if self.n is not None:
             representation += "Reporting Value: "
             if self.normal:
-                print(self.normal)
                 representation += "{}\n".format(ufloat(self.n, self.s))
             else:
                 representation += "{:.2e}+{:.2e}-{:.2e}\n".format(
@@ -197,3 +194,4 @@ class Distribution:
             samples (array_like): Samples to be added to the distribution.
         """
         self.samples = np.append(self.samples, np.array(samples).flatten())
+        self.check_normality()
