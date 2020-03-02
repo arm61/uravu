@@ -9,6 +9,7 @@ If you want to go even deeper, then check out `Information Theory, Inference, an
 1. `Maximum likelihood`_
 2. `Markov chain Monte Carlo`_
 3. `Nested Sampling`_
+4. `Custom priors`_
 4. `Unaccounted uncertainty`_
 
 
@@ -19,6 +20,7 @@ If you want to go even deeper, then check out `Information Theory, Inference, an
    max_likelihood
    mcmc
    nested_sampling
+   custom_priors
    unaccounted_uncertainty
 
 
@@ -27,4 +29,5 @@ If you want to go even deeper, then check out `Information Theory, Inference, an
 .. _Maximum likelihood: ./max_likelihood.html
 .. _Markov chain Monte Carlo: ./mcmc.html
 .. _Nested Sampling: ./nested_sampling.html
+.. _Custom priors: ./custom_priors.html
 .. _Unaccounted uncertainty: ./unaccounted_uncertainty.html
