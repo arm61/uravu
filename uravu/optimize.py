@@ -9,6 +9,7 @@ in the ``mcmc`` and ``nested_sampling`` methods may be found here.
 # author: Andrew R. McCluskey
 
 import numpy as np
+import uncertainties
 from scipy.optimize import minimize
 from uncertainties import unumpy as unp
 
@@ -97,9 +98,15 @@ def ln_likelihood(
     else:
         var = variables
         log_f = -np.inf
-    y_data = unp.nominal_values(ordinate.m)
-    dy_data = unp.std_devs(ordinate.m)
     model = function(abscissa.m, *var)
+    if isinstance(ordinate.m.any(), uncertainties.core.AffineScalarFunc):
+        y_data = unp.nominal_values(ordinate.m)
+        dy_data = unp.std_devs(ordinate.m)
 
-    sigma2 = dy_data ** 2 + model ** 2 * np.exp(2 * log_f)
-    return -0.5 * np.sum((model - y_data) ** 2 / sigma2 + np.log(sigma2))
+        sigma2 = dy_data ** 2 + model ** 2 * np.exp(2 * log_f)
+        return -0.5 * np.sum((model - y_data) ** 2 / sigma2 + np.log(sigma2))
+    else:
+        y_data = ordinate.m
+
+        sigma2 = model ** 2 * np.exp(2 * log_f)
+        return -0.5 * np.sum((model - y_data) ** 2 / sigma2 + np.log(sigma2)) 

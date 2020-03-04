@@ -53,14 +53,15 @@ def plot_relationship(
     if relationship.y_u != UREG.dimensionless:
         y_label += "/${:~L}$".format(relationship.y_u)
     axes.set_ylabel(y_label)
-    axes.fill_between(
-        relationship.x_n,
-        relationship.y_n - relationship.y_s,
-        relationship.y_n + relationship.y_s,
-        alpha=0.5,
-        color=list(_fig_params.TABLEAU)[0],
-        lw=0,
-    )
+    if isinstance(relationship.ordinate.m.any(), uncertainties.core.AffineScalarFunc):
+        axes.fill_between(
+            relationship.x_n,
+            relationship.y_n - relationship.y_s,
+            relationship.y_n + relationship.y_s,
+            alpha=0.5,
+            color=list(_fig_params.TABLEAU)[0],
+            lw=0,
+        )
     if not isinstance(variables[0], Distribution):
         axes.plot(
             relationship.x_n,

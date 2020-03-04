@@ -41,8 +41,8 @@ class Relationship:
             the `uncertainties`_ package.
         abscissa_name (str): A name for the abscissa data, used in the
             production of plots.
-        ordinate (unumpy.array_like with pint.UnitRegistry()): The ordinate
-            data against with the model should be compared. This will include
+        ordinate (array_like with pint.UnitRegistry()): The ordinate
+            data against with the model should be compared. This may include
             uncertainty values and some unit.
         ordinate_name (str): A name for the ordinate data, used in the
             production of plots.
@@ -59,8 +59,9 @@ class Relationship:
             number of data points and `d` is the dimensionality.
         ordinate (array_like): The ordinate data. This should have a
             shape `(N,)`.
-        ordinate_uncertainty (array_like): The uncertainty in each of the
-            ordinate data points. This should have a shape `(N,)`.
+        ordinate_uncertainty (array_like, optional): The uncertainty in each
+            of the ordinate data points. This should have a shape `(N,)`.
+            Default to no uncertainties on the ordiante
         abscissa_uncertainty (array_like, optional): The uncertainty in each
             of the absiccsa data points. This should have a shape `(N, d)`.
             Default is no uncertainties on absicca.
@@ -91,7 +92,7 @@ class Relationship:
         function,
         abscissa,
         ordinate,
-        ordinate_uncertainty,
+        ordinate_uncertainty=None,
         abscissa_uncertainty=None,
         abscissa_unit=UREG.dimensionless,
         ordinate_unit=UREG.dimensionless,
@@ -105,7 +106,6 @@ class Relationship:
         self.unaccounted_uncertainty = unaccounted_uncertainty
         abscissa = np.array(abscissa)
         ordinate = np.array(ordinate)
-        ordinate_uncertainty = np.array(ordinate_uncertainty)
         if abscissa_uncertainty is not None:
             abscissa_uncertainty = np.array(abscissa_uncertainty)
         if abscissa.shape[0] == ordinate.shape[0]:
@@ -117,9 +117,12 @@ class Relationship:
                 else:
                     self.abscissa = abscissa
                 self.abscissa *= abscissa_unit
-                self.ordinate = (
-                    unp.uarray(ordinate, ordinate_uncertainty) * ordinate_unit
-                )
+                if ordinate_uncertainty is not None:
+                    self.ordinate = (
+                        unp.uarray(ordinate, ordinate_uncertainty) * ordinate_unit
+                    )
+                else:
+                    self.ordinate = ordinate * ordinate_unit
             else:
                 raise ValueError(
                     "The number of data points in the ordinate does not "
@@ -186,10 +189,13 @@ class Relationship:
             for i in self.y_n:
                 string += "{:.2e} ".format(i)
             string += "] \n"
-            string += "Ordinate uncertainty: [ "
-            for i in self.y_s:
-                string += "{:.2e} ".format(i)
-            string += "] \n"
+            if isinstance(
+                self.ordinate.m.any(), uncertainties.core.AffineScalarFunc
+            ):
+                string += "Ordinate uncertainty: [ "
+                for i in self.y_s:
+                    string += "{:.2e} ".format(i)
+                string += "] \n"
         else:
             string += (
                 "Abscissa: "
@@ -212,12 +218,15 @@ class Relationship:
                     *self.y_n[:2], *self.y_n[-2:]
                 )
             )
-            string += (
-                "Ordinate uncertainty: "
-                "[ {:.2e} {:.2e} ... {:.2e} {:.2e} ]\n".format(
-                    *self.y_s[:2], *self.y_s[-2:]
+            if isinstance(
+                self.ordinate.m.any(), uncertainties.core.AffineScalarFunc
+            ):
+                string += (
+                    "Ordinate uncertainty: "
+                    "[ {:.2e} {:.2e} ... {:.2e} {:.2e} ]\n".format(
+                        *self.y_s[:2], *self.y_s[-2:]
+                    )
                 )
-            )
         string += "Abscissa Name: {} \n".format(self.abscissa_name)
         string += "Ordinate Name: {} \n".format(self.ordinate_name)
         string += "Abscissa Unit: {} \n".format(self.x_u)
@@ -359,7 +368,12 @@ class Relationship:
         Returns:
             (array_like): Ordinate uncertainties.
         """
-        return unp.std_devs(self.ordinate.m)
+        if isinstance(
+            self.ordinate.m.any(), uncertainties.core.AffineScalarFunc
+        ):
+            return unp.std_devs(self.ordinate.m)
+        else:
+            return None
 
     @property
     def variable_medians(self):
