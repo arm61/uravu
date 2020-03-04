@@ -52,8 +52,11 @@ def mcmc(
     if prior_function is None:
         prior_function = relationship.prior
 
-    initial_prior = relationship.variable_medians + 0.5 * relationship.variable_medians * np.random.randn(
-        walkers, len(relationship.variable_medians)
+    initial_prior = (
+        relationship.variable_medians
+        + 0.5
+        * relationship.variable_medians
+        * np.random.randn(walkers, len(relationship.variable_medians))
     )
     ndims = initial_prior.shape[1]
     k = prior_function()

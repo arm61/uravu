@@ -65,8 +65,8 @@ class Distribution:
     @property
     def mean(self):
         """
-        Get the mean value and uncertainty. Will return ``None`` if distribution
-        is not normal.
+        Get the mean value and uncertainty. Will return ``None`` if
+        distribution is not normal.
 
         Returns:
             (uncertainties.core.Variable or None): Mean value with uncertainty.

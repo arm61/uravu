@@ -13,7 +13,6 @@ Distributed under the terms of the MIT License
 import unittest
 import numpy as np
 from numpy.testing import assert_almost_equal, assert_equal
-from uncertainties import ufloat
 from uravu.distribution import Distribution
 
 
@@ -126,7 +125,6 @@ class TestDistribution(unittest.TestCase):
         np.random.seed(1)
         distro = Distribution(np.random.random(2000))
         assert_equal(distro.mean, None)
-
 
     def test_add_samples_single(self):
         """

@@ -12,6 +12,7 @@ The colorscheme in this work was chosen to be colorblind friendly.
 # author: Andrew R. McCluskey
 
 import numpy as np
+import uncertainties
 import matplotlib.pyplot as plt
 from corner import corner
 from scipy.stats import gaussian_kde
@@ -53,7 +54,9 @@ def plot_relationship(
     if relationship.y_u != UREG.dimensionless:
         y_label += "/${:~L}$".format(relationship.y_u)
     axes.set_ylabel(y_label)
-    if isinstance(relationship.ordinate.m.any(), uncertainties.core.AffineScalarFunc):
+    if isinstance(
+        relationship.ordinate.m.any(), uncertainties.core.AffineScalarFunc
+    ):
         axes.fill_between(
             relationship.x_n,
             relationship.y_n - relationship.y_s,

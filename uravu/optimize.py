@@ -109,4 +109,4 @@ def ln_likelihood(
         y_data = ordinate.m
 
         sigma2 = model ** 2 * np.exp(2 * log_f)
-        return -0.5 * np.sum((model - y_data) ** 2 / sigma2 + np.log(sigma2)) 
+        return -0.5 * np.sum((model - y_data) ** 2 / sigma2 + np.log(sigma2))

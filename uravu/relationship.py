@@ -119,7 +119,8 @@ class Relationship:
                 self.abscissa *= abscissa_unit
                 if ordinate_uncertainty is not None:
                     self.ordinate = (
-                        unp.uarray(ordinate, ordinate_uncertainty) * ordinate_unit
+                        unp.uarray(ordinate, ordinate_uncertainty)
+                        * ordinate_unit
                     )
                 else:
                     self.ordinate = ordinate * ordinate_unit
@@ -142,7 +143,7 @@ class Relationship:
         if variable_names is None:
             self.variable_names = getfullargspec(self.function).args[1:]
             if self.unaccounted_uncertainty:
-                self.variable_names.append('unaccounted uncertainty')
+                self.variable_names.append("unaccounted uncertainty")
         else:
             if len(variable_names) != self.len_parameters():
                 raise ValueError(
