@@ -17,7 +17,7 @@ class TestOptimize(unittest.TestCase):
     Unit tests for optimize module.
     """
 
-    def test_ln_likelihood(self):
+    def test_ln_likelihood_a(self):
         """
         Test ln_likelihood function.
         """
@@ -30,6 +30,21 @@ class TestOptimize(unittest.TestCase):
         expected_lnl = -1724226.97414907
         actual_lnl = optimize.ln_likelihood(
             test_rel.variables, test_rel.function, test_rel.x, test_rel.y
+        )
+        assert_almost_equal(actual_lnl, expected_lnl)
+
+    def test_ln_likelihood_b(self):
+        """
+        Test ln_likelihood function with no uncertainty.
+        """
+        test_x = np.linspace(0, 99, 10)
+        test_y = np.ones(10)
+        test_rel = relationship.Relationship(
+            utils.straight_line, test_x, test_y
+        )
+        expected_lnl = -45.21054955719477
+        actual_lnl = optimize.ln_likelihood(
+            test_rel.variables, test_rel.function, test_rel.x, test_rel.y, unaccounted_uncertainty=test_rel.unaccounted_uncertainty
         )
         assert_almost_equal(actual_lnl, expected_lnl)
 

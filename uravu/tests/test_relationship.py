@@ -176,7 +176,7 @@ class TestRelationship(unittest.TestCase):
         dimensional data and all defaults.
         """
         test_x = np.linspace(0, 99, 100)
-        test_y = np.linspace(0, 199, 100)
+        test_y = np.linspace(1, 199, 100)
         test_y_e = test_y * 0.1
         test_rel = Relationship(utils.straight_line, test_x, test_y, test_y_e)
         assert_equal(test_rel.function, utils.straight_line)
@@ -191,7 +191,7 @@ class TestRelationship(unittest.TestCase):
         dimensional data and all defaults.
         """
         test_x = np.array([np.linspace(0, 99, 100), np.linspace(0, 99, 100)]).T
-        test_y = np.linspace(0, 199, 100)
+        test_y = np.linspace(1, 199, 100)
         test_y_e = test_y * 0.1
         test_rel = Relationship(utils.straight_line, test_x, test_y, test_y_e)
         assert_equal(test_rel.function, utils.straight_line)
@@ -200,13 +200,39 @@ class TestRelationship(unittest.TestCase):
         assert_almost_equal(unp.std_devs(test_rel.ordinate.m), test_y_e)
         assert_almost_equal(test_rel.variables, np.ones((2)))
 
+    def test_init_noordinate_uncertainty_one_dimensional(self):
+        """
+        Test the initialisation of the relationship class with one
+        dimensional data and all defaults.
+        """
+        test_x = np.linspace(0, 99, 100)
+        test_y = np.linspace(1, 199, 100)
+        test_rel = Relationship(utils.straight_line, test_x, test_y)
+        assert_equal(test_rel.function, utils.straight_line)
+        assert_almost_equal(test_rel.abscissa.m, test_x)
+        assert_almost_equal(test_rel.ordinate.m, test_y)
+        assert_almost_equal(test_rel.variables, np.ones((3)))
+
+    def test_init_noordinate_uncertainty_two_dimensional(self):
+        """
+        Test the initialisation of the relationship class with two
+        dimensional data and all defaults.
+        """
+        test_x = np.array([np.linspace(0, 99, 100), np.linspace(0, 99, 100)]).T
+        test_y = np.linspace(1, 199, 100)
+        test_rel = Relationship(utils.straight_line, test_x, test_y)
+        assert_equal(test_rel.function, utils.straight_line)
+        assert_almost_equal(test_rel.abscissa.m, test_x)
+        assert_almost_equal(test_rel.ordinate.m, test_y)
+        assert_almost_equal(test_rel.variables, np.ones((3)))
+
     def test_init_additional_uncertainty_one_dimensional(self):
         """
         Test the initialisation of the relationship class with one
         dimensional data and an additional uncertainty.
         """
         test_x = np.linspace(0, 99, 100)
-        test_y = np.linspace(0, 199, 100)
+        test_y = np.linspace(1, 199, 100)
         test_y_e = test_y * 0.1
         test_rel = Relationship(
             utils.straight_line,
@@ -227,7 +253,7 @@ class TestRelationship(unittest.TestCase):
         dimensional data and an additional uncertainty.
         """
         test_x = np.array([np.linspace(0, 99, 100), np.linspace(0, 99, 100)]).T
-        test_y = np.linspace(0, 199, 100)
+        test_y = np.linspace(1, 199, 100)
         test_y_e = test_y * 0.1
         test_rel = Relationship(
             utils.straight_line,
@@ -249,7 +275,7 @@ class TestRelationship(unittest.TestCase):
         """
         with self.assertRaises(ValueError):
             test_x = np.linspace(0, 99, 100)
-            test_y = np.linspace(0, 199, 99)
+            test_y = np.linspace(1, 199, 99)
             test_y_e = test_y * 0.1
             Relationship(utils.straight_line, test_x, test_y, test_y_e)
 
@@ -262,7 +288,7 @@ class TestRelationship(unittest.TestCase):
             test_x = np.array(
                 [np.linspace(0, 99, 100), np.linspace(0, 99, 100)]
             ).T
-            test_y = np.linspace(0, 199, 99)
+            test_y = np.linspace(1, 199, 99)
             test_y_e = test_y * 0.1
             Relationship(utils.straight_line, test_x, test_y, test_y_e)
 
@@ -273,8 +299,8 @@ class TestRelationship(unittest.TestCase):
         """
         with self.assertRaises(ValueError):
             test_x = np.linspace(0, 99, 100)
-            test_y = np.linspace(0, 199, 100)
-            test_y_e = np.linspace(0, 199, 99)
+            test_y = np.linspace(1, 199, 100)
+            test_y_e = np.linspace(1, 199, 99)
             Relationship(utils.straight_line, test_x, test_y, test_y_e)
 
     def test_init_different_length_y_and_y_err_two_dimension(self):
@@ -286,8 +312,8 @@ class TestRelationship(unittest.TestCase):
             test_x = np.array(
                 [np.linspace(0, 99, 100), np.linspace(0, 99, 100)]
             ).T
-            test_y = np.linspace(0, 199, 100)
-            test_y_e = np.linspace(0, 199, 99)
+            test_y = np.linspace(1, 199, 100)
+            test_y_e = np.linspace(1, 199, 99)
             Relationship(utils.straight_line, test_x, test_y, test_y_e)
 
     def test_init_different_variables_and_names(self):
@@ -297,8 +323,8 @@ class TestRelationship(unittest.TestCase):
         """
         with self.assertRaises(ValueError):
             test_x = np.linspace(0, 99, 100)
-            test_y = np.linspace(0, 199, 100)
-            test_y_e = np.linspace(0, 199, 99)
+            test_y = np.linspace(1, 199, 100)
+            test_y_e = np.linspace(1, 199, 99)
             Relationship(
                 utils.straight_line,
                 test_x,
@@ -314,14 +340,14 @@ class TestRelationship(unittest.TestCase):
         """
         with self.assertRaises(ValueError):
             test_x = np.linspace(0, 99, 100)
-            test_y = np.linspace(0, 199, 100)
-            test_y_e = np.linspace(0, 199, 99)
+            test_y = np.linspace(1, 199, 100)
+            test_y_e = np.linspace(1, 199, 99)
             Relationship(
                 utils.straight_line,
                 test_x,
                 test_y,
                 test_y_e,
-                variable_names=[UREG.meter],
+                variable_units=[UREG.meter],
             )
 
     def test_init_x_u_one_dimensional(self):
@@ -330,7 +356,7 @@ class TestRelationship(unittest.TestCase):
         dimensional data and an uncertainty in the abscissa.
         """
         test_x = np.linspace(0, 99, 100)
-        test_y = np.linspace(0, 199, 100)
+        test_y = np.linspace(1, 199, 100)
         test_y_e = test_y * 0.1
         test_x_e = test_x * 0.1
         test_rel = Relationship(
@@ -353,7 +379,7 @@ class TestRelationship(unittest.TestCase):
         dimensional data and variable units.
         """
         test_x = np.linspace(0, 99, 100)
-        test_y = np.linspace(0, 199, 100)
+        test_y = np.linspace(1, 199, 100)
         test_y_e = test_y * 0.1
         test_rel = Relationship(
             utils.straight_line,
@@ -375,7 +401,7 @@ class TestRelationship(unittest.TestCase):
         dimensional data and variable names.
         """
         test_x = np.linspace(0, 99, 100)
-        test_y = np.linspace(0, 199, 100)
+        test_y = np.linspace(1, 199, 100)
         test_y_e = test_y * 0.1
         test_rel = Relationship(
             utils.straight_line,
@@ -397,7 +423,7 @@ class TestRelationship(unittest.TestCase):
         dimensional data and an unit in abscissa.
         """
         test_x = np.linspace(0, 99, 100)
-        test_y = np.linspace(0, 199, 100)
+        test_y = np.linspace(1, 199, 100)
         test_y_e = test_y * 0.1
         test_rel = Relationship(
             utils.straight_line,
@@ -419,7 +445,7 @@ class TestRelationship(unittest.TestCase):
         dimensional data and an unit in ordinate.
         """
         test_x = np.linspace(0, 99, 100)
-        test_y = np.linspace(0, 199, 100)
+        test_y = np.linspace(1, 199, 100)
         test_y_e = test_y * 0.1
         test_rel = Relationship(
             utils.straight_line,
@@ -440,7 +466,7 @@ class TestRelationship(unittest.TestCase):
         Test the x property with no uncertainty.
         """
         test_x = np.linspace(0, 99, 100)
-        test_y = np.linspace(0, 199, 100)
+        test_y = np.linspace(1, 199, 100)
         test_y_e = test_y * 0.1
         test_rel = Relationship(utils.straight_line, test_x, test_y, test_y_e)
         assert_almost_equal(test_rel.x.m, test_x)
@@ -451,7 +477,7 @@ class TestRelationship(unittest.TestCase):
         Test the x property with uncertainty.
         """
         test_x = np.linspace(0, 99, 100)
-        test_y = np.linspace(0, 199, 100)
+        test_y = np.linspace(1, 199, 100)
         test_y_e = test_y * 0.1
         test_x_e = test_x * 0.1
         test_rel = Relationship(
@@ -470,7 +496,7 @@ class TestRelationship(unittest.TestCase):
         Test the y property.
         """
         test_x = np.linspace(0, 99, 100)
-        test_y = np.linspace(0, 199, 100)
+        test_y = np.linspace(1, 199, 100)
         test_y_e = test_y * 0.1
         test_rel = Relationship(utils.straight_line, test_x, test_y, test_y_e)
         assert_almost_equal(unp.nominal_values(test_rel.y.m), test_y)
@@ -482,7 +508,7 @@ class TestRelationship(unittest.TestCase):
         Test the x_m property with no uncertainty.
         """
         test_x = np.linspace(0, 99, 100)
-        test_y = np.linspace(0, 199, 100)
+        test_y = np.linspace(1, 199, 100)
         test_y_e = test_y * 0.1
         test_rel = Relationship(utils.straight_line, test_x, test_y, test_y_e)
         assert_almost_equal(test_rel.x_m, test_x)
@@ -492,7 +518,7 @@ class TestRelationship(unittest.TestCase):
         Test the x_m property with uncertainty.
         """
         test_x = np.linspace(0, 99, 100)
-        test_y = np.linspace(0, 199, 100)
+        test_y = np.linspace(1, 199, 100)
         test_y_e = test_y * 0.1
         test_x_e = test_x * 0.1
         test_rel = Relationship(
@@ -510,7 +536,7 @@ class TestRelationship(unittest.TestCase):
         Test the y_m property.
         """
         test_x = np.linspace(0, 99, 100)
-        test_y = np.linspace(0, 199, 100)
+        test_y = np.linspace(1, 199, 100)
         test_y_e = test_y * 0.1
         test_rel = Relationship(utils.straight_line, test_x, test_y, test_y_e)
         assert_almost_equal(unp.nominal_values(test_rel.y_m), test_y)
@@ -521,7 +547,7 @@ class TestRelationship(unittest.TestCase):
         Test the x_u property.
         """
         test_x = np.linspace(0, 99, 100)
-        test_y = np.linspace(0, 199, 100)
+        test_y = np.linspace(1, 199, 100)
         test_y_e = test_y * 0.1
         test_rel = Relationship(
             utils.straight_line,
@@ -537,7 +563,7 @@ class TestRelationship(unittest.TestCase):
         Test the y_u property.
         """
         test_x = np.linspace(0, 99, 100)
-        test_y = np.linspace(0, 199, 100)
+        test_y = np.linspace(1, 199, 100)
         test_y_e = test_y * 0.1
         test_rel = Relationship(
             utils.straight_line,
@@ -553,7 +579,7 @@ class TestRelationship(unittest.TestCase):
         Test the x_n property with no uncertainty.
         """
         test_x = np.linspace(0, 99, 100)
-        test_y = np.linspace(0, 199, 100)
+        test_y = np.linspace(1, 199, 100)
         test_y_e = test_y * 0.1
         test_rel = Relationship(utils.straight_line, test_x, test_y, test_y_e)
         assert_almost_equal(test_rel.x_n, test_x)
@@ -563,7 +589,7 @@ class TestRelationship(unittest.TestCase):
         Test the x_n property with uncertainty.
         """
         test_x = np.linspace(0, 99, 100)
-        test_y = np.linspace(0, 199, 100)
+        test_y = np.linspace(1, 199, 100)
         test_y_e = test_y * 0.1
         test_x_e = test_x * 0.1
         test_rel = Relationship(
@@ -580,7 +606,7 @@ class TestRelationship(unittest.TestCase):
         Test the x_n property with no uncertainty.
         """
         test_x = np.linspace(0, 99, 100)
-        test_y = np.linspace(0, 199, 100)
+        test_y = np.linspace(1, 199, 100)
         test_y_e = test_y * 0.1
         test_rel = Relationship(utils.straight_line, test_x, test_y, test_y_e)
         assert_equal(test_rel.x_s, None)
@@ -590,7 +616,7 @@ class TestRelationship(unittest.TestCase):
         Test the x_n property with uncertainty.
         """
         test_x = np.linspace(0, 99, 100)
-        test_y = np.linspace(0, 199, 100)
+        test_y = np.linspace(1, 199, 100)
         test_y_e = test_y * 0.1
         test_x_e = test_x * 0.1
         test_rel = Relationship(
@@ -607,20 +633,29 @@ class TestRelationship(unittest.TestCase):
         Test the y_n property.
         """
         test_x = np.linspace(0, 99, 100)
-        test_y = np.linspace(0, 199, 100)
+        test_y = np.linspace(1, 199, 100)
         test_y_e = test_y * 0.1
         test_rel = Relationship(utils.straight_line, test_x, test_y, test_y_e)
         assert_almost_equal(test_rel.y_n, test_y)
 
-    def test_y_s(self):
+    def test_y_s_a(self):
         """
         Test the y_s property.
         """
         test_x = np.linspace(0, 99, 100)
-        test_y = np.linspace(0, 199, 100)
+        test_y = np.linspace(1, 199, 100)
         test_y_e = test_y * 0.1
         test_rel = Relationship(utils.straight_line, test_x, test_y, test_y_e)
         assert_almost_equal(test_rel.y_s, test_y_e)
+
+    def test_y_s_b(self):
+        """
+        Test the y_s property when there is no uncertainty.
+        """
+        test_x = np.linspace(0, 99, 100)
+        test_y = np.linspace(1, 199, 100)
+        test_rel = Relationship(utils.straight_line, test_x, test_y)
+        assert_equal(test_rel.y_s, None)
 
     def test_variable_medians_b(self):
         """
@@ -658,7 +693,7 @@ class TestRelationship(unittest.TestCase):
         test the len_parameters function.
         """
         test_x = np.linspace(0, 99, 100)
-        test_y = np.linspace(0, 199, 100)
+        test_y = np.linspace(1, 199, 100)
         test_y_e = test_y * 0.1
         test_rel = Relationship(utils.straight_line, test_x, test_y, test_y_e)
         assert_equal(test_rel.len_parameters(), 2)

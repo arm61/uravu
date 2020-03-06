@@ -99,14 +99,12 @@ def ln_likelihood(
         var = variables
         log_f = -np.inf
     model = function(abscissa.m, *var)
-    if isinstance(ordinate.m.any(), uncertainties.core.AffineScalarFunc):
-        y_data = unp.nominal_values(ordinate.m)
-        dy_data = unp.std_devs(ordinate.m)
+    y_data = unp.nominal_values(ordinate.m)
+    dy_data = unp.std_devs(ordinate.m)
 
-        sigma2 = dy_data ** 2 + model ** 2 * np.exp(2 * log_f)
-        return -0.5 * np.sum((model - y_data) ** 2 / sigma2 + np.log(sigma2))
-    else:
-        y_data = ordinate.m
-
+    if np.isclose(dy_data.all(), 0.0):
         sigma2 = model ** 2 * np.exp(2 * log_f)
-        return -0.5 * np.sum((model - y_data) ** 2 / sigma2 + np.log(sigma2))
+    else:
+        sigma2 = dy_data ** 2 + model ** 2 * np.exp(2 * log_f)
+    return -0.5 * np.sum((model - y_data) ** 2 / sigma2 + np.log(sigma2))
+        

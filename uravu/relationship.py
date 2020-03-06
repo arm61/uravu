@@ -61,7 +61,9 @@ class Relationship:
             shape `(N,)`.
         ordinate_uncertainty (array_like, optional): The uncertainty in each
             of the ordinate data points. This should have a shape `(N,)`.
-            Default to no uncertainties on the ordiante
+            Default to no uncertainties on the ordiante. If there is no
+            ordinate uncertainty, an unaccounted uncertainty is automatically
+            added. 
         abscissa_uncertainty (array_like, optional): The uncertainty in each
             of the absiccsa data points. This should have a shape `(N, d)`.
             Default is no uncertainties on absicca.
@@ -109,32 +111,34 @@ class Relationship:
         if abscissa_uncertainty is not None:
             abscissa_uncertainty = np.array(abscissa_uncertainty)
         if abscissa.shape[0] == ordinate.shape[0]:
-            if ordinate.shape[0] == ordinate_uncertainty.shape[0]:
-                if (abscissa_uncertainty is not None) and (
-                    abscissa.shape[0] == abscissa_uncertainty.shape[0]
-                ):
-                    self.abscissa = unp.uarray(abscissa, abscissa_uncertainty)
-                else:
-                    self.abscissa = abscissa
-                self.abscissa *= abscissa_unit
-                if ordinate_uncertainty is not None:
+            if (abscissa_uncertainty is not None) and (
+                abscissa.shape[0] == abscissa_uncertainty.shape[0]
+            ):
+                self.abscissa = unp.uarray(abscissa, abscissa_uncertainty)
+            else:
+                self.abscissa = abscissa
+            self.abscissa *= abscissa_unit
+            if ordinate_uncertainty is not None:
+                if ordinate.shape[0] == ordinate_uncertainty.shape[0]:
                     self.ordinate = (
                         unp.uarray(ordinate, ordinate_uncertainty)
                         * ordinate_unit
                     )
                 else:
-                    self.ordinate = ordinate * ordinate_unit
+                    raise ValueError(
+                        "The number of data points in the ordinate does not "
+                        "match that in the ordinate uncertainty."
+                    )
             else:
-                raise ValueError(
-                    "The number of data points in the ordinate does not "
-                    "match that in the ordinate uncertainty."
-                )
+                self.ordinate = ordinate * ordinate_unit
         else:
             raise ValueError(
                 "The number of data points in the abscissa does "
                 "not match that for the ordinate."
             )
-        if unaccounted_uncertainty:
+        if (unp.std_devs(self.ordinate.m) == 0.0).any():
+            self.unaccounted_uncertainty = True
+        if self.unaccounted_uncertainty:
             self.variables = np.ones((self.len_parameters() + 1))
         else:
             self.variables = np.ones((self.len_parameters()))
