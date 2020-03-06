@@ -52,14 +52,12 @@ def mcmc(
     if prior_function is None:
         prior_function = relationship.prior
 
-    initial_prior = (
-        relationship.variable_medians
-        + 0.5
-        * relationship.variable_medians
-        * np.random.randn(walkers, len(relationship.variable_medians))
-    )
+    initial_prior = np.zeros((walkers, len(relationship.variable_medians)))
+    for i, p in enumerate(prior_function()):
+        initial_prior[:, i] = p.rvs(walkers)
+
     ndims = initial_prior.shape[1]
-    k = prior_function()
+    called_prior = prior_function()
 
     sampler = emcee.EnsembleSampler(
         walkers,
@@ -70,10 +68,9 @@ def mcmc(
             relationship.abscissa,
             relationship.ordinate,
             relationship.unaccounted_uncertainty,
-            k,
+            called_prior,
         ],
     )
-
     sampler.run_mcmc(initial_prior, n_samples + n_burn, progress=progress)
 
     post_samples = sampler.get_chain(discard=n_burn).reshape((-1, ndims))
@@ -163,6 +160,7 @@ def nested_sampling(
         ],
         ptform_args=[priors],
     )
+
     sampler.run_nested(print_progress=progress, **kwargs)
     results = sampler.results
     return results

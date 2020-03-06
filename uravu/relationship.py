@@ -108,40 +108,41 @@ class Relationship:
         self.unaccounted_uncertainty = unaccounted_uncertainty
         abscissa = np.array(abscissa)
         ordinate = np.array(ordinate)
-        if abscissa_uncertainty is not None:
-            abscissa_uncertainty = np.array(abscissa_uncertainty)
-        if abscissa.shape[0] == ordinate.shape[0]:
-            if (abscissa_uncertainty is not None) and (
-                abscissa.shape[0] == abscissa_uncertainty.shape[0]
-            ):
-                self.abscissa = unp.uarray(abscissa, abscissa_uncertainty)
-            else:
-                self.abscissa = abscissa
-            self.abscissa *= abscissa_unit
-            if ordinate_uncertainty is not None:
-                if ordinate.shape[0] == ordinate_uncertainty.shape[0]:
-                    self.ordinate = (
-                        unp.uarray(ordinate, ordinate_uncertainty)
-                        * ordinate_unit
-                    )
-                else:
-                    raise ValueError(
+
+        if ordinate_uncertainty is None:
+            self.unaccounted_uncertainty = True
+            self.ordinate = ordinate
+        else:    
+            if ordinate_uncertainty.shape != ordinate.shape:
+                raise ValueError(
                         "The number of data points in the ordinate does not "
                         "match that in the ordinate uncertainty."
                     )
             else:
-                self.ordinate = ordinate * ordinate_unit
+                ordinate_uncertainty = np.array(ordinate_uncertainty)
+                self.ordinate = unp.uarray(ordinate, ordinate_uncertainty) 
+        self.ordinate *= ordinate_unit
+
+        if abscissa_uncertainty is None:
+            self.abscissa = abscissa
         else:
+            if abscissa_uncertainty.shape != abscissa.shape:
+                raise ValueError(
+                        "The number of data points in the abscissa does not "
+                        "match that in the abscissa uncertainty."
+                    )
+            else:
+                abscissa_uncertainty = np.array(abscissa_uncertainty)
+                self.abscissa = unp.uarray(abscissa, abscissa_uncertainty)
+        self.abscissa *= abscissa_unit
+
+        if abscissa.shape[0] != ordinate.shape[0]:
             raise ValueError(
                 "The number of data points in the abscissa does "
                 "not match that for the ordinate."
             )
-        if (unp.std_devs(self.ordinate.m) == 0.0).any():
-            self.unaccounted_uncertainty = True
-        if self.unaccounted_uncertainty:
-            self.variables = np.ones((self.len_parameters() + 1))
-        else:
-            self.variables = np.ones((self.len_parameters()))
+
+        self.variables = np.ones((self.len_parameters()))
         self.abscissa_name = abscissa_name
         self.ordinate_name = ordinate_name
         if variable_names is None:
@@ -500,6 +501,8 @@ class Relationship:
         """
         # The minus one is to remove the abscissa data which is a
         # argument in the assessment function
+        if self.unaccounted_uncertainty:
+            return len(getfullargspec(self.function).args)
         return len(getfullargspec(self.function).args) - 1
 
     def bayesian_information_criteria(self):
@@ -557,6 +560,7 @@ class Relationship:
         n_samples=500,
         n_burn=500,
         progress=True,
+        seed=None
     ):
         """
         Perform MCMC to get the posterior probability distributions for

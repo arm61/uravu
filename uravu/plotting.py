@@ -195,18 +195,34 @@ def plot_corner(relationship, figsize=(8, 8)):  # pragma: no cover
     for j in range(n):
         ax[n - 1, j].set_xticks(
             [
-                np.round(i, 2)
+                i
                 for i in np.percentile(
                     relationship.variables[j].samples, [2.5, 50, 97.5]
+                )
+            ]
+        )
+        ax[n - 1, j].set_xlim(
+            [
+                i
+                for i in np.percentile(
+                    relationship.variables[j].samples, [0.5, 99.5]
                 )
             ]
         )
     for j in range(n - 1):
         ax[j + 1, 0].set_yticks(
             [
-                np.round(i, 2)
+                i
                 for i in np.percentile(
                     relationship.variables[j + 1].samples, [2.5, 50, 97.5]
+                )
+            ]
+        )
+        ax[j + 1, 0].set_ylim(
+            [
+                i
+                for i in np.percentile(
+                    relationship.variables[j + 1].samples, [0.5, 99.5]
                 )
             ]
         )

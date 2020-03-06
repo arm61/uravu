@@ -93,7 +93,10 @@ class Distribution:
         alpha = 0.05
         if self.size <= 8:
             return False
-        p_value = normaltest(self.samples)[1]
+        test_samples = self.samples
+        if self.size > 500:
+            test_samples = np.random.choice(self.samples, size=500)
+        p_value = normaltest(test_samples)[1]
         if p_value > alpha:
             self.normal = True
         else:
