@@ -79,7 +79,7 @@ STRING_F = (
     "-2.49e-01 ] \nOrdinate uncertainty: [ 1.00e-01 1.00e-01 ... 1.00e-01 "
     "1.00e-01 ]\nAbscissa Name: x \nOrdinate Name: y \nAbscissa Unit: "
     "dimensionless \nOrdinate Unit: dimensionless \nVariables: [ "
-    "1.40e-01+1.00e+00-5.61e-01 6.56e-01+1.92e+00-1.99e+00 ] \nUnaccounted "
+    "-1.16e-02+5.46e+00-2.46e+00 4.43e-01+6.47e+00-6.59e+00 ] \nUnaccounted "
     "uncertainty: False \nMCMC performed: True \nNested sampling performed: "
     "False \n"
 )
@@ -90,8 +90,9 @@ STRING_G = (
     "-2.49e-01 ] \nOrdinate uncertainty: [ 1.00e-01 1.00e-01 ... 1.00e-01 "
     "1.00e-01 ]\nAbscissa Name: x \nOrdinate Name: y \nAbscissa Unit: "
     "dimensionless \nOrdinate Unit: dimensionless \nVariables: [ "
-    "1.81e-03+/-2.04e+00 3.35e-02+/-2.03e+00 ] \nUnaccounted uncertainty: "
-    "False \nMCMC performed: True \nNested sampling performed: False \n"
+    "3.95e-03+1.92e+00-1.84e+00 2.93e-03+/-1.94e+00 ] \nUnaccounted "
+    "uncertainty: False \nMCMC performed: True \nNested sampling performed: "
+    "False \n"
 )
 
 CITATION_A = (
