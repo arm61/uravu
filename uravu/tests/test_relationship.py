@@ -525,16 +525,6 @@ class TestRelationship(unittest.TestCase):
         test_rel = Relationship(utils.straight_line, test_x, test_y, test_y_e)
         assert_almost_equal(test_rel.x_n, test_x)
 
-    def test_x_s_a(self):
-        """
-        Test the x_n property with no uncertainty.
-        """
-        test_x = np.linspace(0, 99, 100)
-        test_y = np.linspace(1, 199, 100)
-        test_y_e = test_y * 0.1
-        test_rel = Relationship(utils.straight_line, test_x, test_y, test_y_e)
-        assert_equal(test_rel.x_s, None)
-
     def test_y_n(self):
         """
         Test the y_n property.
