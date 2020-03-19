@@ -37,8 +37,7 @@ class Relationship:
         function (callable): The function that is modelled.
         abscissa (array_like with pint.UnitRegistry()): The abscissa data
             that the modelling should be performed from. This includes some
-            unit from the `pint`_ package and possibly some uncertainty from
-            the `uncertainties`_ package.
+            unit from the `pint`_ package.
         abscissa_name (str): A name for the abscissa data, used in the
             production of plots.
         ordinate (array_like with pint.UnitRegistry()): The ordinate
@@ -64,9 +63,6 @@ class Relationship:
             Default to no uncertainties on the ordiante. If there is no
             ordinate uncertainty, an unaccounted uncertainty is automatically
             added. 
-        abscissa_uncertainty (array_like, optional): The uncertainty in each
-            of the absiccsa data points. This should have a shape `(N, d)`.
-            Default is no uncertainties on absicca.
         abscissa_unit (pint.UnitRegistry(), optional): The unit for the
             abscissa. If `abscissa` is multi-dimensional, this should be a
             list with the units for each dimension. Default is dimensionless.
@@ -95,7 +91,6 @@ class Relationship:
         abscissa,
         ordinate,
         ordinate_uncertainty=None,
-        abscissa_uncertainty=None,
         abscissa_unit=UREG.dimensionless,
         ordinate_unit=UREG.dimensionless,
         abscissa_name="x",
@@ -123,17 +118,7 @@ class Relationship:
                 self.ordinate = unp.uarray(ordinate, ordinate_uncertainty) 
         self.ordinate *= ordinate_unit
 
-        if abscissa_uncertainty is None:
-            self.abscissa = abscissa
-        else:
-            if abscissa_uncertainty.shape != abscissa.shape:
-                raise ValueError(
-                        "The number of data points in the abscissa does not "
-                        "match that in the abscissa uncertainty."
-                    )
-            else:
-                abscissa_uncertainty = np.array(abscissa_uncertainty)
-                self.abscissa = unp.uarray(abscissa, abscissa_uncertainty)
+        self.abscissa = abscissa
         self.abscissa *= abscissa_unit
 
         if abscissa.shape[0] != ordinate.shape[0]:
@@ -184,13 +169,6 @@ class Relationship:
             for i in self.x_n:
                 string += "{:.2e} ".format(i)
             string += "] \n"
-            if isinstance(
-                self.abscissa.m.any(), uncertainties.core.AffineScalarFunc
-            ):
-                string += "Abscissa uncertainty: [ "
-                for i in self.x_s:
-                    string += "{:.2e} ".format(i)
-                string += "] \n"
             string += "Ordinate: [ "
             for i in self.y_n:
                 string += "{:.2e} ".format(i)
@@ -209,15 +187,6 @@ class Relationship:
                     *self.x_n[:2], *self.x_n[-2:]
                 )
             )
-            if isinstance(
-                self.abscissa.m.any(), uncertainties.core.AffineScalarFunc
-            ):
-                string += (
-                    "Abscissa uncertainty: "
-                    "[ {:.2e} {:.2e} ... {:.2e} {:.2e} ] \n".format(
-                        *self.x_s[:2], *self.x_s[-2:]
-                    )
-                )
             string += (
                 "Ordinate: "
                 "[ {:.2e} {:.2e} ... {:.2e} {:.2e} ] \n".format(
@@ -340,21 +309,6 @@ class Relationship:
             (array_like): Abscissa nominal values.
         """
         return unp.nominal_values(self.abscissa.m)
-
-    @property
-    def x_s(self):
-        """
-        Abscissa uncertainties.
-
-        Returns:
-            (array_like or None): Abscissa uncertainties.
-        """
-        if isinstance(
-            self.abscissa.m.any(), uncertainties.core.AffineScalarFunc
-        ):
-            return unp.std_devs(self.abscissa.m)
-        else:
-            return None
 
     @property
     def y_n(self):
