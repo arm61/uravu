@@ -90,7 +90,7 @@ STRING_G = (
     "-2.49e-01 ] \nOrdinate uncertainty: [ 1.00e-01 1.00e-01 ... 1.00e-01 "
     "1.00e-01 ]\nAbscissa Name: x \nOrdinate Name: y \nAbscissa Unit: "
     "dimensionless \nOrdinate Unit: dimensionless \nVariables: [ "
-    "3.95e-03+1.92e+00-1.84e+00 2.93e-03+/-1.94e+00 ] \nUnaccounted "
+    "7.01e-02+/-2.10e+00 2.31e-02+/-1.84e+00 ] \nUnaccounted "
     "uncertainty: False \nMCMC performed: True \nNested sampling performed: "
     "False \n"
 )
