@@ -60,7 +60,6 @@ class Distribution:
             self.ci_points = ci_points
         self.normal = False
         self.add_samples(np.array(samples))
-        self.check_normality()
 
     @property
     def mean(self):
