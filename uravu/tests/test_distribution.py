@@ -23,7 +23,7 @@ EXPECTED_STRING1 = (
     "Median: -5.70e-01\n"
     "Confidence intervals: [-1.04e+00 1.46e+00]\n"
     "Confidence interval points: [2.5 97.5]\n"
-    "Reporting Value: -5.70e-01+1.46e+00--1.04e+00\n"
+    "Reporting Value: -5.70e-01+2.03e+00-4.68e-01\n"
     "Unit: dimensionless\n"
     "Normal: False\n"
 )

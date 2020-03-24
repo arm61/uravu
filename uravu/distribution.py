@@ -182,7 +182,7 @@ class Distribution:
                 representation += "{}\n".format(ufloat(self.n, self.s))
             else:
                 representation += "{:.2e}+{:.2e}-{:.2e}\n".format(
-                    self.n, self.con_int[1], self.con_int[0]
+                    self.n, self.con_int[1]-self.n, self.n-self.con_int[0]
                 )
         representation += "Unit: {}\n".format(self.unit)
         representation += "Normal: {}\n".format(self.normal)
