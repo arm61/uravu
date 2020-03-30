@@ -53,11 +53,11 @@ def mcmc(
         prior_function = relationship.prior
 
     initial_prior = np.zeros((walkers, len(relationship.variable_medians)))
-    for i, p in enumerate(prior_function()):
+    called_prior = prior_function()
+    for i, p in enumerate(called_prior):
         initial_prior[:, i] = p.rvs(walkers)
 
     ndims = initial_prior.shape[1]
-    called_prior = prior_function()
 
     sampler = emcee.EnsembleSampler(
         walkers,
@@ -118,6 +118,8 @@ def ln_probability(
     log_prior = 0
     for i, var in enumerate(variables):
         log_prior += priors[i].logpdf(var)
+    if np.isneginf(log_prior):
+        return -np.inf
     return log_prior + optimize.ln_likelihood(
         variables, function, abscissa, ordinate, unaccounted_uncertainty
     )
