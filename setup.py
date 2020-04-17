@@ -15,7 +15,7 @@ PACKAGES = find_packages()
 # versioning
 MAJOR = 0
 MINOR = 0
-MICRO = 3
+MICRO = 4
 ISRELEASED = True
 VERSION = '%d.%d.%d' % (MAJOR, MINOR, MICRO)
 
@@ -39,7 +39,7 @@ INFO = {
         'license': 'MIT',
         'long_description': LONG_DESCRIPTION,
         'long_description_content_type': 'text/markdown',
-        'classifiers': ['Development Status :: 2 - Pre-Alpha',
+        'classifiers': ['Development Status :: 4 - Beta',
                         'Intended Audience :: Science/Research',
                         'License :: OSI Approved :: MIT License',
                         'Natural Language :: English',
