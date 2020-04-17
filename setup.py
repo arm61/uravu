@@ -15,7 +15,7 @@ PACKAGES = find_packages()
 # versioning
 MAJOR = 0
 MINOR = 0
-MICRO = 2
+MICRO = 3
 ISRELEASED = True
 VERSION = '%d.%d.%d' % (MAJOR, MINOR, MICRO)
 
@@ -31,12 +31,10 @@ INFO = {
         'author_email': 'andrew.mccluskey@diamond.ac.uk',
         'packages': PACKAGES,
         'include_package_data': True,
-        'setup_requires': ['cython', 'numpy', 'matplotlib', 'scikit-learn',
-                           'scipy', 'emcee', 'tqdm', 'pint', 'uncertainties',
-                           'dynesty'],
-        'install_requires': ['cython', 'numpy', 'matplotlib', 'scikit-learn',
-                             'scipy', 'emcee', 'tqdm', 'pint',
-                             'uncertainties', 'dynesty'],
+        'setup_requires': ['cython', 'numpy', 'scipy', 'emcee', 'tqdm', 
+                           'pint', 'uncertainties', 'dynesty'],
+        'install_requires': ['cython', 'numpy', 'scipy', 'emcee', 'tqdm', 
+                             'pint', 'uncertainties', 'dynesty'],
         'version': VERSION,
         'license': 'MIT',
         'long_description': LONG_DESCRIPTION,

@@ -13,11 +13,15 @@ The colorscheme in this work was chosen to be colorblind friendly.
 
 import numpy as np
 import uncertainties
-import matplotlib.pyplot as plt
-from corner import corner
 from scipy.stats import gaussian_kde
 from uravu import UREG, _fig_params
 from uravu.distribution import Distribution
+try:
+    import matplotlib.pyplot as plt
+    from corner import corner
+except ModuleNotFoundError:
+    print("The matplotlib and corner packages are necessary for the use of "
+          "the plotting module, please install these.")
 
 
 def plot_relationship(
