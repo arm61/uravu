@@ -164,8 +164,9 @@ def plot_corner(relationship, figsize=(8, 8)):  # pragma: no cover
             figure (in inches). Default is `(10, 6)`.
 
     Returns:
-        (matplotlib.figure): The figure with new plots.
-        (matplotlib.axes): The axes with new plots.
+        (tuple): Tuple consisting of:
+            - (matplotlib.figure): The figure with new plots.
+            - (matplotlib.axes): The axes with new plots.
     """
     n = len(relationship.variables)
     if not all(
