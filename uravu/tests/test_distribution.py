@@ -109,23 +109,6 @@ class TestDistribution(unittest.TestCase):
         distro = Distribution(np.random.randn(2))
         assert_equal(distro.normal, False)
 
-    def test_mean_a(self):
-        """
-        Test the mean parameter
-        """
-        np.random.seed(1)
-        distro = Distribution(np.random.randn(2000))
-        assert_almost_equal(distro.mean.n, 0.034504725958795925)
-        assert_almost_equal(distro.mean.s, 1.0058360180170436)
-
-    def test_mean_b(self):
-        """
-        Test the mean parameter when not normal
-        """
-        np.random.seed(1)
-        distro = Distribution(np.random.random(2000))
-        assert_equal(distro.mean, None)
-
     def test_add_samples_single(self):
         """
         Test add_samples with a single value.
