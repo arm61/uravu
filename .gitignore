@@ -9,3 +9,5 @@ uravu.egg-info
 **/Untitled.ipynb
 coverage_html_report
 paper
+.eggs
+.vscode

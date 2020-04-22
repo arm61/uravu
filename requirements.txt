@@ -3,12 +3,5 @@ scipy
 matplotlib
 emcee
 dynesty
-tqdm
 pint
-corner
 uncertainties
-nbsphinx
-jupyter-sphinx
-sphinx_rtd_theme
-coverage
-coveralls

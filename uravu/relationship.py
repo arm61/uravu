@@ -343,13 +343,13 @@ class Relationship:
         Returns:
             (array_like): The variable medians.
         """
-        means = np.zeros((len(self.variables)))
+        medians = np.zeros((len(self.variables)))
         for i, var in enumerate(self.variables):
             if isinstance(var, Distribution):
-                means[i] = var.n
+                medians[i] = var.n
             if isinstance(var, float):
-                means[i] = var
-        return means
+                medians[i] = var
+        return medians
 
     @property
     def mcmc_done(self):

@@ -20,13 +20,22 @@ class Distribution:
     analysis of the distribution is possible.
 
     Attributes:
-        name (str): A name for the distribution.
-        unit (pint.UnitRegistry(), optional): The unit of the values in the
-            Distribution.
         samples (array_like): Samples in the distribution.
+        name (str): A name for the distribution.
+        ci_points (array_like): The percentiles at which
+            confidence intervals should be found.
+        unit (pint.UnitRegistry()): The unit of the values in the
+            Distribution.
+
+    Args:
+        samples (array_like): Sample for the distribution.
+        name (str, optional): A name to identify the distribution.
+            Default is `Distribution`.
         ci_points (array_like, optional): The percentiles at which
             confidence intervals should be found. Default is
             `[2.5, 97.5]` (a 95 % confidence interval).
+        unit (pint.UnitRegistry(), optional) The unit for the
+            distribution. Default is dimensionless.
     """
 
     def __init__(
@@ -37,15 +46,7 @@ class Distribution:
         unit=UREG.dimensionless,
     ):
         """
-        Args:
-            samples (array_like): Sample for the distribution.
-            name (str, optional): A name to identify the distribution.
-                Default is `Distribution`.
-            ci_points (array_like, optional): The percentiles at which
-                confidence intervals should be found. Default is
-                `[2.5, 97.5]` (a 95 % confidence interval).
-            unit (pint.UnitRegistry(), optional) The unit for the
-                distribution. Default is dimensionless.
+        Initialisation function for a ``Distribution`` object.
         """
         self.name = name
         self.unit = unit
@@ -60,19 +61,6 @@ class Distribution:
             self.ci_points = ci_points
         self.normal = False
         self.add_samples(np.array(samples))
-
-    @property
-    def mean(self):
-        """
-        Get the mean value and uncertainty. Will return ``None`` if
-        distribution is not normal.
-
-        Returns:
-            (uncertainties.core.Variable or None): Mean value with uncertainty.
-        """
-        if self.normal:
-            return ufloat(self.n, self.s)
-        return None
 
     @property
     def size(self):
