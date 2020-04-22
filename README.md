@@ -46,4 +46,4 @@ pytest
 
 ## Contributors 
 
-- [Andrew R. McCluskey](armccluskey.com)
+- [Andrew R. McCluskey](https://armccluskey.com)
