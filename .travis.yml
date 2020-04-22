@@ -7,7 +7,7 @@ python:
   - '3.8'
   - 3.8-dev
 install:
-  - pip install -r requirements.txt
+  - pip install -r docs/requirements.txt
 script:
   - coverage run --source=uravu setup.py test
 after_success:
