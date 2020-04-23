@@ -1,12 +1,8 @@
 """
-The ``Relationship`` class is a foundational component of the ``uravu``
-package, and acts as an API for use of the package.
-This class enables the storage of the relationship between the model and
-the data.
+The :py:class:`~uravu.relationship.Relationship` class is a foundational component of the :py:mod:`uravu` package, and acts as the main API for use of the package.
+This class enables the storage of the relationship between the model and the data.
 
-Objects of this class offer easy methods to perform maximum likelihood
-evaluation, Markiv chain Monte Carlo (MCMC) for posterior probabiltiy
-determination and Bayesian evidence estimation by nested sampling.
+Objects of this class offer easy methods to perform maximum likelihood evaluation, Markiv chain Monte Carlo (MCMC) for posterior probabiltiy determination and Bayesian evidence estimation by nested sampling.
 
 See the `tutorials online`_ for more guidence of how to use this package.
 
@@ -29,60 +25,32 @@ from uravu.distribution import Distribution
 
 class Relationship:
     """
-    The ``Relationship`` class is the base of the ``uravu`` package, enabling
-    the use of Bayesian inference for the assessment of a model's ability to
-    describe some data.
+    The :py:class:`~uravu.relationship.Relationship` class is the base of the :py:mod:`uravu` package, enabling the use of Bayesian inference for the assessment of a model's ability to describe some data.
 
     Attributes:
-        function (callable): The function that is modelled.
-        abscissa (array_like with pint.UnitRegistry()): The abscissa data
-            that the modelling should be performed from. This includes some
-            unit from the `pint`_ package.
-        abscissa_name (str): A name for the abscissa data, used in the
-            production of plots.
-        ordinate (array_like with pint.UnitRegistry()): The ordinate
-            data against with the model should be compared. This may include
-            uncertainty values and some unit.
-        ordinate_name (str): A name for the ordinate data, used in the
-            production of plots.
-        unaccounted_uncertainty (bool): This boolean describes if an
-            unaccounted for uncertainty should be considered in the modelling
-            process.
-        ln_evidence (uncertainties.core.Variable): The natural-log of the
-            Bayesian evidence for the model to the given data.
+        function (:py:attr:`callable`): The function that is modelled.
+        abscissa (:py:attr:`array_like` with :py:class:`~pint.unit.Unit`): The abscissa data that the modelling should be performed from. This includes some unit from :py:class:`~pint.unit.Unit`.
+        abscissa_name (:py:attr:`str`): A name for the abscissa data, used in the production of plots.
+        ordinate (:py:attr:`array_like` with :py:class:`~pint.unit.Unit`): The ordinate data against with the model should be compared. This may include uncertainty values and some unit.
+        ordinate_name (:py:attr:`str`): A name for the ordinate data, used in the production of plots.
+        variables (:py:attr:`list` of :py:attr:`float` or :py:class:`~uravu.distribution.Distribution`): Variables in the :py:attr:`~uravu.relationship.Relationship.function`.
+        unaccounted_uncertainty (:py:attr:`bool`): This boolean describes if an unaccounted for uncertainty should be considered in the modelling process.
+        ln_evidence (:py:class:`uncertainties.core.Variable`): The natural-log of the Bayesian evidence for the model to the given data.
+        mcmc_results (:py:attr:`dict`): The results from :func:`emcee.EnsembleSampler.run_mcmc()` sampling.
+        nested_sampling_results (:py:attr:`dict`): The results from :func:`ddynesty.NestedSampler.run_nested()` nested sampling.
 
     Args:
-        function (callable): The functional relationship to be modelled.
-        abscissa (array_like): The abscissa data. If multi-dimensional, the
-            array is expected to have the shape `(N, d)`, where `N` is the
-            number of data points and `d` is the dimensionality.
-        ordinate (array_like): The ordinate data. This should have a
-            shape `(N,)`.
-        ordinate_uncertainty (array_like, optional): The uncertainty in each
-            of the ordinate data points. This should have a shape `(N,)`.
-            Default to no uncertainties on the ordiante. If there is no
-            ordinate uncertainty, an unaccounted uncertainty is automatically
-            added. 
-        abscissa_unit (pint.UnitRegistry(), optional): The unit for the
-            abscissa. If `abscissa` is multi-dimensional, this should be a
-            list with the units for each dimension. Default is dimensionless.
-        ordinate_unit (pint.UnitRegistry(), optional): The unit for the
-            ordinate. Default is dimensionless.
-        abscissa_name (str, optional): A name for the abscissa. Default
-            is `'x'`.
-        ordinate_name (str, optional): A name for the ordinate. Default
-            is `'y'`.
-        variable_names (list of str, optional): Names for each of the
-            variables. Default is the variable name in the ``function``
-            definition.
-        variable_units (pint.UnitRegistry(), optional): The units for the
-            variables. Default is dimensionless.
-        unaccounted_uncertainty (bool, optional): Describes if an additional
-            variable be included to account for an unknown uncertainty in the
-            data.
-
-    .. _pint: https://pint.readthedocs.io/
-    .. _uncertainties: https://uncertainties-python-package.readthedocs.io/
+        function (:py:attr:`callable`): The functional relationship to be modelled.
+        abscissa (:py:attr:`array_like`): The abscissa data. If multi-dimensional, the array is expected to have the shape :py:attr:`(N, d)`, where :py:attr:`N` is the number of data points and :py:attr:`d` is the dimensionality.
+        ordinate (:py:attr:`array_like`): The ordinate data. This should have a shape :py:attr:`(N,)`.
+        ordinate_uncertainty (:py:attr:`array_like`, optional): The uncertainty in each of the ordinate data points. This should have a shape :py:attr:`(N,)`. Default to no uncertainties on the ordiante. If there is no ordinate uncertainty, an unaccounted uncertainty is automatically added.
+        abscissa_unit (:py:class:`~pint.unit.Unit`, optional): The unit for the :py:attr:`abscissa`. If :py:attr:`abscissa` is multi-dimensional, this should be a list with the units for each dimension. Default is :py:attr:`~pint.unit.Unit.dimensionless`.
+        ordinate_unit (:py:class:`~pint.unit.Unit`, optional): The unit for the :py:attr:`ordinate`. Default is :py:attr:`~pint.unit.Unit.dimensionless`.
+        abscissa_name (:py:attr:`str`, optional): A name for the :py:attr:`abscissa`. Default is :py:attr:`'x'`.
+        ordinate_name (:py:attr:`str`, optional): A name for the :py:attr:`ordinate`. Default is :py:attr:`'y'`.
+        variable_names (:py:attr:`list` of :py:attr:`str`, optional): Names for each of the variables. Default is the variable name in the :py:attr:`function` definition.
+        variable_units (:py:class:`~pint.unit.Unit`, optional): The units for the variables. Default is :py:attr:`~pint.unit.Unit.dimensionless`.
+        unaccounted_uncertainty (:py:attr:`bool`, optional): Describes if an additional variable be included to account for an unknown uncertainty in the data.
     """
 
     def __init__(
@@ -155,13 +123,15 @@ class Relationship:
                 )
             self.variable_units = variable_units
         self.ln_evidence = None
+        self.mcmc_results = None
+        self.nested_sampling_results = None
 
     def __str__(self):
         """
         A custom string function.
 
         Returns:
-            (str): Custom string description.
+            :py:attr:`str`: Custom string description.
         """
         string = "Function Name: {} \n".format(self.function.__name__)
         if self.abscissa.shape[0] < 4:
@@ -236,7 +206,7 @@ class Relationship:
         A custom representation.
 
         Returns:
-            (str): Custom string description.
+            :py:attr:`str`: Custom string description.
         """
         return self.__str__()
 
@@ -246,7 +216,7 @@ class Relationship:
         Abscissa values with unit and uncertainty (where present).
 
         Returns:
-            (array_like): Abscissa values.
+            :py:attr:`array_like`: Abscissa values.
         """
         return self.abscissa
 
@@ -256,7 +226,7 @@ class Relationship:
         Ordinate values with unit and uncertainty.
 
         Returns:
-            (array_like): Ordinate values.
+            :py:attr:`array_like`: Ordinate values.
         """
         return self.ordinate
 
@@ -266,7 +236,7 @@ class Relationship:
         Abscissa values without units.
 
         Returns:
-            (array_like): Abscissa values without units.
+            :py:attr:`array_like`: Abscissa values without units.
         """
         return self.abscissa.m
 
@@ -276,7 +246,7 @@ class Relationship:
         Ordinate values without units.
 
         Returns:
-            (array_like): Ordinate values without units.
+            :py:attr:`array_like`: Ordinate values without units.
         """
         return self.ordinate.m
 
@@ -286,7 +256,7 @@ class Relationship:
         Abscissa unit.
 
         Returns:
-            (pint.UnitRegistry()): Abscissa values.
+            :py:class:`~pint.unit.Unit`: Abscissa values.
         """
         return self.abscissa.u
 
@@ -296,7 +266,7 @@ class Relationship:
         Ordinate unit.
 
         Returns:
-            (pint.UnitRegistry()): Ordinate unit.
+            :py:class:`~pint.unit.Unit`: Ordinate unit.
         """
         return self.ordinate.u
 
@@ -306,7 +276,7 @@ class Relationship:
         Abscissa nominal values.
 
         Returns:
-            (array_like): Abscissa nominal values.
+            :py:attr:`array_like`: Abscissa nominal values.
         """
         return unp.nominal_values(self.abscissa.m)
 
@@ -316,7 +286,7 @@ class Relationship:
         Ordinate nominal values.
 
         Returns:
-            (array_like): Ordinate nominal values.
+            :py:attr:`array_like`: Ordinate nominal values.
         """
         return unp.nominal_values(self.ordinate.m)
 
@@ -326,7 +296,7 @@ class Relationship:
         Ordinate uncertainties.
 
         Returns:
-            (array_like): Ordinate uncertainties.
+            :py:attr:`array_like`: Ordinate uncertainties.
         """
         if isinstance(
             self.ordinate.m.any(), uncertainties.core.AffineScalarFunc
@@ -341,7 +311,7 @@ class Relationship:
         The median values for each of the variables.
 
         Returns:
-            (array_like): The variable medians.
+            :py:attr:`array_like`: Variable medians.
         """
         medians = np.zeros((len(self.variables)))
         for i, var in enumerate(self.variables):
@@ -354,10 +324,10 @@ class Relationship:
     @property
     def mcmc_done(self):
         """
-        Has MCMC been performed, determined based on the type of the variables.
+        Has MCMC been performed? Determined based on the type of the variables.
 
         Returns:
-            (bool): Has MCMC been performed.
+            :py:attr:`bool`: Has MCMC been performed?
         """
         for var in self.variables:
             if isinstance(var, Distribution):
@@ -367,11 +337,10 @@ class Relationship:
     @property
     def nested_sampling_done(self):
         """
-        Has nested sampling been performed, determined based on if the
-        ln_evidence has a value.
+        Has nested sampling been performed? Determined based on if the ln_evidence has a value.
 
         Returns:
-            (bool): Has nested sampling been performed.
+            :py:attr:`bool`: Has nested sampling been performed?
         """
         if self.ln_evidence is not None:
             return True
@@ -380,10 +349,10 @@ class Relationship:
     @property
     def citations(self):
         """
-        Return the relevant citations.
+        Return the relevant references based on the analysis performed.
 
         Returns:
-            (str): The citations relevant to the analysis performed.
+            :py:attr:`str`: Relevant references.
         """
         string = "Please consider citing the following:\n"
         string += " - Publication of uravu (to come).\n"
@@ -451,7 +420,7 @@ class Relationship:
         Determine the number of variables in the assessment function.
 
         Returns:
-            (int): number of variables.
+            :py:attr`int`: Number of variables.
         """
         # The minus one is to remove the abscissa data which is a
         # argument in the assessment function
@@ -461,10 +430,12 @@ class Relationship:
 
     def bayesian_information_criteria(self):
         """
-        Calculate the Bayesian information criteria for the relationship.
+        Calculate the `Bayesian information criteria`_ for the relationship.
 
         Returns:
-            (float): Bayesian information criteria.
+            :py:attr:`float`: Bayesian information criteria.
+
+        .. _Bayesian information criteria: https://en.wikipedia.org/wiki/Bayesian_information_criterion
         """
         self.max_likelihood()
         return np.log(
@@ -479,24 +450,19 @@ class Relationship:
 
     def max_likelihood(self, x0=None, **kwargs):
         """
-        Determine values for the variables which maximise the likelihood
-        for the relationship. For keyword arguments see the
-        `scipy.optimize.minimize()`_ documentation.
-
-        .. _scipy.optimize.minimize(): https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html
+        Determine values for the variables which maximise the likelihood for the :py:class:`~uravu.relationship.Relationship`. For keyword arguments see the :func:`scipy.optimize.minimize()` documentation.
+        
+        Args:
+            x0 (:py:attr:`array_like`): Initial guess values for the parameters.
         """
         self.variables = optimize.max_ln_likelihood(self, x0, **kwargs)
 
     def prior(self):
         """
-        *Standard priors* for the relationship. These priors are broad,
-        uninformative, for normal variables running the range
-        [x - x * 10, x + x * 10) (where x is the variable). For an unaccounted
-        uncertainty natural log factor the range is [-10, 1).
+        *Standard priors* for the relationship. These priors are broad, uninformative, for normal variables running the range :py:attr:`[x - x * 10, x + x * 10)` (where :py:attr:`x` is the variable value). For an unaccounted uncertainty natural log factor the range is :py:attr:`[-10, 1)`.
 
         Returns:
-            (list of scipy.stats.rv_continuous): scipy.stats functions
-                describing the priors.
+            :py:attr:`list` of :py:class:`scipy.stats.rv_continuous`: :py:mod:`scipy.stats` functions describing the priors.
         """
         priors = []
         for var in self.variable_medians:
@@ -517,22 +483,14 @@ class Relationship:
         seed=None
     ):
         """
-        Perform MCMC to get the posterior probability distributions for
-        the variables of the relationship. Note running this method will
-        populate the `relationship.variables` attribute with
-        `uravu.distribution.Distribution` objects.
+        Perform MCMC to get the posterior probability distributions for the variables of the relationship. *Note*, running this method will populate the :py:attr:`~uravu.relationship.Relationship.variables` attribute with :py:class:`~uravu.distribution.Distribution` objects.
 
         Args:
-            prior_function (callable, optional): the function to populated
-                some prior distributions. Default is the broad uniform
-                priors in uravu.relationship.Relationship.
-            walkers (int, optional): Number of MCMC walkers. Default is `100`.
-            n_samples (int, optional): Number of sample points. Default
-                is `500`.
-            n_burn (int, optional): Number of burn in samples. Default
-                is `500`.
-            progress (bool, optional): Show tqdm progress for sampling.
-                Default is `True`.
+            prior_function (:py:attr:`callable`, optional): The function to populated some prior distributions. Default is the broad uniform priors in :func:`~uravu.relationship.Relationship.prior()`.
+            walkers (:py:attr:`int`, optional): Number of MCMC walkers. Default is :py:attr:`100`.
+            n_samples (:py:attr:`int`, optional): Number of sample points. Default is :py:attr:500`.
+            n_burn (:py:attr:`int`, optional): Number of burn in samples. Default is :py:attr:`500`.
+            progress (:py:attr:`bool`, optional): Show :py:mod:`tqdm` progress for sampling. Default is :py:attr:`True`.
         """
         self.mcmc_results = sampling.mcmc(
             self,
@@ -546,18 +504,11 @@ class Relationship:
 
     def nested_sampling(self, prior_function=None, progress=True, **kwargs):
         """
-        Perform nested sampling to determine the Bayesian
-        natural-log evidence. For keyword arguments see the
-        `dynesty.run_nested()`_ documentation.
+        Perform nested sampling to determine the Bayesian natural-log evidence. For keyword arguments see the :func:`dynesty.NestedSampler.run_nested()` documentation.
 
         Args:
-            prior_function (callable, optional): the function to populated some
-                prior distributions. Default is the broad uniform priors in
-                uravu.relationship.Relationship.
-            progress (bool, optional): Show tqdm progress for sampling.
-                Default is `True`.
-
-        .. _dynesty.run_nested(): https://dynesty.readthedocs.io/en/latest/api.html#dynesty.sampler.Sampler.run_nested
+            prior_function (:py:attr:`callable`, optional): The function to populate some prior distributions. Default is the broad uniform priors in :func:`~uravu.relationship.Relationship.prior()`.
+            progress (:py:attr:`bool`, optional): Show :py:mod:`tqdm` progress for sampling. Default is :py:attr:`True`.
         """
         self.nested_sampling_results = sampling.nested_sampling(
             self, prior_function=prior_function, progress=progress, **kwargs

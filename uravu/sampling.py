@@ -1,10 +1,5 @@
 """
-The :mod:`sampling` module implements the use of a generalised
-MCMC (using `emcee`_) and nested sampling (using `dynesty`_) for the
-:class:`Relationship` objects.
-
-.. _emcee: https://emcee.readthedocs.io/
-.. _dynesty: https://dynesty.readthedocs.io/
+The :mod:`sampling` module implements the use of a generalised MCMC (using :py:mod:`emcee`) and nested sampling (using :py:mod:`dynesty`) for the :py:class:`~uravu.relationship.Relationship` objects.
 """
 
 # Copyright (c) Andrew R. McCluskey
@@ -27,27 +22,18 @@ def mcmc(
     progress=True,
 ):
     """
-    Perform MCMC to get the probability distributions for the variables
-    of the relationship.
+    Perform MCMC to get the probability distributions for the variables of the relationship.
 
     Args:
-        relationship (uravu.relationship.Relationship): The relationship to
-            determine the posteriors of.
-        prior_function (callable, optional): The function to populated some
-            prior distributions. Default is
-            uravu.relationship.Relationship.prior.
-        walkers (int, optional): Number of MCMC walkers. Default is `100`.
-        n_samples (int, optional): Number of sample points. Default is
-            `500`.
-        n_burn (int, optional): Number of burn in samples. Default is
-            `500`.
-        progress (bool, optional): Show tqdm progress for sampling.
-            Default is `True`.
+        relationship (:py:class:`uravu.relationship.Relationship`): The relationship to determine the posteriors of.
+        prior_function (:py:attr:`callable`, optional): The function to populated some prior distributions. Default is :func:`uravu.relationship.Relationship.prior()`.
+        walkers (:py:attr:`int`, optional): Number of MCMC walkers. Default is :py:attr:`100`.
+        n_samples (:py:attr:`int`, optional): Number of sample points. Default is :py:attr:`500`.
+        n_burn (:py:attr:`int`, optional): Number of burn in samples. Default is :py:attr:`500`.
+        progress (:py:attr:`bool`, optional): Show tqdm progress for sampling. Default is :py:attr:`True`.
 
     Returns:
-        (dict): a dictionary with the Distrbutions as a list
-            ('distributions'), the chain ('chain') and the samples as an
-            ``array_like`` ('samples').
+        :py:attr:`dict`: Dictionary with the distributions as a list (:py:attr:`'distributions'`), the chain (:py:attr:`'chain'`) and the samples as an :py:attr:`array_like` (:py:attr:`'samples'`).
     """
     if prior_function is None:
         prior_function = relationship.prior
@@ -101,19 +87,15 @@ def ln_probability(
     summing the prior and likelihood.
 
     Args:
-        variables (array_like): Variables for the function evaluation.
-        function (callable): The function to be evaluated.
-        abscissa (array_like): The abscissa values.
-        ordinate (array_like): The ordinate values.
-        unaccounted_uncertainty (bool): Should an unaccounted
-            uncertainty parameter be considered.
-        prior_function (callable, optional): The function to populated some
-            prior distributions. Default is
-            uravu.relationship.Relationship.prior.
+        variables (:py:attr:`array_like`): Variables for the function evaluation.
+        function (:py:attr:`callable`): The function to be evaluated.
+        abscissa (:py:attr:`array_like`): The abscissa values.
+        ordinate (:py:attr:`array_like`): The ordinate values.
+        unaccounted_uncertainty (:py:attr:`bool`): Should an unaccounted uncertainty parameter be considered.
+        prior_function (:py:attr:`callable`, optional): The function to populated some prior distributions. Default is :func:`~uravu.relationship.Relationship.prior()`.
 
     Returns:
-        (float): Negative ln-probability between model and data, considering
-            priors.
+        :py:attr:`float`: Negative natural log-probability between model and data, considering priors.
     """
     log_prior = 0
     for i, var in enumerate(variables):
@@ -129,23 +111,16 @@ def nested_sampling(
     relationship, prior_function=None, progress=True, **kwargs
 ):
     """
-    Perform the nested sampling in order to determine the Bayesian natural log
-    evidence.
+    Perform the nested sampling in order to determine the Bayesian natural log evidence. See the :py:func:`dynesty.NestedSampler.run_nested()` documentation.
 
     Args:
-        relationship (uravu.relationship.Relationship): The relationship to
-            estimate the evidence for.
-        prior_function (callable, optional): the function to populated some
-            prior distributions. Default is the broad uniform priors in
-            uravu.relationship.Relationship.
-        progress (bool, optional): Show tqdm progress for sampling.
-            Default is `True`.
-
-    Keyword Args:
-        See the `dynesty.run_nested()` documentation.
+        relationship (:py:class:`~uravu.relationship.Relationship`): The relationship to estimate the evidence for.
+        prior_function (:py:attr:`callable`, optional): The function to populated some prior distributions. Default is the broad uniform priors in
+            :func:`~uravu.relationship.Relationship.prior()`.
+        progress (:py:attr:`bool`, optional): Show :py:mod:`tqdm` progress for sampling. Default is :py:attr:`True`.
 
     Returns:
-        (dict): The results from the dynesty run.
+        :py:attr:`dict`: The results from :py:func:`dynesty.NestedSampler.run_nested()`.
     """
     if prior_function is None:
         prior_function = relationship.prior
@@ -170,19 +145,14 @@ def nested_sampling(
 
 def nested_prior(array, priors):
     """
-    Convert to dynesty prior style from at used within ``uravu``.
+    Convert to dynesty prior style from at used within :py:mod:`uravu`.
 
     Args:
-        array (array_like): An array of random uniform numbers (0, 1].
-            The shape of which is M x N, where M is the number of
-            parameters and N is the number of walkers.
-        prior_function (callable, optional): The function to populated some
-            prior distributions. Default is
-            uravu.relationship.Relationship.prior.
+        array (:py:attr:`array_like`): An array of random uniform numbers (0, 1]. The shape of which is M x N, where M is the number of parameters and N is the number of walkers.
+        prior_function (:py:attr:`callable`, optional): The function to populated some prior distributions. Default is :func:`uravu.relationship.Relationship.prior()`.
 
     Returns:
-        (array_like): an array of random uniform numbers distributed in
-            agreement with the priors.
+        :py:attr:`array_like`: An array of random uniform numbers distributed in agreement with the priors.
     """
     broad = np.copy(array)
     for i, prior in enumerate(priors):

@@ -1,7 +1,6 @@
 """
-The optimize module includes the functionality necessary for maximum
-likelihood determination. Further, the natural log likelihood function used
-in the ``mcmc`` and ``nested_sampling`` methods may be found here.
+The optimize module includes the functionality necessary for maximum likelihood determination. 
+Furthermore, the natural log likelihood function used in the :func:`~uravu.sampling.mcmc()` and :func:`~uravu.sampling.nested_sampling()` methods may be found here.
 """
 
 # Copyright (c) Andrew R. McCluskey
@@ -9,28 +8,20 @@ in the ``mcmc`` and ``nested_sampling`` methods may be found here.
 # author: Andrew R. McCluskey
 
 import numpy as np
-import uncertainties
 from scipy.optimize import minimize
 from uncertainties import unumpy as unp
 
 
 def max_ln_likelihood(relationship, x0=None, **kwargs):
     """
-    Determine the variable values which maximize the likelihood for the
-    given relationship. For keyword arguments see the
-    `scipy.optimize.minimize()`_ documentation.
+    Determine the variable values which maximize the likelihood for the given relationship. For keyword arguments see the :func:`scipy.optimize.minimize()` documentation.
 
     Args:
-        relationship (uravu.relationship.Relationship): The relationship for
-            which variables should be found.
-        x0 (array_like, optional): Initial guesses for the variable values.
-            Default to the current ``relationship.variables`` values which
-            are initialized as all ones.
+        relationship (:py:class:`uravu.relationship.Relationship`): The relationship for which variables should be found.
+        x0 (:py:attr:`array_like`, optional): Initial guesses for the variable values. Default to the current :py:attr:`~uravu.relationship.Relationship.variables` values which are initialized as all :py:attr:`1`.
 
     Return:
-        (array_like): optimized variables for the relationship.
-
-    .. _scipy.optimize.minimize(): https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html
+        :py:attr:`array_like`: Optimized variables for the relationship.
     """
     if x0 is None:
         x0 = relationship.variable_medians
@@ -51,19 +42,17 @@ def negative_lnl(
     variables, function, abscissa, ordinate, unaccounted_uncertainty=False
 ):
     """
-    Calculate the negative natural logarithm of the likelihood given a set
-    of variables, when there is no uncertainty in the abscissa.
+    Calculate the negative natural logarithm of the likelihood given a set of variables, when there is no uncertainty in the abscissa.
 
     Args:
-        variables (array_like): Variables for the function evaluation.
-        function (callable): The function to be evaluated.
-        abscissa (array_like): The abscissa values.
-        ordinate (array_like): The ordinate values.
-        unaccounted_uncertainty (bool, optional): Should an unaccounted
-            uncertainty parameter be considered. Default is ``False``.
+        variables (:py:attr:`array_like`): Variables for the function evaluation.
+        function (:py:attr:`callable`): The function to be evaluated.
+        abscissa (:py:attr:`array_like`): The abscissa values.
+        ordinate (:py:attr:`array_like`): The ordinate values.
+        unaccounted_uncertainty (:py:attr:`bool`, optional): Should an unaccounted uncertainty parameter be considered. Default is :py:attr:`False`.
 
     Returns:
-        (float): Negative ln-likelihood between model and data.
+        :py:attr:`float`: Negative natural log-likelihood between model and data.
     """
     return -ln_likelihood(
         variables,
@@ -78,19 +67,17 @@ def ln_likelihood(
     variables, function, abscissa, ordinate, unaccounted_uncertainty=False
 ):
     """
-    Calculate the natural logarithm of the likelihood given a set of
-    variables, when there is no uncertainty in the abscissa.
+    Calculate the natural logarithm of the likelihood given a set of variables, when there is no uncertainty in the abscissa.
 
     Args:
-        variables (array_like): Variables for the function evaluation.
-        function (callable): The function to be evaluated.
-        abscissa (array_like): The abscissa values.
-        ordinate (array_like): The ordinate values.
-        unaccounted_uncertainty (bool, optional): Should an unaccounted
-            uncertainty parameter be considered. Default is ``False``.
+        variables (:py:attr:`array_like`): Variables for the function evaluation.
+        function (:py:attr:`callable`): The function to be evaluated.
+        abscissa (:py:attr:`array_like`): The abscissa values.
+        ordinate (:py:attr:`array_like`): The ordinate values.
+        unaccounted_uncertainty (:py:attr:`bool`, optional): Should an unaccounted uncertainty parameter be considered. Default is :py:attr:`False`.
 
     Returns:
-        (float): ln-likelihood between model and data.
+         :py:attr:`float`: Natural log-likelihood between model and data.
     """
     if unaccounted_uncertainty:
         var = variables[:-1]

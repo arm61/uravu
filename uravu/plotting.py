@@ -1,10 +1,7 @@
 """
-These are plotting functions that take either :class:`Relationship`
-or :class:`Distribution` class objects.
+These are plotting functions that take either :py:class:`~uravu.relationship.Relationship` or :py:class:`~uravu.distribution.Distribution` class objects.
 
-The aim is to produce *publication quality* plots. However, we
-recognise that taste exists, and ours may be different from yours.
-The colorscheme in this work was chosen to be colorblind friendly.
+The aim is to produce *publication quality* plots. However, we recognise that taste exists, and ours may be different from yours. The colorscheme in this work was chosen to be colorblind friendly.
 """
 
 # Copyright (c) Andrew R. McCluskey
@@ -28,19 +25,15 @@ def plot_relationship(
     relationship, axes=None, figsize=(10, 6)
 ):  # pragma: no cover
     """
-    Plot the relationship. Additional plots will be included on this if
-    the MCMC sampling has been used to find distributions.
+    Plot the relationship. Additional plots will be included on this if the MCMC sampling has been used to find distributions.
 
     Args:
-        relationship (uravu.relationship.Relationship): The relationship to
-            be plotted.
-        axes (matplotlib.axes): Axes to which the plot should be added.
-            If none given new axes will be created.
-        fig_size (tuple, optional): horizontal and veritcal size for
-            figure (in inches). Default is `(10, 6)`.
+        relationship (:py:class:`uravu.relationship.Relationship`): The relationship to be plotted.
+        axes (:py:class:`matplotlib.axes.Axes`): Axes to which the plot should be added. If none given new axes will be created.
+        fig_size (:py:attr:`tuple`, optional): horizontal and veritcal size for figure (in inches). Default is :py:attr:`(10, 6)`.
 
     Returns:
-        (matplotlib.axes): The axes with new plots.
+        (:py:class:`matplotlib.axes.Axes`): The axes with new plots.
     """
     if axes is None:
         axes = plt.subplots(figsize=figsize)[1]
@@ -116,13 +109,11 @@ def plot_distribution(distro, axes=None, figsize=(10, 6)):  # pragma: no cover
     Plot the probability density function for a distribution.
 
     Args:
-        distro (uravu.distriobution.Distribution): The distribution to be
-            plotted.
-        fig_size (tuple): Horizontal and veritcal size for figure
-            (in inches).
+        distro (:py:class`uravu.distriobution.Distribution`): The distribution to be plotted.
+        fig_size (:py:class:`tuple`): Horizontal and veritcal size for figure (in inches). Default is :py:attr:`(10, 6)`.
 
     Returns:
-        (matplotlib.axes): The axes with new plots.
+        (:py:class:`matplotlib.axes.Axes`): The axes with new plots.
     """
     if axes is None:
         axes = plt.subplots(figsize=figsize)[1]
@@ -158,15 +149,13 @@ def plot_corner(relationship, figsize=(8, 8)):  # pragma: no cover
     relationships variables.
 
     Args:
-        relationship (uravu.relationship.Relationship): The relationship
-            containing the distributions to be plotted.
-        fig_size (tuple, optional): horizontal and veritcal size for
-            figure (in inches). Default is `(10, 6)`.
+        relationship (:py:class:`uravu.relationship.Relationship`): The relationship containing the distributions to be plotted.
+        fig_size (:py:attr:`tuple`, optional): horizontal and veritcal size for figure (in inches). Default is :py:attr:`(10, 6)`.
 
     Returns:
-        (tuple): Tuple consisting of:
-            - (matplotlib.figure): The figure with new plots.
-            - (matplotlib.axes): The axes with new plots.
+        :py:attr:`tuple`: Containing:
+            - (:py:class:`matplotlib.figure.Figure`): The figure with new plots.
+            - (:py:class:`matplotlib.axes.Axes`): The axes with new plots.
     """
     n = len(relationship.variables)
     if not all(

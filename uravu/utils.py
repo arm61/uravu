@@ -17,45 +17,44 @@ def straight_line(abscissa, gradient, intercept):
     A one dimensional straight line function.
 
     Args:
-        abscissa (array_like): the abscissa data.
-        gradient (float): the slope of the line.
-        intercept (float): the y-intercept of the line.
+        abscissa (:py:attr:`array_like`): The abscissa data.
+        gradient (:py:attr:`float`): The slope of the line.
+        intercept (:py:attr:`float`): The y-intercept of the line.
 
     Returns:
-        (array_like): the resulting ordinate.
+        :py:attr:`array_like`: The resulting ordinate.
     """
     return gradient * abscissa + intercept
 
 
 def bayes_factor(model_1, model_2):
     """
-    Use the Bayes factor to compare two models.
+    Use the `Bayes factor`_ to compare two models. Using Table from `Kass and Raftery`_ to compare.
 
     Args:
-        model_1 (uncertainties.core.Variable or float): ln evidence for
-            model 1.
-        model_2 (uncertainties.core.Variable or float): ln evidence for
-            model 2.
+        model_1 (:py:class:`uncertainties.core.Variable` or :py:attr:`float`): ln evidence for model 1.
+        model_2 (:py:class:`uncertainties.core.Variable` or :py:attr:`float`): ln evidence for model 2.
 
     Return:
-        (uncertainties.core.Variable or float): 2ln(B) where B is the Bayes
-            Factor between the two models.
+        :py:class:`uncertainties.core.Variable` or :py:attr:`float`: 2ln(B), where B is the Bayes Factor between the two models.
+
+    .. _Bayes factor: https://en.wikipedia.org/wiki/Bayes_factor
+    .. _Kass and Raftery: https://www.colorado.edu/amath/sites/default/files/attached-files/kassraftery95.pdf
     """
     return 2 * (model_1 - model_2)
 
 
 def correlation_matrix(relationship):
     """
-    Evalutate the Pearsons correlation coefficient matrix for the
-    variables in a given relationship.
+    Evalutate the `Pearsons correlation coefficient`_ matrix for the variables in a given relationship.
 
     Args:
-        relationship (uravu.relationship.Relationship): The relationship
-            to determine the posteriors of.
+        relationship (:py:class:`uravu.relationship.Relationship`): The relationship to determine the correlation matrix for.
 
     Returns:
-        (array_like): The correlation matrix for the relationships
-            variables.
+        :py:attr:`array_like`: The correlation matrix for the relationships variables.
+
+    .. _Pearsons correlation coefficient: https://en.wikipedia.org/wiki/Pearson_correlation_coefficient
     """
     n = len(relationship.variables)
     matrix = np.zeros((n, n))

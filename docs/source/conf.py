@@ -193,4 +193,8 @@ def setup(app):
 intersphinx_mapping = {
     'pint': ('https://pint.readthedocs.io/en/0.11/', None),
     'scipy': ('https://docs.scipy.org/doc/scipy/reference/', None),
+    'uncertainties': ('https://uncertainties-python-package.readthedocs.io/en/latest/', None),
+    'dynesty': ('https://dynesty.readthedocs.io/en/latest/', None),
+    'emcee': ('https://emcee.readthedocs.io/en/stable/', None),
 }
+
