@@ -33,12 +33,8 @@ class TestSampling(unittest.TestCase):
         test_rel = Relationship(utils.straight_line, test_x, test_y, test_y_e,)
         test_rel.max_likelihood()
         actual_results = sampling.mcmc(test_rel, n_burn=10, n_samples=10)
-        assert_equal(
-            isinstance(actual_results["distributions"][0], Distribution), True
-        )
-        assert_equal(
-            isinstance(actual_results["distributions"][1], Distribution), True
-        )
+        assert_equal(isinstance(actual_results["distributions"][0], Distribution), True)
+        assert_equal(isinstance(actual_results["distributions"][1], Distribution), True)
         assert_equal(actual_results["distributions"][0].size, 1000)
         assert_equal(actual_results["distributions"][1].size, 1000)
 
@@ -69,12 +65,8 @@ class TestSampling(unittest.TestCase):
         actual_results = sampling.mcmc(
             test_rel, prior_function=other_prior, n_burn=10, n_samples=10
         )
-        assert_equal(
-            isinstance(actual_results["distributions"][0], Distribution), True
-        )
-        assert_equal(
-            isinstance(actual_results["distributions"][1], Distribution), True
-        )
+        assert_equal(isinstance(actual_results["distributions"][0], Distribution), True)
+        assert_equal(isinstance(actual_results["distributions"][1], Distribution), True)
         assert_equal(actual_results["distributions"][0].size, 1000)
         assert_equal(actual_results["distributions"][1].size, 1000)
 

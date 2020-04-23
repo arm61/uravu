@@ -34,11 +34,7 @@ class Distribution:
     """
 
     def __init__(
-        self,
-        samples,
-        name="Distribution",
-        ci_points=None,
-        unit=UREG.dimensionless,
+        self, samples, name="Distribution", ci_points=None, unit=UREG.dimensionless,
     ):
         """
         Initialisation function for a :py:class:`~uravu.distribution.Distribution` object.
@@ -132,18 +128,12 @@ class Distribution:
         Returns:
             :py:attr:`str`: Description of the distribution.
         """
-        representation = "Distribution: {}\nSize: {}\n".format(
-            self.name, self.size
-        )
+        representation = "Distribution: {}\nSize: {}\n".format(self.name, self.size)
         representation += "Samples: "
         representation += "["
-        representation += " ".join(
-            ["{:.2e}".format(i) for i in self.samples[:2]]
-        )
+        representation += " ".join(["{:.2e}".format(i) for i in self.samples[:2]])
         representation += " ... "
-        representation += " ".join(
-            ["{:.2e}".format(i) for i in self.samples[-2:]]
-        )
+        representation += " ".join(["{:.2e}".format(i) for i in self.samples[-2:]])
         representation += "]\n"
         representation += "Median: {:.2e}\n".format(self.n)
         if self.normal:

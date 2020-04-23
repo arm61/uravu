@@ -107,9 +107,7 @@ def ln_probability(
     )
 
 
-def nested_sampling(
-    relationship, prior_function=None, progress=True, **kwargs
-):
+def nested_sampling(relationship, prior_function=None, progress=True, **kwargs):
     """
     Perform the nested sampling in order to determine the Bayesian natural log evidence. See the :py:func:`dynesty.NestedSampler.run_nested()` documentation.
 

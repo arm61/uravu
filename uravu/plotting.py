@@ -24,9 +24,7 @@ except ModuleNotFoundError:
     )
 
 
-def plot_relationship(
-    relationship, axes=None, figsize=(10, 6)
-):  # pragma: no cover
+def plot_relationship(relationship, axes=None, figsize=(10, 6)):  # pragma: no cover
     """
     Plot the relationship. Additional plots will be included on this if the MCMC sampling has been used to find distributions.
 
@@ -43,9 +41,7 @@ def plot_relationship(
     variables = relationship.variables
     if relationship.unaccounted_uncertainty:
         variables = relationship.variables[:-1]
-    axes.plot(
-        relationship.x_n, relationship.y_n, c=list(_fig_params.TABLEAU)[0]
-    )
+    axes.plot(relationship.x_n, relationship.y_n, c=list(_fig_params.TABLEAU)[0])
     x_label = "{}".format(relationship.abscissa_name)
     if relationship.x_u != UREG.dimensionless:
         x_label += "/${:~L}$".format(relationship.x_u)
@@ -54,9 +50,7 @@ def plot_relationship(
     if relationship.y_u != UREG.dimensionless:
         y_label += "/${:~L}$".format(relationship.y_u)
     axes.set_ylabel(y_label)
-    if isinstance(
-        relationship.ordinate.m.any(), uncertainties.core.AffineScalarFunc
-    ):
+    if isinstance(relationship.ordinate.m.any(), uncertainties.core.AffineScalarFunc):
         axes.fill_between(
             relationship.x_n,
             relationship.y_n - relationship.y_s,
@@ -72,9 +66,7 @@ def plot_relationship(
             color=list(_fig_params.TABLEAU)[1],
         )
     else:
-        plot_samples = np.random.randint(
-            0, variables[0].samples.size, size=100
-        )
+        plot_samples = np.random.randint(0, variables[0].samples.size, size=100)
         for i in plot_samples:
             float_variables = [var.samples[i] for var in variables]
             axes.plot(
@@ -161,9 +153,7 @@ def plot_corner(relationship, figsize=(8, 8)):  # pragma: no cover
             - :py:class:`matplotlib.axes.Axes`: The axes with new plots.
     """
     n = len(relationship.variables)
-    if not all(
-        [isinstance(relationship.variables[i], Distribution) for i in range(n)]
-    ):
+    if not all([isinstance(relationship.variables[i], Distribution) for i in range(n)]):
         raise ValueError(
             "In order to use the corner plot functionality, all relationship "
             "variables must be Distributions. Please run MCMC before "
@@ -177,8 +167,7 @@ def plot_corner(relationship, figsize=(8, 8)):  # pragma: no cover
         else:
             var_labels.append(
                 "{}/${:L}$".format(
-                    relationship.variable_names[i],
-                    relationship.variable_units[i],
+                    relationship.variable_names[i], relationship.variable_units[i],
                 )
             )
     corner(
@@ -199,12 +188,7 @@ def plot_corner(relationship, figsize=(8, 8)):  # pragma: no cover
             ]
         )
         ax[n - 1, j].set_xlim(
-            [
-                i
-                for i in np.percentile(
-                    relationship.variables[j].samples, [0.5, 99.5]
-                )
-            ]
+            [i for i in np.percentile(relationship.variables[j].samples, [0.5, 99.5])]
         )
     for j in range(n - 1):
         ax[j + 1, 0].set_yticks(

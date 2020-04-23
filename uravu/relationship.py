@@ -143,29 +143,19 @@ class Relationship:
             for i in self.y_n:
                 string += "{:.2e} ".format(i)
             string += "] \n"
-            if isinstance(
-                self.ordinate.m.any(), uncertainties.core.AffineScalarFunc
-            ):
+            if isinstance(self.ordinate.m.any(), uncertainties.core.AffineScalarFunc):
                 string += "Ordinate uncertainty: [ "
                 for i in self.y_s:
                     string += "{:.2e} ".format(i)
                 string += "] \n"
         else:
-            string += (
-                "Abscissa: "
-                "[ {:.2e} {:.2e} ... {:.2e} {:.2e} ] \n".format(
-                    *self.x_n[:2], *self.x_n[-2:]
-                )
+            string += "Abscissa: " "[ {:.2e} {:.2e} ... {:.2e} {:.2e} ] \n".format(
+                *self.x_n[:2], *self.x_n[-2:]
             )
-            string += (
-                "Ordinate: "
-                "[ {:.2e} {:.2e} ... {:.2e} {:.2e} ] \n".format(
-                    *self.y_n[:2], *self.y_n[-2:]
-                )
+            string += "Ordinate: " "[ {:.2e} {:.2e} ... {:.2e} {:.2e} ] \n".format(
+                *self.y_n[:2], *self.y_n[-2:]
             )
-            if isinstance(
-                self.ordinate.m.any(), uncertainties.core.AffineScalarFunc
-            ):
+            if isinstance(self.ordinate.m.any(), uncertainties.core.AffineScalarFunc):
                 string += (
                     "Ordinate uncertainty: "
                     "[ {:.2e} {:.2e} ... {:.2e} {:.2e} ]\n".format(
@@ -180,9 +170,7 @@ class Relationship:
         for var in self.variables:
             if isinstance(var, Distribution):
                 if var.normal:
-                    string += "{:.2e}+/-{:.2e} ".format(
-                        var.n, var.n - var.con_int[0]
-                    )
+                    string += "{:.2e}+/-{:.2e} ".format(var.n, var.n - var.con_int[0])
                 else:
                     string += "{:.2e}+{:.2e}-{:.2e} ".format(
                         var.n, var.con_int[1] - var.n, var.n - var.con_int[0]
@@ -192,13 +180,9 @@ class Relationship:
         string += "] \n"
         if self.nested_sampling_done:
             string += "ln(evidence): {:.2e} \n".format(self.ln_evidence)
-        string += "Unaccounted uncertainty: {} \n".format(
-            self.unaccounted_uncertainty
-        )
+        string += "Unaccounted uncertainty: {} \n".format(self.unaccounted_uncertainty)
         string += "MCMC performed: {} \n".format(self.mcmc_done)
-        string += "Nested sampling performed: {} \n".format(
-            self.nested_sampling_done
-        )
+        string += "Nested sampling performed: {} \n".format(self.nested_sampling_done)
         return string
 
     def __repr__(self):
@@ -298,9 +282,7 @@ class Relationship:
         Returns:
             :py:attr:`array_like`: Ordinate uncertainties.
         """
-        if isinstance(
-            self.ordinate.m.any(), uncertainties.core.AffineScalarFunc
-        ):
+        if isinstance(self.ordinate.m.any(), uncertainties.core.AffineScalarFunc):
             return unp.std_devs(self.ordinate.m)
         else:
             return None
