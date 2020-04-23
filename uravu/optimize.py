@@ -94,4 +94,3 @@ def ln_likelihood(
     else:
         sigma2 = dy_data ** 2 + model ** 2 * np.exp(2 * log_f)
     return -0.5 * np.sum((model - y_data) ** 2 / sigma2 + np.log(sigma2))
-        

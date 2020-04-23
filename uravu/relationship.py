@@ -75,15 +75,15 @@ class Relationship:
         if ordinate_uncertainty is None:
             self.unaccounted_uncertainty = True
             self.ordinate = ordinate
-        else:    
+        else:
             if ordinate_uncertainty.shape != ordinate.shape:
                 raise ValueError(
-                        "The number of data points in the ordinate does not "
-                        "match that in the ordinate uncertainty."
-                    )
+                    "The number of data points in the ordinate does not "
+                    "match that in the ordinate uncertainty."
+                )
             else:
                 ordinate_uncertainty = np.array(ordinate_uncertainty)
-                self.ordinate = unp.uarray(ordinate, ordinate_uncertainty) 
+                self.ordinate = unp.uarray(ordinate, ordinate_uncertainty)
         self.ordinate *= ordinate_unit
 
         self.abscissa = abscissa
@@ -480,7 +480,7 @@ class Relationship:
         n_samples=500,
         n_burn=500,
         progress=True,
-        seed=None
+        seed=None,
     ):
         """
         Perform MCMC to get the posterior probability distributions for the variables of the relationship. *Note*, running this method will populate the :py:attr:`~uravu.relationship.Relationship.variables` attribute with :py:class:`~uravu.distribution.Distribution` objects.

@@ -1,6 +1,5 @@
 """
-A few additional utility functions to improve the usability of
-``uravu``.
+A few additional utility functions to improve the usability of :py:mod`uravu`.
 """
 
 # Copyright (c) Andrew R. McCluskey

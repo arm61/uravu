@@ -44,7 +44,11 @@ class TestOptimize(unittest.TestCase):
         )
         expected_lnl = -45.21054955719477
         actual_lnl = optimize.ln_likelihood(
-            test_rel.variables, test_rel.function, test_rel.x, test_rel.y, unaccounted_uncertainty=test_rel.unaccounted_uncertainty
+            test_rel.variables,
+            test_rel.function,
+            test_rel.x,
+            test_rel.y,
+            unaccounted_uncertainty=test_rel.unaccounted_uncertainty,
         )
         assert_almost_equal(actual_lnl, expected_lnl)
 
