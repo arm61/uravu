@@ -8,7 +8,7 @@ making Bayesian modelling easy(er)
 
 :py:mod:`uravu` is about the relationship between some data and a function that may be used to describe the data. 
 
-The aim of :py:mod:`uravu` is to make using the **amazing** Bayesian inference libraries that are available in Python as easy as :py:function:`scipy.optimize.curve_fit`.
+The aim of :py:mod:`uravu` is to make using the **amazing** Bayesian inference libraries that are available in Python as easy as :func:`scipy.optimize.curve_fit`.
 Therefore enabling many more to make use of these exciting tools and powerful libraries.
 Plus, we have some nice plotting functionalities available in the :py:mod:`~uravu.plotting` module, capable of generating publication quality figures.
 
