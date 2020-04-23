@@ -1,6 +1,6 @@
 """
-The Distribution class allows the storage and analysis of probability
-distributions.
+The storage and manipulation of probability distributions is fundamental to the operation of ``uravu`` and Bayesian inference. 
+The :py:class:`~uravu.distribution.Distribution` class oversees these operations. 
 """
 
 # Copyright (c) Andrew R. McCluskey
@@ -15,27 +15,22 @@ from uravu import UREG
 
 class Distribution:
     """
-    The storage of probability distributions is fundamental to Bayesian
-    inference, this class enables this. In addition to storage some basic
-    analysis of the distribution is possible.
+    In addition to storage of the probability distribution, this class allows for some basic analysis, such as determination of normality.
 
     Attributes:
-        samples (array_like): Samples in the distribution.
-        name (str): A name for the distribution.
-        ci_points (array_like): The percentiles at which
-            confidence intervals should be found.
-        unit (pint.UnitRegistry()): The unit of the values in the
-            Distribution.
+        samples (:py:attr:`array_like`): Samples in the distribution.
+        name (:py:attr:`str`): Distribution name.
+        ci_points (:py:attr:`array_like`): The percentiles at which confidence intervals should be found.
+        unit (:py:class:`~pint.unit.Unit`): The unit of the values in the Distribution.
+        normal (:py:attr:`bool`): Are the samples normally distributed?
 
     Args:
-        samples (array_like): Sample for the distribution.
-        name (str, optional): A name to identify the distribution.
-            Default is `Distribution`.
-        ci_points (array_like, optional): The percentiles at which
-            confidence intervals should be found. Default is
-            `[2.5, 97.5]` (a 95 % confidence interval).
-        unit (pint.UnitRegistry(), optional) The unit for the
-            distribution. Default is dimensionless.
+        samples (:py:attr:`array_like`): Sample for the distribution.
+        name (:py:attr:`str`, optional): A name to identify the distribution. Default is :py:attr:`'Distribution'`.
+        ci_points (:py:attr:`array_like`, optional): The two percentiles at which confidence intervals should be found. Default is :py:attr:`[2.5, 97.5]` (a 95 % confidence interval).
+        unit (:py:class:`~pint.unit.Unit`, optional): The unit for the distribution. For information about unit assignment see the `FAQ`_. Default is :py:attr:`~pint.unit.Unit.dimensionless`.
+
+    .. _FAQ: ./faq.html
     """
 
     def __init__(
@@ -46,7 +41,7 @@ class Distribution:
         unit=UREG.dimensionless,
     ):
         """
-        Initialisation function for a ``Distribution`` object.
+        Initialisation function for a :py:class:`~uravu.distribution.Distribution` object.
         """
         self.name = name
         self.unit = unit
@@ -68,14 +63,13 @@ class Distribution:
         Get the number of samples in the distribution.
 
         Returns:
-            (int): Number of samples.
+            :py:attr:`int`: Number of samples.
         """
         return self.samples.size
 
     def check_normality(self):
         """
-        Uses a Shapiro-Wilks statistical test to evaluate if samples are
-        normally distributed.
+        Uses a :func:`scipy.stats.normaltest()` to evaluate if samples are normally distributed and updates the :py:attr:`~uravu.distribution.Distribution.normal` attribute.
         """
         alpha = 0.05
         if self.size <= 8:
@@ -92,22 +86,20 @@ class Distribution:
     @property
     def n(self):
         """
-        Get the median value of the distribution (for a normal distribution
-        this is the same as the mean).
+        Get the median value of the distribution (for a normal distribution this is the same as the mean).
 
         Returns:
-            (float): Median value.
+            :py:attr:`float`: Median value.
         """
         return np.percentile(self.samples, [50])[0]
 
     @property
     def s(self):
         """
-        Get the standard deviation of the distribution. For a non-normal
-        distribution, this will return ``None``.
+        Get the standard deviation of the distribution. For a non-normal distribution, this will return :py:attr:`None`.
 
         Returns:
-            (float, or None): Standard deviation of the distribution.
+            :py:attr:`float` or :py:attr:`None`: Standard deviation of the distribution.
         """
         if self.normal:
             return np.std(self.samples)
@@ -120,17 +112,16 @@ class Distribution:
         Get the extrema of the confidence intervals of the distribution.
 
         Returns:
-            (array_like): The confidence interval values.
+            :py:attr:`array_like`: Distribution values at the confidence interval.
         """
         return np.percentile(self.samples, self.ci_points)
 
     def __repr__(self):
         """
-        A custom representation, which is the same as the custom string
-        representation.
+        A custom representation, which is the same as the custom string representation.
 
         Returns:
-            (str): String representation.
+            :py:attr:`str`: Description of the distribution.
         """
         return self.__str__()
 
@@ -139,7 +130,7 @@ class Distribution:
         A custom string.
 
         Returns:
-            (str): Detailed string representation.
+            :py:attr:`str`: Description of the distribution.
         """
         representation = "Distribution: {}\nSize: {}\n".format(
             self.name, self.size
@@ -177,11 +168,10 @@ class Distribution:
 
     def add_samples(self, samples):
         """
-        Add samples to the distribution and update values such as median and
-        uncertainties as appropriate.
+        Add samples to the distribution.
 
         Args:
-            samples (array_like): Samples to be added to the distribution.
+            samples (:py:attr:`array_like`): Samples to be added to the distribution.
         """
         self.samples = np.append(self.samples, np.array(samples).flatten())
         self.check_normality()

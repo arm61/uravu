@@ -58,6 +58,7 @@ To see which publications you should reference in your work, the :class:`Relatio
    installation
    getting_started.ipynb
    tutorials
+   faq
    api
 
 Searching

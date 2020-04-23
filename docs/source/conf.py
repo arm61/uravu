@@ -179,7 +179,6 @@ epub_exclude_files = ['search.html']
 html_logo = "logo/uravu_logo.png"
 html_theme_options = {"logo_only": True}
 
-
 # -- Extension configuration -------------------------------------------------
 
 # -- Options for todo extension ----------------------------------------------
@@ -189,3 +188,9 @@ todo_include_todos = True
 
 def setup(app):
     app.add_css_file('custom.css')
+
+# Looks for objects in external projects
+intersphinx_mapping = {
+    'pint': ('https://pint.readthedocs.io/en/0.11/', None),
+    'scipy': ('https://docs.scipy.org/doc/scipy/reference/', None),
+}
