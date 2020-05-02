@@ -98,12 +98,12 @@ STRING_G = (
 CITATION_A = (
     "Please consider citing the following:\n"
     " - Publication of uravu (to come).\n"
-    " - Zenodo DOI for uravu version: 0.0.4\n"
+    " - Zenodo DOI for uravu version: 0.0.5\n"
 )
 CITATION_B = (
     "Please consider citing the following:\n "
     "- Publication of uravu (to come).\n - Zenodo "
-    "DOI for uravu version: 0.0.4\nThe "
+    "DOI for uravu version: 0.0.5\nThe "
     "scipy.optimize.minimize function was used to "
     "maximise the ln likelihood. Please consider citing:\n - "
     "P. Virtanen, R. Gommers, T. E. Oliphant, M. Haberland, T. "
@@ -120,7 +120,7 @@ CITATION_B = (
 CITATION_C = (
     "Please consider citing the following:\n - "
     "Publication of uravu (to come).\n - Zenodo DOI for uravu "
-    "version: 0.0.4\nThe scipy.optimize.minimize function was used "
+    "version: 0.0.5\nThe scipy.optimize.minimize function was used "
     "to maximise the ln likelihood. Please consider citing:\n - "
     "P. Virtanen, R. Gommers, T. E. Oliphant, M. Haberland, T. "
     "Reddy, D. Cournapeau, E. Burovski, P. Peterson, W. "
@@ -144,7 +144,7 @@ CITATION_C = (
 CITATION_D = (
     "Please consider citing the following:\n - Publication "
     "of uravu (to come).\n - Zenodo DOI for uravu version: "
-    "0.0.4\nThe scipy.optimize.minimize function was used to "
+    "0.0.5\nThe scipy.optimize.minimize function was used to "
     "maximise the ln likelihood. Please consider citing:\n - P. "
     "Virtanen, R. Gommers, T. E. Oliphant, M. Haberland, T. Reddy, "
     "D. Cournapeau, E. Burovski, P. Peterson, W. Weckesser, J. "
