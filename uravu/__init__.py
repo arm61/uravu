@@ -22,5 +22,5 @@ def __version__():
     """
     major = 0
     minor = 0
-    micro = 4
+    micro = 5
     return "{}.{}.{}".format(major, minor, micro)
