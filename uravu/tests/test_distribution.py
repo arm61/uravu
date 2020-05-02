@@ -109,6 +109,14 @@ class TestDistribution(unittest.TestCase):
         distro = Distribution(np.random.randn(2))
         assert_equal(distro.normal, False)
 
+    def test_s(self):
+        """
+        Test the standard deviation and variance
+        """
+        distro = Distribution(np.random.randn(10000) * 10)
+        assert_almost_equal(distro.s, 10., decimal=1)
+        assert_almost_equal(distro.v, 100., decimal=0)
+
     def test_add_samples_single(self):
         """
         Test add_samples with a single value.

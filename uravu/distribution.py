@@ -90,15 +90,34 @@ class Distribution:
         return np.percentile(self.samples, [50])[0]
 
     @property
-    def s(self):
+    def s(self, ddof=1):
         """
         Get the standard deviation of the distribution. For a non-normal distribution, this will return :py:attr:`None`.
+
+        Args:
+            ddof (:py:attr:`int`): Degrees of freedom to be included in calculation.
 
         Returns:
             :py:attr:`float` or :py:attr:`None`: Standard deviation of the distribution.
         """
         if self.normal:
-            return np.std(self.samples)
+            return np.std(self.samples, ddof=ddof)
+        else:
+            return None
+
+    @property
+    def v(self, ddof=1):
+        """
+        Get the variance of the distribution. For a non-normal distribution, this will return :py:attr:`None`.
+
+        Args:
+            ddof (:py:attr:`int`): Degrees of freedom to be included in calculation.
+
+        Returns:
+            :py:attr:`float` or :py:attr:`None`: Standard deviation of the distribution.
+        """
+        if self.normal:
+            return np.var(self.samples, ddof=ddof)
         else:
             return None
 
