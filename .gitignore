@@ -8,6 +8,5 @@ uravu.egg-info
 **/.DS_Store
 **/Untitled.ipynb
 coverage_html_report
-paper
 .eggs
 .vscode
