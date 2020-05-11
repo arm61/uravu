@@ -8,11 +8,11 @@ Furthermore, the natural log likelihood function used in the :func:`~uravu.sampl
 # author: Andrew R. McCluskey
 
 import numpy as np
-from scipy.optimize import minimize
+from scipy.optimize import minimize, differential_evolution
 from uncertainties import unumpy as unp
 
 
-def max_ln_likelihood(relationship, x0=None, **kwargs):
+def max_ln_likelihood(relationship, method, x0=None, **kwargs):
     """
     Determine the variable values which maximize the likelihood for the given relationship. For keyword arguments see the :func:`scipy.optimize.minimize()` documentation.
 
@@ -25,21 +25,36 @@ def max_ln_likelihood(relationship, x0=None, **kwargs):
     """
     if x0 is None:
         x0 = relationship.variable_medians
-    return minimize(
-        negative_lnl,
-        x0,
-        args=(
-            relationship.function,
-            relationship.abscissa,
-            relationship.ordinate,
-            relationship.unaccounted_uncertainty,
-        ),
-        **kwargs,
-    ).x
+    if method == 'diff_evo':
+        res = differential_evolution(
+            negative_lnl, 
+            relationship.bounds, 
+            args=(
+                relationship.function,
+                relationship.abscissa,
+                relationship.ordinate,
+                relationship.unaccounted_uncertainty,
+            ),
+            **kwargs,
+        )
+    elif method == 'mini':
+        res = minimize(
+            negative_lnl,
+            x0,
+            args=(
+                relationship.function,
+                relationship.abscissa,
+                relationship.ordinate,
+                relationship.unaccounted_uncertainty,
+            ),
+            bounds=relationship.bounds,
+            **kwargs,
+        )
+    return res.x
 
 
 def negative_lnl(
-    variables, function, abscissa, ordinate, unaccounted_uncertainty=False
+    variables, function, abscissa, ordinate, unaccounted_uncertainty=False,
 ):
     """
     Calculate the negative natural logarithm of the likelihood given a set of variables, when there is no uncertainty in the abscissa.

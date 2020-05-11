@@ -529,7 +529,7 @@ class TestRelationship(unittest.TestCase):
         )
         test_y_e = test_y * 0.2
         test_rel = Relationship(utils.straight_line, test_x, test_y, test_y_e,)
-        test_rel.max_likelihood()
+        test_rel.max_likelihood('mini')
         test_rel.mcmc(n_burn=10, n_samples=10)
         medians = test_rel.variable_medians
         assert_equal(medians.shape, (2,))
@@ -545,7 +545,7 @@ class TestRelationship(unittest.TestCase):
         )
         test_y_e = test_y * 0.2
         test_rel = Relationship(utils.straight_line, test_x, test_y, test_y_e,)
-        test_rel.max_likelihood()
+        test_rel.max_likelihood('mini')
         medians = test_rel.variable_medians
         assert_equal(medians.shape, (2,))
 
@@ -567,7 +567,7 @@ class TestRelationship(unittest.TestCase):
         test_y = np.linspace(1, 199, 100)
         test_y_e = test_y * 0.1
         test_rel = Relationship(utils.straight_line, test_x, test_y, test_y_e)
-        test_rel.max_likelihood()
+        test_rel.max_likelihood('mini')
         assert_almost_equal(test_rel.variables, np.array([2, 1]))
 
     def test_prior_a(self):
@@ -578,7 +578,7 @@ class TestRelationship(unittest.TestCase):
         test_y = np.linspace(1, 199, 100)
         test_y_e = test_y * 0.1
         test_rel = Relationship(utils.straight_line, test_x, test_y, test_y_e)
-        test_rel.max_likelihood()
+        test_rel.max_likelihood('mini')
         result_priors = test_rel.prior()
         assert_equal(len(result_priors), 2)
         assert_equal(
@@ -600,7 +600,7 @@ class TestRelationship(unittest.TestCase):
         test_rel = Relationship(
             utils.straight_line, test_x, test_y, test_y_e, unaccounted_uncertainty=True,
         )
-        test_rel.max_likelihood()
+        test_rel.max_likelihood('mini')
         result_priors = test_rel.prior()
         assert_equal(len(result_priors), 3)
         assert_equal(
@@ -627,7 +627,7 @@ class TestRelationship(unittest.TestCase):
         )
         test_y_e = test_y * 0.2
         test_rel = Relationship(utils.straight_line, test_x, test_y, test_y_e,)
-        test_rel.max_likelihood()
+        test_rel.max_likelihood('mini')
         test_rel.mcmc(n_burn=10, n_samples=10)
         assert_equal(isinstance(test_rel.variables[0], Distribution), True)
         assert_equal(isinstance(test_rel.variables[1], Distribution), True)
@@ -752,7 +752,7 @@ class TestRelationship(unittest.TestCase):
         test_y = np.ones(10) * 2
         test_y_e = np.ones(10) * 0.1
         test_rel = Relationship(utils.straight_line, test_x, test_y, test_y_e)
-        test_rel.max_likelihood()
+        test_rel.max_likelihood('mini')
         assert_equal(test_rel.citations, CITATION_B)
 
     def test_citations_c(self):
@@ -766,7 +766,7 @@ class TestRelationship(unittest.TestCase):
         )
         test_y_e = test_y * 0.2
         test_rel = Relationship(utils.straight_line, test_x, test_y, test_y_e,)
-        test_rel.max_likelihood()
+        test_rel.max_likelihood('mini')
         test_rel.mcmc(n_burn=10, n_samples=10)
         assert_equal(test_rel.citations, CITATION_C)
 
@@ -781,6 +781,6 @@ class TestRelationship(unittest.TestCase):
         )
         test_y_e = test_y * 0.2
         test_rel = Relationship(utils.straight_line, test_x, test_y, test_y_e,)
-        test_rel.max_likelihood()
+        test_rel.max_likelihood('mini')
         test_rel.nested_sampling(maxiter=10)
         assert_equal(test_rel.citations, CITATION_D)

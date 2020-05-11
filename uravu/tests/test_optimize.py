@@ -96,5 +96,5 @@ class TestOptimize(unittest.TestCase):
         test_rel = relationship.Relationship(
             utils.straight_line, test_x, test_y, test_y_e
         )
-        actual_best_variables = optimize.max_ln_likelihood(test_rel)
+        actual_best_variables = optimize.max_ln_likelihood(test_rel, 'mini')
         assert_almost_equal(actual_best_variables, np.array([2, 1]))

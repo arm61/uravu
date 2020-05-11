@@ -60,7 +60,7 @@ class TestUtils(unittest.TestCase):
         )
         test_y_e = test_y * 0.2
         test_rel = Relationship(utils.straight_line, test_x, test_y, test_y_e,)
-        test_rel.max_likelihood()
+        test_rel.max_likelihood('mini')
         test_rel.mcmc(n_burn=10, n_samples=10)
         actual_matrix = utils.correlation_matrix(test_rel)
         assert_equal(actual_matrix.shape, (2, 2))

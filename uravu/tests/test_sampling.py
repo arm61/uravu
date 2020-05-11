@@ -31,7 +31,7 @@ class TestSampling(unittest.TestCase):
         )
         test_y_e = test_y * 0.2
         test_rel = Relationship(utils.straight_line, test_x, test_y, test_y_e,)
-        test_rel.max_likelihood()
+        test_rel.max_likelihood('mini')
         actual_results = sampling.mcmc(test_rel, n_burn=10, n_samples=10)
         assert_equal(isinstance(actual_results["distributions"][0], Distribution), True)
         assert_equal(isinstance(actual_results["distributions"][1], Distribution), True)
@@ -49,7 +49,7 @@ class TestSampling(unittest.TestCase):
         )
         test_y_e = test_y * 0.2
         test_rel = Relationship(utils.straight_line, test_x, test_y, test_y_e,)
-        test_rel.max_likelihood()
+        test_rel.max_likelihood('mini')
 
         def other_prior():
             """
@@ -91,7 +91,7 @@ class TestSampling(unittest.TestCase):
         test_y_e = np.ones(10) * 0.1
         test_x = np.linspace(1, 10, 10)
         test_rel = Relationship(utils.straight_line, test_x, test_y, test_y_e)
-        test_rel.max_likelihood()
+        test_rel.max_likelihood('mini')
 
         def other_prior():
             """

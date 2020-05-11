@@ -35,6 +35,7 @@ class Relationship:
         ordinate_name (:py:attr:`str`): A name for the ordinate data, used in the production of plots.
         variables (:py:attr:`list` of :py:attr:`float` or :py:class:`~uravu.distribution.Distribution`): Variables in the :py:attr:`~uravu.relationship.Relationship.function`.
         unaccounted_uncertainty (:py:attr:`bool`): This boolean describes if an unaccounted for uncertainty should be considered in the modelling process.
+        bounds (:py:attr:`tuple`): The minimum and maximum values for each parameters.
         ln_evidence (:py:class:`uncertainties.core.Variable`): The natural-log of the Bayesian evidence for the model to the given data.
         mcmc_results (:py:attr:`dict`): The results from :func:`emcee.EnsembleSampler.run_mcmc()` sampling.
         nested_sampling_results (:py:attr:`dict`): The results from :func:`ddynesty.NestedSampler.run_nested()` nested sampling.
@@ -50,6 +51,7 @@ class Relationship:
         ordinate_name (:py:attr:`str`, optional): A name for the :py:attr:`ordinate`. Default is :py:attr:`'y'`.
         variable_names (:py:attr:`list` of :py:attr:`str`, optional): Names for each of the variables. Default is the variable name in the :py:attr:`function` definition.
         variable_units (:py:class:`~pint.unit.Unit`, optional): The units for the variables. Default is :py:attr:`~pint.unit.Unit.dimensionless`.
+        bounds (:py:attr:`tuple`): The minimum and maximum values for each parameters. Defaults to :py:attr:`None`.
         unaccounted_uncertainty (:py:attr:`bool`, optional): Describes if an additional variable be included to account for an unknown uncertainty in the data.
     """
 
@@ -65,6 +67,7 @@ class Relationship:
         ordinate_name="y",
         variable_names=None,
         variable_units=None,
+        bounds=None,
         unaccounted_uncertainty=False,
     ):
         self.function = function
@@ -122,6 +125,9 @@ class Relationship:
                     "of variables."
                 )
             self.variable_units = variable_units
+        self.bounds = bounds
+        if (self.unaccounted_uncertainty) and (self.bounds is not None):
+            self.bounds = self.bounds + ((-10, 11),)
         self.ln_evidence = None
         self.mcmc_results = None
         self.nested_sampling_results = None
@@ -419,7 +425,7 @@ class Relationship:
 
         .. _Bayesian information criteria: https://en.wikipedia.org/wiki/Bayesian_information_criterion
         """
-        self.max_likelihood()
+        self.max_likelihood('mini')
         return np.log(
             self.x_n.size
         ) * self.len_parameters() - 2 * optimize.ln_likelihood(
@@ -430,14 +436,14 @@ class Relationship:
             self.unaccounted_uncertainty,
         )
 
-    def max_likelihood(self, x0=None, **kwargs):
+    def max_likelihood(self, method, x0=None, **kwargs):
         """
         Determine values for the variables which maximise the likelihood for the :py:class:`~uravu.relationship.Relationship`. For keyword arguments see the :func:`scipy.optimize.minimize()` documentation.
         
         Args:
             x0 (:py:attr:`array_like`): Initial guess values for the parameters.
         """
-        self.variables = optimize.max_ln_likelihood(self, x0, **kwargs)
+        self.variables = optimize.max_ln_likelihood(self, method, x0, **kwargs)
 
     def prior(self):
         """
@@ -447,10 +453,16 @@ class Relationship:
             :py:attr:`list` of :py:class:`scipy.stats.rv_continuous`: :py:mod:`scipy.stats` functions describing the priors.
         """
         priors = []
-        for var in self.variable_medians:
-            loc = var - np.abs(var) * 10
-            scale = (var + np.abs(var) * 10) - loc
-            priors.append(uniform(loc=loc, scale=scale))
+        if self.bounds is not None:
+            for i, var in enumerate(self.variable_medians):
+                loc = self.bounds[i][0]
+                scale = self.bounds[i][1] - loc
+                priors.append(uniform(loc=loc, scale=scale))
+        else:
+            for var in self.variable_medians:
+                loc = var - np.abs(var) * 10
+                scale = (var + np.abs(var) * 10) - loc
+                priors.append(uniform(loc=loc, scale=scale))
         if self.unaccounted_uncertainty:
             priors[-1] = uniform(loc=-10, scale=11)
         return priors
