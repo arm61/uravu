@@ -23,6 +23,7 @@ except ModuleNotFoundError:
         "the plotting module, please install these."
     )
 
+colors = _fig_params.colors
 
 def plot_relationship(relationship, axes=None, figsize=(10, 6)):  # pragma: no cover
     """
@@ -41,7 +42,7 @@ def plot_relationship(relationship, axes=None, figsize=(10, 6)):  # pragma: no c
     variables = relationship.variables
     if relationship.unaccounted_uncertainty:
         variables = relationship.variables[:-1]
-    axes.plot(relationship.x_n, relationship.y_n, c=list(_fig_params.TABLEAU)[0])
+    axes.plot(relationship.x_n, relationship.y_n, c=colors[0])
     x_label = "{}".format(relationship.abscissa_name)
     if relationship.x_u != UREG.dimensionless:
         x_label += "/${:~L}$".format(relationship.x_u)
@@ -56,14 +57,14 @@ def plot_relationship(relationship, axes=None, figsize=(10, 6)):  # pragma: no c
             relationship.y_n - relationship.y_s,
             relationship.y_n + relationship.y_s,
             alpha=0.5,
-            color=list(_fig_params.TABLEAU)[0],
+            color=colors[0],
             lw=0,
         )
     if not isinstance(variables[0], Distribution):
         axes.plot(
             relationship.x_n,
             relationship.function(relationship.x_n, *variables),
-            color=list(_fig_params.TABLEAU)[1],
+            color=colors[1],
         )
     else:
         plot_samples = np.random.randint(0, variables[0].samples.size, size=100)
@@ -72,7 +73,7 @@ def plot_relationship(relationship, axes=None, figsize=(10, 6)):  # pragma: no c
             axes.plot(
                 relationship.x_n,
                 relationship.function(relationship.x_n, *float_variables),
-                color=list(_fig_params.TABLEAU)[1],
+                color=colors[1],
                 alpha=0.05,
             )
     if relationship.unaccounted_uncertainty:
@@ -85,7 +86,7 @@ def plot_relationship(relationship, axes=None, figsize=(10, 6)):  # pragma: no c
             relationship.y_n + relationship.y_s,
             relationship.y_n + relationship.y_s + additional_uncertainty,
             alpha=0.5,
-            color=list(_fig_params.TABLEAU)[2],
+            color=colors[2],
             lw=0,
         )
         axes.fill_between(
@@ -93,7 +94,7 @@ def plot_relationship(relationship, axes=None, figsize=(10, 6)):  # pragma: no c
             relationship.y_n - relationship.y_s,
             relationship.y_n - relationship.y_s - additional_uncertainty,
             alpha=0.5,
-            color=list(_fig_params.TABLEAU)[2],
+            color=colors[2],
             lw=0,
         )
     return axes
@@ -115,12 +116,12 @@ def plot_distribution(distro, axes=None, figsize=(10, 6)):  # pragma: no cover
     kde = gaussian_kde(distro.samples)
     abscissa = np.linspace(distro.samples.min(), distro.samples.max(), 100)
     ordinate = kde.evaluate(abscissa)
-    axes.plot(abscissa, ordinate, color=list(_fig_params.TABLEAU)[0])
+    axes.plot(abscissa, ordinate, color=colors[0])
     axes.hist(
         distro.samples,
         bins=25,
         density=True,
-        color=list(_fig_params.TABLEAU)[0],
+        color=colors[0],
         alpha=0.5,
     )
     axes.fill_betweenx(
@@ -172,7 +173,7 @@ def plot_corner(relationship, figsize=(8, 8)):  # pragma: no cover
             )
     corner(
         relationship.mcmc_results["samples"],
-        color=list(_fig_params.TABLEAU)[0],
+        color=colors[0],
         hist_kwargs={"lw": 4, "histtype": "stepfilled"},
         label_kwargs={"fontsize": _fig_params.rcParams["axes.labelsize"]},
         fig=fig,

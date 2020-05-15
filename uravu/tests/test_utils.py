@@ -59,7 +59,7 @@ class TestUtils(unittest.TestCase):
             + np.linspace(1, 199, 10) * np.random.randn(10) * 0.05
         )
         test_y_e = test_y * 0.2
-        test_rel = Relationship(utils.straight_line, test_x, test_y, test_y_e,)
+        test_rel = Relationship(utils.straight_line, test_x, test_y)
         test_rel.max_likelihood('mini')
         test_rel.mcmc(n_burn=10, n_samples=10)
         actual_matrix = utils.correlation_matrix(test_rel)

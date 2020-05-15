@@ -8,7 +8,7 @@ The :py:class:`~uravu.distribution.Distribution` class oversees these operations
 # author: Andrew R. McCluskey
 
 import numpy as np
-from scipy.stats import normaltest
+from scipy.stats import normaltest, gaussian_kde, norm
 from uncertainties import ufloat
 from uravu import UREG
 
@@ -68,8 +68,6 @@ class Distribution:
         Uses a :func:`scipy.stats.normaltest()` to evaluate if samples are normally distributed and updates the :py:attr:`~uravu.distribution.Distribution.normal` attribute.
         """
         alpha = 0.05
-        if self.size <= 8:
-            return False
         test_samples = self.samples
         if self.size > 500:
             test_samples = np.random.choice(self.samples, size=500)
@@ -78,6 +76,12 @@ class Distribution:
             self.normal = True
         else:
             self.normal = False
+
+    def pdf(self, x):
+        return self.kde.pdf(x)
+
+    def logpdf(self, x):
+        return self.kde.logpdf(x)
 
     @property
     def n(self):
@@ -131,50 +135,6 @@ class Distribution:
         """
         return np.percentile(self.samples, self.ci_points)
 
-    def __repr__(self):
-        """
-        A custom representation, which is the same as the custom string representation.
-
-        Returns:
-            :py:attr:`str`: Description of the distribution.
-        """
-        return self.__str__()
-
-    def __str__(self):
-        """
-        A custom string.
-
-        Returns:
-            :py:attr:`str`: Description of the distribution.
-        """
-        representation = "Distribution: {}\nSize: {}\n".format(self.name, self.size)
-        representation += "Samples: "
-        representation += "["
-        representation += " ".join(["{:.2e}".format(i) for i in self.samples[:2]])
-        representation += " ... "
-        representation += " ".join(["{:.2e}".format(i) for i in self.samples[-2:]])
-        representation += "]\n"
-        representation += "Median: {:.2e}\n".format(self.n)
-        if self.normal:
-            representation += "Symetrical Error: {:.2e}\n".format(self.s)
-        representation += "Confidence intervals: ["
-        representation += " ".join(["{:.2e}".format(i) for i in self.con_int])
-        representation += "]\n"
-        representation += "Confidence interval points: ["
-        representation += " ".join(["{}".format(i) for i in self.ci_points])
-        representation += "]\n"
-        if self.n is not None:
-            representation += "Reporting Value: "
-            if self.normal:
-                representation += "{}\n".format(ufloat(self.n, self.s))
-            else:
-                representation += "{:.2e}+{:.2e}-{:.2e}\n".format(
-                    self.n, self.con_int[1] - self.n, self.n - self.con_int[0]
-                )
-        representation += "Unit: {}\n".format(self.unit)
-        representation += "Normal: {}\n".format(self.normal)
-        return representation
-
     def add_samples(self, samples):
         """
         Add samples to the distribution.
@@ -183,4 +143,9 @@ class Distribution:
             samples (:py:attr:`array_like`): Samples to be added to the distribution.
         """
         self.samples = np.append(self.samples, np.array(samples).flatten())
-        self.check_normality()
+        if self.size > 8:
+            self.check_normality()
+            if self.normal:
+                self.kde = norm(*norm.fit(self.samples))
+            else:
+                self.kde = gaussian_kde(self.samples)

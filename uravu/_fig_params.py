@@ -8,23 +8,12 @@ Figure parameters for uravu to help make nice plots.
 
 from collections import OrderedDict
 from matplotlib import rcParams, cycler
+import seaborn as sns
 
-TABLEAU = OrderedDict(
-    [
-        ("blue", "#0173B2"),
-        ("orange", "#DE8F05"),
-        ("green", "#029E73"),
-        ("red", "#D55E00"),
-        ("purple", "#CC78BC"),
-        ("brown", "#CA9161"),
-        ("pink", "#FBAFE4"),
-        ("grey", "#949494"),
-        ("yellow", "#ECE133"),
-        ("turquoise", "#56B4E9"),
-    ]
-)
+sns.set_palette('colorblind')
+colors = sns.palettes.SEABORN_PALETTES['colorblind']
 
-FONTSIZE = 20
+FONTSIZE = 15
 NEARLY_BLACK = "#161616"
 LIGHT_GREY = "#F5F5F5"
 WHITE = "#ffffff"
@@ -36,24 +25,24 @@ MASTER_FORMATTING = {
     "ytick.color": NEARLY_BLACK,
     "xtick.color": NEARLY_BLACK,
     "axes.labelcolor": NEARLY_BLACK,
-    "axes.spines.bottom": False,
-    "axes.spines.left": False,
-    "axes.spines.right": False,
-    "axes.spines.top": False,
+    "axes.spines.bottom": True,
+    "axes.spines.left": True,
+    "axes.spines.right": True,
+    "axes.spines.top": True,
     "axes.axisbelow": True,
     "legend.frameon": False,
+    'axes.edgecolor': NEARLY_BLACK,
     "pdf.fonttype": 42,
     "ps.fonttype": 42,
     "mathtext.fontset": "custom",
     "font.size": FONTSIZE,
-    "font.family": "serif",
-    # 'font.serif' : 'Source Serif Pro',
-    "text.usetex": True,
+    "font.family": "sans-serif",
+    "font.serif" : "Helvetica",
     "savefig.bbox": "tight",
     "axes.facecolor": LIGHT_GREY,
     "axes.labelpad": 10.0,
     "axes.labelsize": FONTSIZE * 0.8,
-    "axes.titlepad": 30,
+    "axes.titlepad": 20,
     "axes.titlesize": FONTSIZE,
     "axes.grid": False,
     "grid.color": WHITE,
@@ -62,12 +51,9 @@ MASTER_FORMATTING = {
     "xtick.labelsize": FONTSIZE * 0.8,
     "ytick.labelsize": FONTSIZE * 0.8,
     "legend.fontsize": FONTSIZE * 0.8,
-    "lines.linewidth": 4,
+    "lines.linewidth": 2,
 }
 
 for k, v in MASTER_FORMATTING.items():
     rcParams[k] = v
 
-COLOR_CYCLE = TABLEAU.values()
-
-rcParams["axes.prop_cycle"] = cycler(color=COLOR_CYCLE)

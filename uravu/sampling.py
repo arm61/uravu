@@ -11,6 +11,7 @@ import emcee
 import dynesty
 from uravu import optimize
 from uravu.distribution import Distribution
+from dynesty import utils as dyfunc
 
 
 def mcmc(
@@ -40,8 +41,14 @@ def mcmc(
 
     initial_prior = np.zeros((walkers, len(relationship.variable_medians)))
     called_prior = prior_function()
-    for i, p in enumerate(called_prior):
-        initial_prior[:, i] = p.rvs(walkers)
+    #for i, p in enumerate(called_prior):
+    #    initial_prior[:, i] = p.rvs(walkers)
+
+    for i, p in enumerate(called_prior): 
+        if relationship.variable_medians[i] != 0:
+            initial_prior[:, i] = relationship.variable_medians[i] + 1e-2 * np.random.randn(walkers) * relationship.variable_medians[i]
+        else:
+            initial_prior[:, i] = 1e-4 * np.random.randn(walkers)
 
     ndims = initial_prior.shape[1]
 
@@ -53,7 +60,6 @@ def mcmc(
             relationship.function,
             relationship.abscissa,
             relationship.ordinate,
-            relationship.unaccounted_uncertainty,
             called_prior,
         ],
     )
@@ -66,8 +72,6 @@ def mcmc(
         distributions.append(
             Distribution(
                 post_samples[:, i],
-                name=relationship.variable_names[i],
-                unit=relationship.variable_units[i],
             )
         )
 
@@ -80,7 +84,7 @@ def mcmc(
 
 
 def ln_probability(
-    variables, function, abscissa, ordinate, unaccounted_uncertainty, priors
+    variables, function, abscissa, ordinate, priors
 ):
     """
     Determine the natural log probability for a given set of variables, by
@@ -100,14 +104,12 @@ def ln_probability(
     log_prior = 0
     for i, var in enumerate(variables):
         log_prior += priors[i].logpdf(var)
-    if np.isneginf(log_prior):
-        return -np.inf
     return log_prior + optimize.ln_likelihood(
-        variables, function, abscissa, ordinate, unaccounted_uncertainty
+        variables, function, abscissa, ordinate,
     )
 
 
-def nested_sampling(relationship, prior_function=None, progress=True, **kwargs):
+def nested_sampling(relationship, prior_function=None, progress=True, dynamic=False, **kwargs):
     """
     Perform the nested sampling in order to determine the Bayesian natural log evidence. See the :py:func:`dynesty.NestedSampler.run_nested()` documentation.
 
@@ -123,7 +125,10 @@ def nested_sampling(relationship, prior_function=None, progress=True, **kwargs):
     if prior_function is None:
         prior_function = relationship.prior
     priors = prior_function()
-    sampler = dynesty.NestedSampler(
+    nested_sampler = dynesty.NestedSampler
+    if dynamic:
+        nested_sampler = dynesty.DynamicNestedSampler
+    sampler = nested_sampler(
         optimize.ln_likelihood,
         nested_prior,
         len(relationship.variables),
@@ -131,13 +136,20 @@ def nested_sampling(relationship, prior_function=None, progress=True, **kwargs):
             relationship.function,
             relationship.abscissa,
             relationship.ordinate,
-            relationship.unaccounted_uncertainty,
         ],
         ptform_args=[priors],
     )
 
     sampler.run_nested(print_progress=progress, **kwargs)
     results = sampler.results
+    samples = results['samples']
+    weights = np.exp(results['logwt'] - results['logz'][-1])
+    new_samples = dyfunc.resample_equal(samples, weights)
+    distributions = []
+    for i in range(new_samples.shape[1]):
+        distributions.append(Distribution(new_samples[:, i]))
+    results['distributions'] = distributions
+
     return results
 
 

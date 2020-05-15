@@ -29,7 +29,7 @@ class TestOptimize(unittest.TestCase):
         )
         expected_lnl = -1724226.97414907
         actual_lnl = optimize.ln_likelihood(
-            test_rel.variables, test_rel.function, test_rel.x, test_rel.y
+            test_rel.variables, test_rel.function, test_rel.x, test_rel.y, test_rel.y_s,
         )
         assert_almost_equal(actual_lnl, expected_lnl)
 
@@ -46,6 +46,7 @@ class TestOptimize(unittest.TestCase):
             test_rel.function,
             test_rel.x,
             test_rel.y,
+            None,
             unaccounted_uncertainty=test_rel.unaccounted_uncertainty,
         )
         assert_almost_equal(actual_lnl, expected_lnl)
@@ -62,7 +63,7 @@ class TestOptimize(unittest.TestCase):
         )
         expected_negtive_lnl = 1724226.97414907
         actual_negative_lnl = optimize.negative_lnl(
-            test_rel.variables, test_rel.function, test_rel.x, test_rel.y
+            test_rel.variables, test_rel.function, test_rel.x, test_rel.y, test_rel.y_s
         )
         assert_almost_equal(actual_negative_lnl, expected_negtive_lnl)
 
@@ -82,6 +83,7 @@ class TestOptimize(unittest.TestCase):
             test_rel.function,
             test_rel.x,
             test_rel.y,
+            test_rel.y_s,
             test_rel.unaccounted_uncertainty,
         )
         assert_almost_equal(actual_negative_lnl, expected_negtive_lnl)

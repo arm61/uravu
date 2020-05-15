@@ -10,6 +10,7 @@ Furthermore, the natural log likelihood function used in the :func:`~uravu.sampl
 import numpy as np
 from scipy.optimize import minimize, differential_evolution
 from uncertainties import unumpy as unp
+import sys
 
 
 def max_ln_likelihood(relationship, method, x0=None, **kwargs):
@@ -33,7 +34,6 @@ def max_ln_likelihood(relationship, method, x0=None, **kwargs):
                 relationship.function,
                 relationship.abscissa,
                 relationship.ordinate,
-                relationship.unaccounted_uncertainty,
             ),
             **kwargs,
         )
@@ -45,7 +45,6 @@ def max_ln_likelihood(relationship, method, x0=None, **kwargs):
                 relationship.function,
                 relationship.abscissa,
                 relationship.ordinate,
-                relationship.unaccounted_uncertainty,
             ),
             bounds=relationship.bounds,
             **kwargs,
@@ -54,7 +53,7 @@ def max_ln_likelihood(relationship, method, x0=None, **kwargs):
 
 
 def negative_lnl(
-    variables, function, abscissa, ordinate, unaccounted_uncertainty=False,
+    variables, function, abscissa, ordinate,
 ):
     """
     Calculate the negative natural logarithm of the likelihood given a set of variables, when there is no uncertainty in the abscissa.
@@ -64,7 +63,6 @@ def negative_lnl(
         function (:py:attr:`callable`): The function to be evaluated.
         abscissa (:py:attr:`array_like`): The abscissa values.
         ordinate (:py:attr:`array_like`): The ordinate values.
-        unaccounted_uncertainty (:py:attr:`bool`, optional): Should an unaccounted uncertainty parameter be considered. Default is :py:attr:`False`.
 
     Returns:
         :py:attr:`float`: Negative natural log-likelihood between model and data.
@@ -74,12 +72,11 @@ def negative_lnl(
         function,
         abscissa,
         ordinate,
-        unaccounted_uncertainty=unaccounted_uncertainty,
     )
 
 
 def ln_likelihood(
-    variables, function, abscissa, ordinate, unaccounted_uncertainty=False
+    variables, function, abscissa, ordinate,
 ):
     """
     Calculate the natural logarithm of the likelihood given a set of variables, when there is no uncertainty in the abscissa.
@@ -89,23 +86,10 @@ def ln_likelihood(
         function (:py:attr:`callable`): The function to be evaluated.
         abscissa (:py:attr:`array_like`): The abscissa values.
         ordinate (:py:attr:`array_like`): The ordinate values.
-        unaccounted_uncertainty (:py:attr:`bool`, optional): Should an unaccounted uncertainty parameter be considered. Default is :py:attr:`False`.
 
     Returns:
          :py:attr:`float`: Natural log-likelihood between model and data.
     """
-    if unaccounted_uncertainty:
-        var = variables[:-1]
-        log_f = variables[-1]
-    else:
-        var = variables
-        log_f = -np.inf
-    model = function(abscissa.m, *var)
-    y_data = unp.nominal_values(ordinate.m)
-    dy_data = unp.std_devs(ordinate.m)
-
-    if np.isclose(dy_data.all(), 0.0):
-        sigma2 = model ** 2 * np.exp(2 * log_f)
-    else:
-        sigma2 = dy_data ** 2 + model ** 2 * np.exp(2 * log_f)
-    return -0.5 * np.sum((model - y_data) ** 2 / sigma2 + np.log(sigma2))
+    model = function(abscissa, *variables)
+    ln_l = [ordinate.values[i].logpdf([model[i]]) for i in range(len(ordinate.values))]
+    return np.sum(ln_l)
