@@ -23,10 +23,7 @@ class TestOptimize(unittest.TestCase):
     Unit tests for optimize module.
     """
 
-    def test_ln_likelihood_a(self):
-        """
-        Test ln_likelihood function.
-        """
+    def test_ln_likelihood(self):
         test_rel = relationship.Relationship(
             utils.straight_line, TEST_X, TEST_Y 
         )
@@ -37,9 +34,6 @@ class TestOptimize(unittest.TestCase):
         assert_almost_equal(actual_lnl, expected_lnl, decimal=0)
 
     def test_negative_lnl(self):
-        """
-        Test negative_lnl function.
-        """
         test_rel = relationship.Relationship(
             utils.straight_line, TEST_X, TEST_Y 
         )
@@ -50,9 +44,6 @@ class TestOptimize(unittest.TestCase):
         assert_almost_equal(actual_negative_lnl, expected_negtive_lnl, decimal=0)
 
     def test_max_lnlikelihood(self):
-        """
-        Test negative_lnl function.
-        """
         test_rel = relationship.Relationship(
             utils.straight_line, TEST_X, TEST_Y 
         )

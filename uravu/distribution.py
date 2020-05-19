@@ -127,6 +127,7 @@ class Distribution:
         """
         return np.percentile(self.samples, [50])[0]
 
+    @property
     def s(self):
         """
         Get the standard deviation of the distribution. For a non-normal distribution, this will return :py:attr:`None`.
