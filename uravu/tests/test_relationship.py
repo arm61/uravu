@@ -45,6 +45,12 @@ class TestRelationship(unittest.TestCase):
         with self.assertRaises(ValueError):
             Relationship(utils.straight_line, TEST_X, TEST_X)
 
+    def test_ordinate_and_ordinate_error(self):
+        r = Relationship(utils.straight_line, TEST_X, TEST_X, ordinate_error=[1]*len(TEST_X))
+        assert_equal(r.x, TEST_X)
+        assert_almost_equal(r.y.n, TEST_X, decimal=0)
+        assert_almost_equal(r.y.s, np.ones((2, len(TEST_X))) * 1.96, decimal=1)
+
     def test_ordinate_and_abscissa_different_length(self):
         with self.assertRaises(ValueError):
             Relationship(utils.straight_line, np.arange(1, 8, 1), TEST_Y) 

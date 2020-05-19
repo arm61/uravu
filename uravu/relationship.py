@@ -17,7 +17,7 @@ import sys
 from inspect import getfullargspec
 import numpy as np
 import uncertainties
-from scipy.stats import uniform
+from scipy.stats import uniform, norm
 from uncertainties import unumpy as unp
 from uncertainties import ufloat
 from uravu import UREG, optimize, sampling, __version__
@@ -55,16 +55,23 @@ class Relationship:
         abscissa,
         ordinate,
         bounds=None,
+        ordinate_error=None,
     ):
         self.function = function
         self.abscissa = abscissa
 
-        for y in ordinate:
-            if not isinstance(y, Distribution):
+        potential_y = []
+        for i, y in enumerate(ordinate):
+            if not isinstance(y, Distribution) and ordinate_error is None:
                 raise ValueError(
                     "uravu ordinate should be a list of uravu.distribution.Distribution objects"
                 )
-        self.ordinate = Axis(ordinate)
+            elif not isinstance(y, Distribution) and ordinate_error is not None:
+                potential_y.append(Distribution(norm.rvs(loc=y, scale=ordinate_error[i], size=5000)))
+        if ordinate_error is None:
+            self.ordinate = Axis(ordinate)
+        else: 
+            self.ordinate = Axis(potential_y)
 
         if abscissa.shape[0] != len(ordinate):
             raise ValueError(

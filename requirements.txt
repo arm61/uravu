@@ -5,3 +5,4 @@ emcee
 dynesty
 pint
 uncertainties
+seaborn
