@@ -40,67 +40,19 @@ def plot_relationship(relationship, axes=None, figsize=(10, 6)):  # pragma: no c
     if axes is None:
         axes = plt.subplots(figsize=figsize)[1]
     variables = relationship.variables
-    if relationship.unaccounted_uncertainty:
-        variables = relationship.variables[:-1]
-    axes.plot(relationship.x_n, relationship.y_n, c=colors[0])
-    x_label = "{}".format(relationship.abscissa_name)
-    if relationship.x_u != UREG.dimensionless:
-        x_label += "/${:~L}$".format(relationship.x_u)
-    axes.set_xlabel(x_label)
-    y_label = "{}".format(relationship.ordinate_name)
-    if relationship.y_u != UREG.dimensionless:
-        y_label += "/${:~L}$".format(relationship.y_u)
-    axes.set_ylabel(y_label)
-    if isinstance(relationship.ordinate.m.any(), uncertainties.core.AffineScalarFunc):
-        axes.fill_between(
-            relationship.x_n,
-            relationship.y_n - relationship.y_s,
-            relationship.y_n + relationship.y_s,
-            alpha=0.5,
-            color=colors[0],
-            lw=0,
-        )
-    if not isinstance(variables[0], Distribution):
-        axes.plot(
-            relationship.x_n,
-            relationship.function(relationship.x_n, *variables),
-            color=colors[1],
-        )
-    else:
+    axes.errorbar(relationship.x, relationship.y.n, relationship.y.s, c=colors[0], ecolor=colors[0] + '40')
+    if relationship.mcmc_done or relationship.nested_sampling_done:
         plot_samples = np.random.randint(0, variables[0].samples.size, size=100)
         for i in plot_samples:
-            float_variables = [var.samples[i] for var in variables]
-            axes.plot(
-                relationship.x_n,
-                relationship.function(relationship.x_n, *float_variables),
-                color=colors[1],
-                alpha=0.05,
-            )
-    if relationship.unaccounted_uncertainty:
-        var = relationship.variable_medians
-        additional_uncertainty = np.abs(
-            var[-1] * relationship.function(relationship.x_n, *var[:-1])
-        )
-        axes.fill_between(
-            relationship.x_n,
-            relationship.y_n + relationship.y_s,
-            relationship.y_n + relationship.y_s + additional_uncertainty,
-            alpha=0.5,
-            color=colors[2],
-            lw=0,
-        )
-        axes.fill_between(
-            relationship.x_n,
-            relationship.y_n - relationship.y_s,
-            relationship.y_n - relationship.y_s - additional_uncertainty,
-            alpha=0.5,
-            color=colors[2],
-            lw=0,
-        )
+            float_variables = relationship.get_sample(i)
+            axes.plot(relationship.x, relationship.function(relationship.x, *float_variables), color=colors[1], alpha=0.05) 
+    else:
+        float_variables = relationship.variable_medians
+        axes.plot(relationship.x, relationship.function(relationship.x, *float_variables), color=colors[1]) 
     return axes
 
 
-def plot_distribution(distro, axes=None, figsize=(10, 6)):  # pragma: no cover
+def plot_distribution(distro, axes=None, figsize=(5, 3)):  # pragma: no cover
     """
     Plot the probability density function for a distribution.
 
