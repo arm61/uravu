@@ -43,13 +43,13 @@ class Distribution:
         self.unit = unit
         self.samples = np.array([])
         if ci_points is None:
-            self.ci_points = [2.5, 97.5]
+            self.ci_points = np.array([2.5, 97.5])
         else:
             if len(ci_points) != 2:
                 raise ValueError(
-                    "The ci_points must be an array or tuple of length two."
+                    "The ci_points must be an array of length two."
                 )
-            self.ci_points = ci_points
+            self.ci_points = np.array(ci_points)
         self.normal = False
         self.add_samples(np.array(samples))
 
@@ -78,10 +78,48 @@ class Distribution:
             self.normal = False
 
     def pdf(self, x):
+        """
+        Get the probability density function for the distribution.
+
+        Args:
+            x (:py:attr:`float`): Value to return probability of.
+        
+        Return:
+            :py:attr:`float`: Probability.
+        """
         return self.kde.pdf(x)
 
     def logpdf(self, x):
+        """
+        Get the natural log probability density function for the distribution.
+
+        Args:
+            x (:py:attr:`float`): Value to return natural log probability of.
+        
+        Return:
+            :py:attr:`float`: Natural log probability.
+        """
         return self.kde.logpdf(x)
+
+    @property
+    def min(self):
+        """
+        Get sample minimum.
+
+        Returns:
+            :py:attr:`float`: Sample minimum.
+        """
+        return self.samples.min()
+
+    @property
+    def max(self):
+        """
+        Get sample maximum.
+
+        Returns:
+            :py:attr:`float`: Sample maximum.
+        """
+        return self.samples.max()
 
     @property
     def n(self):
@@ -145,7 +183,4 @@ class Distribution:
         self.samples = np.append(self.samples, np.array(samples).flatten())
         if self.size > 8:
             self.check_normality()
-            if self.normal:
-                self.kde = norm(*norm.fit(self.samples))
-            else:
-                self.kde = gaussian_kde(self.samples)
+            self.kde = gaussian_kde(self.samples)

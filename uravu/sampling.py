@@ -17,7 +17,7 @@ from dynesty import utils as dyfunc
 def mcmc(
     relationship,
     prior_function=None,
-    walkers=100,
+    walkers=50,
     n_samples=500,
     n_burn=500,
     progress=True,
@@ -28,7 +28,7 @@ def mcmc(
     Args:
         relationship (:py:class:`uravu.relationship.Relationship`): The relationship to determine the posteriors of.
         prior_function (:py:attr:`callable`, optional): The function to populated some prior distributions. Default is :func:`uravu.relationship.Relationship.prior()`.
-        walkers (:py:attr:`int`, optional): Number of MCMC walkers. Default is :py:attr:`100`.
+        walkers (:py:attr:`int`, optional): Number of MCMC walkers. Default is :py:attr:`50`.
         n_samples (:py:attr:`int`, optional): Number of sample points. Default is :py:attr:`500`.
         n_burn (:py:attr:`int`, optional): Number of burn in samples. Default is :py:attr:`500`.
         progress (:py:attr:`bool`, optional): Show tqdm progress for sampling. Default is :py:attr:`True`.

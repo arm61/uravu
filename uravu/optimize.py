@@ -91,5 +91,5 @@ def ln_likelihood(
          :py:attr:`float`: Natural log-likelihood between model and data.
     """
     model = function(abscissa, *variables)
-    ln_l = [ordinate.values[i].logpdf([model[i]]) for i in range(len(ordinate.values))]
+    ln_l = ordinate.logpdf(model)
     return np.sum(ln_l)

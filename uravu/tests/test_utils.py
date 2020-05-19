@@ -8,10 +8,12 @@ Tests for utils module
 
 import unittest
 import numpy as np
+import scipy.stats
 from uncertainties import ufloat
 from numpy.testing import assert_almost_equal, assert_equal
 from uravu import utils
 from uravu.relationship import Relationship
+from uravu.distribution import Distribution
 
 
 class TestUtils(unittest.TestCase):
@@ -53,13 +55,11 @@ class TestUtils(unittest.TestCase):
         """
         Test correlation_matrix function.
         """
-        test_x = np.linspace(0, 99, 10)
-        test_y = (
-            np.linspace(1, 199, 10)
-            + np.linspace(1, 199, 10) * np.random.randn(10) * 0.05
-        )
-        test_y_e = test_y * 0.2
-        test_rel = Relationship(utils.straight_line, test_x, test_y)
+        TEST_Y = []
+        for i in np.arange(1, 9, 1):
+            TEST_Y.append(Distribution(scipy.stats.norm.rvs(loc=i, scale=0.5, size=200)))
+        TEST_X = np.arange(1, 9, 1)
+        test_rel = Relationship(utils.straight_line, TEST_X, TEST_Y)
         test_rel.max_likelihood('mini')
         test_rel.mcmc(n_burn=10, n_samples=10)
         actual_matrix = utils.correlation_matrix(test_rel)

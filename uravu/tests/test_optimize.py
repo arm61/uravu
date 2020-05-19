@@ -9,8 +9,14 @@ Tests for optimize module
 import unittest
 import numpy as np
 from numpy.testing import assert_almost_equal
+import scipy.stats
 from uravu import optimize, utils, relationship
+from uravu.distribution import Distribution
 
+TEST_Y = []
+for i in np.arange(1, 9, 1):
+    TEST_Y.append(Distribution(scipy.stats.norm.rvs(loc=i, scale=0.5, size=200)))
+TEST_X = np.arange(1, 9, 1)
 
 class TestOptimize(unittest.TestCase):
     """
@@ -21,82 +27,34 @@ class TestOptimize(unittest.TestCase):
         """
         Test ln_likelihood function.
         """
-        test_x = np.linspace(0, 99, 10)
-        test_y = np.ones(10)
-        test_y_e = np.ones(10) * 0.1
         test_rel = relationship.Relationship(
-            utils.straight_line, test_x, test_y, test_y_e
+            utils.straight_line, TEST_X, TEST_Y 
         )
-        expected_lnl = -1724226.97414907
+        expected_lnl = -3
         actual_lnl = optimize.ln_likelihood(
-            test_rel.variables, test_rel.function, test_rel.x, test_rel.y, test_rel.y_s,
+            [1., 0.], test_rel.function, test_rel.x, test_rel.y
         )
-        assert_almost_equal(actual_lnl, expected_lnl)
+        assert_almost_equal(actual_lnl, expected_lnl, decimal=0)
 
-    def test_ln_likelihood_b(self):
-        """
-        Test ln_likelihood function with no uncertainty.
-        """
-        test_x = np.linspace(0, 99, 10)
-        test_y = np.ones(10)
-        test_rel = relationship.Relationship(utils.straight_line, test_x, test_y)
-        expected_lnl = -45.21054955719477
-        actual_lnl = optimize.ln_likelihood(
-            test_rel.variables,
-            test_rel.function,
-            test_rel.x,
-            test_rel.y,
-            None,
-            unaccounted_uncertainty=test_rel.unaccounted_uncertainty,
-        )
-        assert_almost_equal(actual_lnl, expected_lnl)
-
-    def test_negative_lnl_a(self):
+    def test_negative_lnl(self):
         """
         Test negative_lnl function.
         """
-        test_x = np.linspace(0, 99, 10)
-        test_y = np.ones(10)
-        test_y_e = np.ones(10) * 0.1
         test_rel = relationship.Relationship(
-            utils.straight_line, test_x, test_y, test_y_e
+            utils.straight_line, TEST_X, TEST_Y 
         )
-        expected_negtive_lnl = 1724226.97414907
+        expected_negtive_lnl = 3
         actual_negative_lnl = optimize.negative_lnl(
-            test_rel.variables, test_rel.function, test_rel.x, test_rel.y, test_rel.y_s
+            [1., 0.], test_rel.function, test_rel.x, test_rel.y
         )
-        assert_almost_equal(actual_negative_lnl, expected_negtive_lnl)
-
-    def test_negative_lnl_b(self):
-        """
-        Test negative_lnl function with additional uncertainty.
-        """
-        test_x = np.linspace(0, 99, 10)
-        test_y = np.ones(10)
-        test_y_e = np.ones(10) * 0.1
-        test_rel = relationship.Relationship(
-            utils.straight_line, test_x, test_y, test_y_e, unaccounted_uncertainty=True,
-        )
-        expected_negtive_lnl = 45.21123241122563
-        actual_negative_lnl = optimize.negative_lnl(
-            test_rel.variables,
-            test_rel.function,
-            test_rel.x,
-            test_rel.y,
-            test_rel.y_s,
-            test_rel.unaccounted_uncertainty,
-        )
-        assert_almost_equal(actual_negative_lnl, expected_negtive_lnl)
+        assert_almost_equal(actual_negative_lnl, expected_negtive_lnl, decimal=0)
 
     def test_max_lnlikelihood(self):
         """
         Test negative_lnl function.
         """
-        test_x = np.linspace(0, 99, 100)
-        test_y = np.linspace(1, 199, 100)
-        test_y_e = test_y * 0.1
         test_rel = relationship.Relationship(
-            utils.straight_line, test_x, test_y, test_y_e
+            utils.straight_line, TEST_X, TEST_Y 
         )
         actual_best_variables = optimize.max_ln_likelihood(test_rel, 'mini')
-        assert_almost_equal(actual_best_variables, np.array([2, 1]))
+        assert_almost_equal(actual_best_variables, np.array([1, 0]), decimal=0)

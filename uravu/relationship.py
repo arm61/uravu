@@ -33,7 +33,7 @@ class Relationship:
         function (:py:attr:`callable`): The function that is modelled.
         abscissa (:py:attr:`array_like` with :py:class:`~pint.unit.Unit`): The abscissa data that the modelling should be performed from. This includes some unit from :py:class:`~pint.unit.Unit`.
         ordinate (:py:attr:`array_like` with :py:class:`~pint.unit.Unit`): The ordinate data against with the model should be compared. This may include uncertainty values and some unit.
-        variables (:py:attr:`list` of :py:attr:`float` or :py:class:`~uravu.distribution.Distribution`): Variables in the :py:attr:`~uravu.relationship.Relationship.function`.
+        variables (:py:attr:`list` of :py:class:`~uravu.distribution.Distribution`): Variables in the :py:attr:`~uravu.relationship.Relationship.function`.
         bounds (:py:attr:`tuple`): The minimum and maximum values for each parameters.
         ln_evidence (:py:class:`uncertainties.core.Variable`): The natural-log of the Bayesian evidence for the model to the given data.
         mcmc_results (:py:attr:`dict`): The results from :func:`emcee.EnsembleSampler.run_mcmc()` sampling.
@@ -145,6 +145,15 @@ class Relationship:
         return False
 
     def get_sample(self, i):
+        """
+        Return the variable values for a given sample.
+
+        Args:
+            i (:py:attr:`int`): The sample index.
+        
+        Returns:
+            :py:attr:`list` of :py:attr:`float`: Variable values at given index.
+        """
         return [self.variables[j].samples[i] for j in range(self.len_parameters)]
 
     @property
@@ -204,8 +213,8 @@ class Relationship:
                 priors.append(uniform(loc=loc, scale=scale))
         else:
             for var in self.variable_medians:
-                loc = var - np.abs(var) * 10
-                scale = (var + np.abs(var) * 10) - loc
+                loc = var - 10
+                scale = (var + 10) - loc
                 priors.append(uniform(loc=loc, scale=scale))
         return priors
 
