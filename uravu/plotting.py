@@ -106,58 +106,10 @@ def plot_corner(relationship, figsize=(8, 8)):  # pragma: no cover
             - :py:class:`matplotlib.axes.Axes`: The axes with new plots.
     """
     n = len(relationship.variables)
-    if not all([isinstance(relationship.variables[i], Distribution) for i in range(n)]):
-        raise ValueError(
-            "In order to use the corner plot functionality, all relationship "
-            "variables must be Distributions. Please run MCMC before "
-            "plotting the corner."
-        )
     fig, ax = plt.subplots(n, n, figsize=figsize)
     var_labels = []
-    for i in range(n):
-        if relationship.variable_units[i] == UREG.dimensionless:
-            var_labels.append("{}".format(relationship.variable_names[i]))
-        else:
-            var_labels.append(
-                "{}/${:L}$".format(
-                    relationship.variable_names[i], relationship.variable_units[i],
-                )
-            )
-    corner(
-        relationship.mcmc_results["samples"],
-        color=colors[0],
-        hist_kwargs={"lw": 4, "histtype": "stepfilled"},
-        label_kwargs={"fontsize": _fig_params.rcParams["axes.labelsize"]},
-        fig=fig,
-        labels=var_labels,
-    )
-    for j in range(n):
-        ax[n - 1, j].set_xticks(
-            [
-                i
-                for i in np.percentile(
-                    relationship.variables[j].samples, [2.5, 50, 97.5]
-                )
-            ]
-        )
-        ax[n - 1, j].set_xlim(
-            [i for i in np.percentile(relationship.variables[j].samples, [0.5, 99.5])]
-        )
-    for j in range(n - 1):
-        ax[j + 1, 0].set_yticks(
-            [
-                i
-                for i in np.percentile(
-                    relationship.variables[j + 1].samples, [2.5, 50, 97.5]
-                )
-            ]
-        )
-        ax[j + 1, 0].set_ylim(
-            [
-                i
-                for i in np.percentile(
-                    relationship.variables[j + 1].samples, [0.5, 99.5]
-                )
-            ]
-        )
+    samples = np.zeros((relationship.variables[0].size, len(relationship.variables)))
+    for i, v in enumerate(relationship.variables):
+        samples[:, i] = v.samples
+    corner(samples, color=colors[0], hist_kwargs={"lw": 4, "histtype": "step"}, label_kwargs={"fontsize": _fig_params.rcParams["axes.labelsize"]}, fig=fig)
     return fig, ax
