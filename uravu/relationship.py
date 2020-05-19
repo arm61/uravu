@@ -13,14 +13,11 @@ See the `tutorials online`_ for more guidence of how to use this package.
 # Distributed under the terms of the MIT License
 # author: Andrew R. McCluskey
 
-import sys
 from inspect import getfullargspec
 import numpy as np
-import uncertainties
 from scipy.stats import uniform, norm
-from uncertainties import unumpy as unp
 from uncertainties import ufloat
-from uravu import UREG, optimize, sampling, __version__
+from uravu import optimize, sampling
 from uravu.distribution import Distribution
 from uravu.axis import Axis
 
@@ -44,38 +41,30 @@ class Relationship:
         abscissa (:py:attr:`array_like`): The abscissa data. If multi-dimensional, the array is expected to have the shape :py:attr:`(N, d)`, where :py:attr:`N` is the number of data points and :py:attr:`d` is the dimensionality.
         ordinate (:py:attr:`list` or :py:class:`uravu.distribution.Distribution` or :py:attr:`array_like`): The ordinate data. This should have a shape :py:attr:`(N,)`.
         bounds (:py:attr:`tuple`, optional): The minimum and maximum values for each parameters. Defaults to :py:attr:`None`.
-        ordinate_error (:py:attr:`array_like`, optional): The uncertainty in the ordinate. Only used if :py:attr:`ordinate` is not a :py:attr:`list` or :py:class:`uravu.distribution.Distribution`. Defaults to :py:attr:`None`. 
+        ordinate_error (:py:attr:`array_like`, optional): The uncertainty in the ordinate. Only used if :py:attr:`ordinate` is not a :py:attr:`list` or :py:class:`uravu.distribution.Distribution`. Defaults to :py:attr:`None`.
     """
 
-    def __init__(
-        self,
-        function,
-        abscissa,
-        ordinate,
-        bounds=None,
-        ordinate_error=None,
-    ):
+    def __init__(self, function, abscissa, ordinate, bounds=None, ordinate_error=None):
+        """
+        Initialisation function for a :py:class:`~uravu.relationship.Relationship` object.
+        """
         self.function = function
         self.abscissa = abscissa
 
         potential_y = []
         for i, y in enumerate(ordinate):
-            if not isinstance(y, Distribution) and ordinate_error is None:
-                raise ValueError(
-                    "uravu ordinate should be a list of uravu.distribution.Distribution objects or an ordinate_error should be given."
-                )
-            elif not isinstance(y, Distribution) and ordinate_error is not None:
-                potential_y.append(Distribution(norm.rvs(loc=y, scale=ordinate_error[i], size=5000)))
+            if not isinstance(y, Distribution):
+                if ordinate_error is not None:
+                    potential_y.append(Distribution(norm.rvs(loc=y, scale=ordinate_error[i], size=5000)))
+                else:
+                    raise ValueError("uravu ordinate should be a list of uravu.distribution.Distribution objects or an ordinate_error should be given.")
         if ordinate_error is None:
             self.ordinate = Axis(ordinate)
-        else: 
+        else:
             self.ordinate = Axis(potential_y)
 
         if abscissa.shape[0] != len(ordinate):
-            raise ValueError(
-                "The number of data points in the abscissa does "
-                "not match that for the ordinate."
-            )
+            raise ValueError("The number of data points in the abscissa does not match that for the ordinate.")
 
         self.bounds = bounds
         self.variables = []
@@ -111,7 +100,7 @@ class Relationship:
             :py:attr:`array_like`: Abscissa values.
         """
         return self.ordinate
-    
+
     @property
     def variable_medians(self):
         """
@@ -155,7 +144,7 @@ class Relationship:
 
         Args:
             i (:py:attr:`int`): The sample index.
-        
+
         Returns:
             :py:attr:`list` of :py:attr:`float`: Variable values at given index.
         """
@@ -183,19 +172,13 @@ class Relationship:
         .. _Bayesian information criteria: https://en.wikipedia.org/wiki/Bayesian_information_criterion
         """
         self.max_likelihood('diff_evo')
-        return np.log(
-            self.x.size
-        ) * self.len_parameters - 2 * optimize.ln_likelihood(
-            self.variable_medians,
-            self.function,
-            self.abscissa,
-            self.ordinate,
-        )
+        l_hat = optimize.ln_likelihood(self.variable_medians, self.function, self.abscissa, self.ordinate)
+        return np.log(self.x.size) * self.len_parameters - 2 * l_hat
 
     def max_likelihood(self, method, x0=None, **kwargs):
         """
         Determine values for the variables which maximise the likelihood for the :py:class:`~uravu.relationship.Relationship`. For keyword arguments see the :func:`scipy.optimize.minimize()` documentation.
-        
+
         Args:
             x0 (:py:attr:`array_like`): Initial guess values for the parameters.
         """
@@ -223,33 +206,18 @@ class Relationship:
                 priors.append(uniform(loc=loc, scale=scale))
         return priors
 
-    def mcmc(
-        self,
-        prior_function=None,
-        walkers=100,
-        n_samples=500,
-        n_burn=500,
-        progress=True,
-        seed=None,
-    ):
+    def mcmc(self, prior_function=None, walkers=50, n_samples=500, n_burn=500, progress=True):
         """
         Perform MCMC to get the posterior probability distributions for the variables of the relationship. *Note*, running this method will populate the :py:attr:`~uravu.relationship.Relationship.variables` attribute with :py:class:`~uravu.distribution.Distribution` objects.
 
         Args:
             prior_function (:py:attr:`callable`, optional): The function to populated some prior distributions. Default is the broad uniform priors in :func:`~uravu.relationship.Relationship.prior()`.
-            walkers (:py:attr:`int`, optional): Number of MCMC walkers. Default is :py:attr:`100`.
+            walkers (:py:attr:`int`, optional): Number of MCMC walkers. Default is :py:attr:`50`.
             n_samples (:py:attr:`int`, optional): Number of sample points. Default is :py:attr:500`.
             n_burn (:py:attr:`int`, optional): Number of burn in samples. Default is :py:attr:`500`.
             progress (:py:attr:`bool`, optional): Show :py:mod:`tqdm` progress for sampling. Default is :py:attr:`True`.
         """
-        self.mcmc_results = sampling.mcmc(
-            self,
-            prior_function=prior_function,
-            walkers=walkers,
-            n_samples=n_samples,
-            n_burn=n_burn,
-            progress=progress,
-        )
+        self.mcmc_results = sampling.mcmc(self, prior_function=prior_function, walkers=walkers, n_samples=n_samples, n_burn=n_burn, progress=progress)
         self.variables = self.mcmc_results["distributions"]
 
     def nested_sampling(self, prior_function=None, progress=True, dynamic=False, **kwargs):
@@ -260,12 +228,6 @@ class Relationship:
             prior_function (:py:attr:`callable`, optional): The function to populate some prior distributions. Default is the broad uniform priors in :func:`~uravu.relationship.Relationship.prior()`.
             progress (:py:attr:`bool`, optional): Show :py:mod:`tqdm` progress for sampling. Default is :py:attr:`True`.
         """
-        self.nested_sampling_results = sampling.nested_sampling(
-            self, prior_function=prior_function, progress=progress, dynamic=dynamic, **kwargs
-        )
-        self.ln_evidence = ufloat(
-            self.nested_sampling_results["logz"][-1],
-            self.nested_sampling_results["logzerr"][-1],
-        )
+        self.nested_sampling_results = sampling.nested_sampling(self, prior_function=prior_function, progress=progress, dynamic=dynamic, **kwargs)
+        self.ln_evidence = ufloat(self.nested_sampling_results["logz"][-1], self.nested_sampling_results["logzerr"][-1])
         self.variables = self.nested_sampling_results["distributions"]
-        

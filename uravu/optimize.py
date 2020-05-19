@@ -1,5 +1,5 @@
 """
-The optimize module includes the functionality necessary for maximum likelihood determination. 
+The optimize module includes the functionality necessary for maximum likelihood determination.
 Furthermore, the natural log likelihood function used in the :func:`~uravu.sampling.mcmc()` and :func:`~uravu.sampling.nested_sampling()` methods may be found here.
 """
 
@@ -9,8 +9,6 @@ Furthermore, the natural log likelihood function used in the :func:`~uravu.sampl
 
 import numpy as np
 from scipy.optimize import minimize, differential_evolution
-from uncertainties import unumpy as unp
-import sys
 
 
 def max_ln_likelihood(relationship, method, x0=None, **kwargs):
@@ -26,35 +24,15 @@ def max_ln_likelihood(relationship, method, x0=None, **kwargs):
     """
     if x0 is None:
         x0 = relationship.variable_medians
+    args = (relationship.function, relationship.abscissa, relationship.ordinate)
     if method == 'diff_evo':
-        res = differential_evolution(
-            negative_lnl, 
-            relationship.bounds, 
-            args=(
-                relationship.function,
-                relationship.abscissa,
-                relationship.ordinate,
-            ),
-            **kwargs,
-        )
+        res = differential_evolution(negative_lnl, relationship.bounds, args=args, **kwargs)
     elif method == 'mini':
-        res = minimize(
-            negative_lnl,
-            x0,
-            args=(
-                relationship.function,
-                relationship.abscissa,
-                relationship.ordinate,
-            ),
-            bounds=relationship.bounds,
-            **kwargs,
-        )
+        res = minimize(negative_lnl, x0, args=args, bounds=relationship.bounds, **kwargs)
     return res.x
 
 
-def negative_lnl(
-    variables, function, abscissa, ordinate,
-):
+def negative_lnl(variables, function, abscissa, ordinate):
     """
     Calculate the negative natural logarithm of the likelihood given a set of variables, when there is no uncertainty in the abscissa.
 
@@ -67,17 +45,10 @@ def negative_lnl(
     Returns:
         :py:attr:`float`: Negative natural log-likelihood between model and data.
     """
-    return -ln_likelihood(
-        variables,
-        function,
-        abscissa,
-        ordinate,
-    )
+    return -ln_likelihood(variables, function, abscissa, ordinate)
 
 
-def ln_likelihood(
-    variables, function, abscissa, ordinate,
-):
+def ln_likelihood(variables, function, abscissa, ordinate):
     """
     Calculate the natural logarithm of the likelihood given a set of variables, when there is no uncertainty in the abscissa.
 

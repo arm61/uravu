@@ -1,6 +1,6 @@
 """
-The storage and manipulation of probability distributions is fundamental to the operation of ``uravu`` and Bayesian inference. 
-The :py:class:`~uravu.distribution.Distribution` class oversees these operations. 
+The storage and manipulation of probability distributions is fundamental to the operation of ``uravu`` and Bayesian inference.
+The :py:class:`~uravu.distribution.Distribution` class oversees these operations.
 """
 
 # Copyright (c) Andrew R. McCluskey
@@ -8,8 +8,7 @@ The :py:class:`~uravu.distribution.Distribution` class oversees these operations
 # author: Andrew R. McCluskey
 
 import numpy as np
-from scipy.stats import normaltest, gaussian_kde, norm
-from uncertainties import ufloat
+from scipy.stats import normaltest, gaussian_kde
 from uravu import UREG
 
 
@@ -23,6 +22,7 @@ class Distribution:
         ci_points (:py:attr:`array_like`): The percentiles at which confidence intervals should be found.
         unit (:py:class:`~pint.unit.Unit`): The unit of the values in the Distribution.
         normal (:py:attr:`bool`): Are the samples normally distributed?
+        kde (:py:class:`scipy.stats.kde.gaussian_kde`): Kernel density approximation for the distribution.
 
     Args:
         samples (:py:attr:`array_like`): Sample for the distribution.
@@ -33,9 +33,7 @@ class Distribution:
     .. _FAQ: ./faq.html
     """
 
-    def __init__(
-        self, samples, name="Distribution", ci_points=None, unit=UREG.dimensionless,
-    ):
+    def __init__(self, samples, name="Distribution", ci_points=None, unit=UREG.dimensionless):
         """
         Initialisation function for a :py:class:`~uravu.distribution.Distribution` object.
         """
@@ -46,9 +44,7 @@ class Distribution:
             self.ci_points = np.array([2.5, 97.5])
         else:
             if len(ci_points) != 2:
-                raise ValueError(
-                    "The ci_points must be an array of length two."
-                )
+                raise ValueError("The ci_points must be an array of length two.")
             self.ci_points = np.array(ci_points)
         self.normal = False
         self.add_samples(np.array(samples))
@@ -83,7 +79,7 @@ class Distribution:
 
         Args:
             x (:py:attr:`float`): Value to return probability of.
-        
+
         Return:
             :py:attr:`float`: Probability.
         """
@@ -95,7 +91,7 @@ class Distribution:
 
         Args:
             x (:py:attr:`float`): Value to return natural log probability of.
-        
+
         Return:
             :py:attr:`float`: Natural log probability.
         """
@@ -131,37 +127,28 @@ class Distribution:
         """
         return np.percentile(self.samples, [50])[0]
 
-    @property
-    def s(self, ddof=1):
+    def s(self):
         """
         Get the standard deviation of the distribution. For a non-normal distribution, this will return :py:attr:`None`.
 
-        Args:
-            ddof (:py:attr:`int`): Degrees of freedom to be included in calculation.
-
         Returns:
             :py:attr:`float` or :py:attr:`None`: Standard deviation of the distribution.
         """
         if self.normal:
-            return np.std(self.samples, ddof=ddof)
-        else:
-            return None
+            return np.std(self.samples, ddof=1)
+        return None
 
     @property
-    def v(self, ddof=1):
+    def v(self):
         """
         Get the variance of the distribution. For a non-normal distribution, this will return :py:attr:`None`.
 
-        Args:
-            ddof (:py:attr:`int`): Degrees of freedom to be included in calculation.
-
         Returns:
             :py:attr:`float` or :py:attr:`None`: Standard deviation of the distribution.
         """
         if self.normal:
-            return np.var(self.samples, ddof=ddof)
-        else:
-            return None
+            return np.var(self.samples, ddof=1)
+        return None
 
     @property
     def con_int(self):

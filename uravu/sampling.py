@@ -14,14 +14,7 @@ from uravu.distribution import Distribution
 from dynesty import utils as dyfunc
 
 
-def mcmc(
-    relationship,
-    prior_function=None,
-    walkers=50,
-    n_samples=500,
-    n_burn=500,
-    progress=True,
-):
+def mcmc(relationship, prior_function=None, walkers=50, n_samples=500, n_burn=500, progress=True):
     """
     Perform MCMC to get the probability distributions for the variables of the relationship.
 
@@ -41,51 +34,30 @@ def mcmc(
 
     initial_prior = np.zeros((walkers, len(relationship.variable_medians)))
     called_prior = prior_function()
-    #for i, p in enumerate(called_prior):
-    #    initial_prior[:, i] = p.rvs(walkers)
 
-    for i, p in enumerate(called_prior): 
+    ndims = len(relationship.variable_medians)
+    for i in range(ndims):
         if relationship.variable_medians[i] != 0:
             initial_prior[:, i] = relationship.variable_medians[i] + 1e-2 * np.random.randn(walkers) * relationship.variable_medians[i]
         else:
             initial_prior[:, i] = 1e-4 * np.random.randn(walkers)
 
-    ndims = initial_prior.shape[1]
+    args = [relationship.function, relationship.abscissa, relationship.ordinate, called_prior]
 
-    sampler = emcee.EnsembleSampler(
-        walkers,
-        ndims,
-        ln_probability,
-        args=[
-            relationship.function,
-            relationship.abscissa,
-            relationship.ordinate,
-            called_prior,
-        ],
-    )
+    sampler = emcee.EnsembleSampler(walkers, ndims, ln_probability, args=args)
     sampler.run_mcmc(initial_prior, n_samples + n_burn, progress=progress)
 
     post_samples = sampler.get_chain(discard=n_burn).reshape((-1, ndims))
 
     distributions = []
     for i in range(ndims):
-        distributions.append(
-            Distribution(
-                post_samples[:, i],
-            )
-        )
+        distributions.append(Distribution(post_samples[:, i]))
 
-    results = {
-        "distributions": distributions,
-        "chain": sampler.get_chain().reshape((-1, ndims)),
-        "samples": post_samples,
-    }
+    results = {"distributions": distributions, "chain": sampler.get_chain().reshape((-1, ndims)), "samples": post_samples}
     return results
 
 
-def ln_probability(
-    variables, function, abscissa, ordinate, priors
-):
+def ln_probability(variables, function, abscissa, ordinate, priors):
     """
     Determine the natural log probability for a given set of variables, by
     summing the prior and likelihood.
@@ -104,9 +76,8 @@ def ln_probability(
     log_prior = 0
     for i, var in enumerate(variables):
         log_prior += priors[i].logpdf(var)
-    return log_prior + optimize.ln_likelihood(
-        variables, function, abscissa, ordinate,
-    )
+    lnl = optimize.ln_likelihood(variables, function, abscissa, ordinate)
+    return log_prior + lnl
 
 
 def nested_sampling(relationship, prior_function=None, progress=True, dynamic=False, **kwargs):
@@ -128,17 +99,8 @@ def nested_sampling(relationship, prior_function=None, progress=True, dynamic=Fa
     nested_sampler = dynesty.NestedSampler
     if dynamic:
         nested_sampler = dynesty.DynamicNestedSampler
-    sampler = nested_sampler(
-        optimize.ln_likelihood,
-        nested_prior,
-        len(relationship.variables),
-        logl_args=[
-            relationship.function,
-            relationship.abscissa,
-            relationship.ordinate,
-        ],
-        ptform_args=[priors],
-    )
+    logl_args = [relationship.function, relationship.abscissa, relationship.ordinate]
+    sampler = nested_sampler(optimize.ln_likelihood, nested_prior, len(relationship.variables), logl_args=logl_args, ptform_args=[priors])
 
     sampler.run_nested(print_progress=progress, **kwargs)
     results = sampler.results

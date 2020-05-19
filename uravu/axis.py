@@ -1,5 +1,5 @@
 """
-The Axis class controls the organisation of axes in the uravu code.
+The :py:class:`~uravu.axis.Axis` class controls the organisation of axes in the uravu code, including the evaluation of an axis-level multidimensional kernal density estimate.
 """
 
 # Copyright (c) Andrew R. McCluskey
@@ -8,18 +8,17 @@ The Axis class controls the organisation of axes in the uravu code.
 
 
 import numpy as np
-from uravu import UREG
-from uravu.distribution import Distribution
 from scipy.stats import gaussian_kde
+from uravu.distribution import Distribution
 
 
 class Axis:
     """
-    The Axes class is a flexible storage option for both numerical (:py:class:`numpy.ndarray`) and distribution (:py:class:`uravu.distribution.Distribution`) arrays. 
+    The Axes class is a flexible storage option for both numerical (:py:class:`numpy.ndarray`) and distribution (:py:class:`uravu.distribution.Distribution`) arrays.
 
     Attributes:
         values (:py:attr:`list` or :py:class:`uravu.distribution.Distribution` or :py:attr:`array_like`): Array of values.
-        kde (:py:class:`scipy.stats.kde.gaussian_kde`): Multi-dimensional kernal density approximation for the axes. 
+        kde (:py:class:`scipy.stats.kde.gaussian_kde`): Multi-dimensional kernel density approximation for the axes.
 
     Args:
         values (:py:attr:`list` or :py:class:`uravu.distribution.Distribution` or :py:attr:`array_like`): Array of values.
@@ -47,10 +46,9 @@ class Axis:
         if isinstance(self.values[0], Distribution):
             for i, o in enumerate(self.values):
                 v[i] = o.n
-            return v 
-        else:
-            return self.values
-    
+            return v
+        return self.values
+
     @property
     def s(self):
         """
@@ -63,9 +61,8 @@ class Axis:
             dv = np.zeros((2, self.size))
             for i, o in enumerate(self.values):
                 dv[:, i] = np.abs(o.con_int - o.n)
-            return dv 
-        else:
-            return np.zeros(self.shape)
+            return dv
+        return np.zeros(self.shape)
 
     @property
     def size(self):
@@ -77,8 +74,7 @@ class Axis:
         """
         if isinstance(self.values[0], Distribution):
             return len(self.values)
-        else:
-            return self.values.size
+        return self.values.size
 
     @property
     def shape(self):
@@ -90,8 +86,7 @@ class Axis:
         """
         if isinstance(self.values[0], Distribution):
             return len(self.values)
-        else:
-            return self.values.shape
+        return self.values.shape
 
     def pdf(self, x):
         """"
@@ -99,7 +94,7 @@ class Axis:
 
         Args:
             x (:py:attr:`array_like`): Values to return probability of.
-        
+
         Return:
             :py:attr:`array_like`: Probability.
         """
@@ -111,7 +106,7 @@ class Axis:
 
         Args:
             x (:py:attr:`array_like`): Values to return natural log probability of.
-        
+
         Return:
             :py:attr:`array_like`: Natural log probability.
         """
@@ -119,9 +114,18 @@ class Axis:
 
 
 def _get_kde(values):
+    """
+    Determine the kernel density estimate for a given set of values.
+
+    Args:
+        values (:py:attr:`array_like`): Sample for kde.
+
+    Returns:
+        :py:class:`scipy.stats.kde.gaussian_kde`: Kernel density estimate for samples.
+    """
     min_size = values[0].size
     for v in values:
         if v.size < min_size:
             min_size = v.size
     random_list = [np.random.choice(v.samples, size=min_size) for v in values]
-    return gaussian_kde(np.vstack(random_list)) 
+    return gaussian_kde(np.vstack(random_list))
