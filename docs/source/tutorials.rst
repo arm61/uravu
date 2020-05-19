@@ -10,7 +10,6 @@ If you want to go even deeper, then check out `Information Theory, Inference, an
 2. `Markov chain Monte Carlo`_
 3. `Nested Sampling`_
 4. `Custom priors`_
-5. `Unaccounted uncertainty`_
 
 
 .. toctree::
@@ -21,7 +20,6 @@ If you want to go even deeper, then check out `Information Theory, Inference, an
    mcmc
    nested_sampling
    custom_priors
-   unaccounted_uncertainty
 
 
 .. _Hogg, Bovy, and Lang: https://arxiv.org/abs/1008.4686
