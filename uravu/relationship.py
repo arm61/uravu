@@ -31,9 +31,9 @@ class Relationship:
 
     Attributes:
         function (:py:attr:`callable`): The function that is modelled.
-        abscissa (:py:attr:`array_like` with :py:class:`~pint.unit.Unit`): The abscissa data that the modelling should be performed from. This includes some unit from :py:class:`~pint.unit.Unit`.
-        ordinate (:py:attr:`array_like` with :py:class:`~pint.unit.Unit`): The ordinate data against with the model should be compared. This may include uncertainty values and some unit.
-        variables (:py:attr:`list` of :py:class:`~uravu.distribution.Distribution`): Variables in the :py:attr:`~uravu.relationship.Relationship.function`.
+        abscissa (:py:attr:`array_like`): The abscissa data that the modelling should be performed from. This includes some unit from :py:class:`~pint.unit.Unit`.
+        ordinate (:py:attr:`list` or :py:class:`uravu.distribution.Distribution` or :py:attr:`array_like`): The ordinate data against with the model should be compared. This should be an :py:attr:`list` or :py:class:`uravu.distribution.Distribution` unless a :py:attr:`ordinate_error` is given.
+        variables (:py:attr:`list` of :py:class:`uravu.distribution.Distribution`): Variables in the :py:attr:`~uravu.relationship.Relationship.function`.
         bounds (:py:attr:`tuple`): The minimum and maximum values for each parameters.
         ln_evidence (:py:class:`uncertainties.core.Variable`): The natural-log of the Bayesian evidence for the model to the given data.
         mcmc_results (:py:attr:`dict`): The results from :func:`emcee.EnsembleSampler.run_mcmc()` sampling.
@@ -42,11 +42,9 @@ class Relationship:
     Args:
         function (:py:attr:`callable`): The functional relationship to be modelled.
         abscissa (:py:attr:`array_like`): The abscissa data. If multi-dimensional, the array is expected to have the shape :py:attr:`(N, d)`, where :py:attr:`N` is the number of data points and :py:attr:`d` is the dimensionality.
-        ordinate (:py:attr:`array_like`): The ordinate data. This should have a shape :py:attr:`(N,)`.
-        abscissa_unit (:py:class:`~pint.unit.Unit`, optional): The unit for the :py:attr:`abscissa`. If :py:attr:`abscissa` is multi-dimensional, this should be a list with the units for each dimension. Default is :py:attr:`~pint.unit.Unit.dimensionless`.
-        ordinate_unit (:py:class:`~pint.unit.Unit`, optional): The unit for the :py:attr:`ordinate`. Default is :py:attr:`~pint.unit.Unit.dimensionless`.
-        variable_units (:py:class:`~pint.unit.Unit`, optional): The units for the variables. Default is :py:attr:`~pint.unit.Unit.dimensionless`.
-        bounds (:py:attr:`tuple`): The minimum and maximum values for each parameters. Defaults to :py:attr:`None`.
+        ordinate (:py:attr:`list` or :py:class:`uravu.distribution.Distribution` or :py:attr:`array_like`): The ordinate data. This should have a shape :py:attr:`(N,)`.
+        bounds (:py:attr:`tuple`, optional): The minimum and maximum values for each parameters. Defaults to :py:attr:`None`.
+        ordinate_error (:py:attr:`array_like`, optional): The uncertainty in the ordinate. Only used if :py:attr:`ordinate` is not a :py:attr:`list` or :py:class:`uravu.distribution.Distribution`. Defaults to :py:attr:`None`. 
     """
 
     def __init__(
@@ -64,7 +62,7 @@ class Relationship:
         for i, y in enumerate(ordinate):
             if not isinstance(y, Distribution) and ordinate_error is None:
                 raise ValueError(
-                    "uravu ordinate should be a list of uravu.distribution.Distribution objects"
+                    "uravu ordinate should be a list of uravu.distribution.Distribution objects or an ordinate_error should be given."
                 )
             elif not isinstance(y, Distribution) and ordinate_error is not None:
                 potential_y.append(Distribution(norm.rvs(loc=y, scale=ordinate_error[i], size=5000)))
