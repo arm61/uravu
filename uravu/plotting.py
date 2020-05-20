@@ -18,10 +18,10 @@ try:
     import matplotlib.pyplot as plt
     from corner import corner
     from uravu import _fig_params
+    colors = _fig_params.colors
 except ModuleNotFoundError:
     print("The matplotlib, corner and seaborn packages are necessary for the use of the plotting module, please install these.")
 
-colors = _fig_params.colors
 
 def plot_relationship(relationship, axes=None, figsize=(10, 6)):  # pragma: no cover
     """
