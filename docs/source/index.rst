@@ -30,19 +30,17 @@ There are a couple of fantastic Bayesian inference libraries available in Python
 - :py:mod:`emcee`: enables the use of the `Goodman & Weare’s Affine Invariant Markov chain Monte Carlo (MCMC) Ensemble sampler`_ to evaluate the structure of the model parameter posterior distributions,
 - :py:mod:`dynesty`: implements the `nested sampling`_ algorithm for evidence estimation.
 
-To see which publications you should reference in your work, the :py:class:`~uravu.relationship.Relationship` has a property that will return the relevant citations based on what analyses have been performed.
+Getting and :py:class:`uravu.relationship.Relationship` running is as simple as. 
 
 .. code-block:: python 
 
    from uravu.Relationship import Relationship
    
-   modeller = Relationship(function, abscissa, ordinate, ordinate_error)
+   modeller = Relationship(function, abscissa, ordinate, ordinate_error=ordinate_error)
    modeller.max_likelihood()
    modeller.mcmc()
    modeller.nested_sampling()
    
-   print(modeller.citations)
-
 .. _basic tutorials: ./tutorials.html
 .. _Github: https://github.com/arm61/uravu
 .. _Goodman & Weare’s Affine Invariant Markov chain Monte Carlo (MCMC) Ensemble sampler: https://doi.org/10.2140/camcos.2010.5.65
