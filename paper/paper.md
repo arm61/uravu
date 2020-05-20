@@ -33,7 +33,8 @@ bibliography: paper.bib
 - `emcee`: for Markov chain Monte Carlo investigation of posterior probabilities [@foremanmackey_emcee_2019]
 - `dynesty`: for nested sampling of the Bayesian evidence [@speagle_dynesty_2020].
 
-In addition to lowering the entry barrier uravu also adds additional utility, such as the inclusion of measurement units (important for scientific analysis) with the `pint` package, and publication-quality plots of relationships, data, and distributions with `matplotlib` [@hunter_matplotlib_2007] and `corner` [@foremanmackey_corner_2019]. 
+In addition to lowering the entry barrier `uravu` also adds additional utility, such as the ability to investigate non-normal distributions in a Bayesian fashion without the need for complex, custom code. 
+Furthermore, `uravu` provides the ability to create simple, publication-quality plots of relationships, data, and distributions with `matplotlib`[@hunter_matplotlib_2007] and `corner` [@foremanmackey_corner_2019]. 
 
 Alongside API information, the `uravu` documentation offers brief tutorials (uravu.rtfd.io/en/latest/tutorials.html) in all aspects of the package.
 This enables those unfamiliar with Bayesian modelling to get to grips with these important tools for data analysis.
