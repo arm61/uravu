@@ -7,6 +7,7 @@ Some of these were heavily inspired by the tutorial paper of `Hogg, Bovy, and La
 If you want to go even deeper, then check out `Information Theory, Inference, and Learning Algorithms`_ from David MacKay. 
 
 1. `Maximum likelihood`_
+2. `Using distributions`_
 2. `Markov chain Monte Carlo`_
 3. `Nested Sampling`_
 4. `Custom priors`_
@@ -29,4 +30,4 @@ If you want to go even deeper, then check out `Information Theory, Inference, an
 .. _Markov chain Monte Carlo: ./mcmc.html
 .. _Nested Sampling: ./nested_sampling.html
 .. _Custom priors: ./custom_priors.html
-.. _Unaccounted uncertainty: ./unaccounted_uncertainty.html
+.. _Using distributions: ./using_distributions.html
