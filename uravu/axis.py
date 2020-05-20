@@ -65,6 +65,21 @@ class Axis:
         return np.zeros(self.shape)
 
     @property
+    def mode(self):
+        """
+        Get the values that maximise the probability distributions of the axis. 
+
+        Returns:
+            :py:attr:`array_like`: Values that maximise the probability for axis.
+        """
+        v = np.zeros(self.shape)
+        if isinstance(self.values[0], Distribution):
+            for i, o in enumerate(self.values):
+                v[i] = o.dist_max
+            return v
+        return self.values
+
+    @property
     def size(self):
         """
         Get the axis size.

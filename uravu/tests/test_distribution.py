@@ -63,6 +63,14 @@ class TestDistribution(unittest.TestCase):
         distro = Distribution(uniform.rvs(loc=0, scale=1, size=100, random_state=np.random.RandomState(1)))
         assert_almost_equal(distro.logpdf(0), np.log([0.5805]), decimal=4)
 
+    def test_negative_pdf(self):
+        distro = Distribution(uniform.rvs(loc=0, scale=1, size=100, random_state=np.random.RandomState(1)))
+        assert_almost_equal(distro.negative_pdf(0), [-0.5805], decimal=4)
+
+    def test_dist_max(self):
+        distro = Distribution(norm.rvs(loc=0, scale=1, size=100, random_state=np.random.RandomState(1)))
+        assert_almost_equal(distro.dist_max, 0, decimal=1) 
+
     def test_min(self):
         distro = Distribution(np.linspace(1, 10, 100))
         assert_equal(distro.min, 1)

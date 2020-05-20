@@ -9,6 +9,7 @@ The :py:class:`~uravu.distribution.Distribution` class oversees these operations
 
 import numpy as np
 from scipy.stats import normaltest, gaussian_kde
+from scipy.optimize import minimize
 from uravu import UREG
 
 
@@ -96,6 +97,28 @@ class Distribution:
             :py:attr:`float`: Natural log probability.
         """
         return self.kde.logpdf(x)
+
+    def negative_pdf(self, x):
+        """
+        Get the negative of the probability density function for the distribution.
+
+        Args:
+            x (:py:attr:`float`): Value to return negative probability of.
+
+        Return:
+            :py:attr:`float`: Negative probability.
+        """
+        return -self.kde.pdf(x) 
+        
+    @property
+    def dist_max(self):
+        """
+        Get the value that maximises the distribution.
+        
+        Returns
+            :py:attr:`float`: Most likely value.
+        """
+        return minimize(self.negative_pdf, x0=[self.n]).x
 
     @property
     def min(self):

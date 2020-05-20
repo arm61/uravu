@@ -52,6 +52,12 @@ class TestDistribution(unittest.TestCase):
     def test_s_array(self):
         assert_equal(AX_ARRAY.s, [0, 0])
 
+    def test_mode(self):
+        assert_almost_equal(AX.mode, [0, 1], decimal=1)
+
+    def test_mode_array(self):
+        assert_equal(AX_ARRAY.mode, [0, 1])
+
     def test_size(self):
         assert_equal(AX.size, 2)
     
