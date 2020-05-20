@@ -2,7 +2,7 @@
 
 **making Bayesian modelling easy(er)**
 
-
+[![DOI](https://zenodo.org/badge/241184437.svg)](https://zenodo.org/badge/latestdoi/241184437)
 [![Documentation Status](https://readthedocs.org/projects/uravu/badge/?version=latest)](https://uravu.readthedocs.io/en/latest/?badge=latest)
 [![Coverage Status](https://coveralls.io/repos/github/arm61/uravu/badge.svg?branch=master)](https://coveralls.io/github/arm61/uravu?branch=master)
 [![Build Status](https://travis-ci.org/arm61/uravu.svg?branch=master)](https://travis-ci.org/arm61/uravu)
