@@ -18,7 +18,7 @@ Plus, we have some nice plotting functionalities available in the `plotting` mod
 
 ![An example of the type of figures that uravu can produce. Showing straight line distribution with increasing uncertainty.](https://github.com/arm61/uravu/raw/master/docs/source/sample_fig.png)
 
-In an effort to make the ``uravu`` API friendly to those new to Bayesian inference, ``uravu`` is *opinionated*, making assumptions about priors amoung other things. 
+In an effort to make the ``uravu`` API friendly to those new to Bayesian inference, ``uravu`` is *opinionated*, making assumptions about priors among other things. 
 However, we have endevoured to make it straightforward to ignore these opinions.
 
 In addition to the library and API, we also have some [basic tutorials](https://uravu.readthedocs.io/en/latest/tutorials.html) discussing how Bayesian inference methods can be used in the analysis of data. 
