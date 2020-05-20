@@ -8,9 +8,9 @@ If you want to go even deeper, then check out `Information Theory, Inference, an
 
 1. `Maximum likelihood`_
 2. `Using distributions`_
-2. `Markov chain Monte Carlo`_
-3. `Nested Sampling`_
-4. `Custom priors`_
+3. `Markov chain Monte Carlo`_
+4. `Nested Sampling`_
+5. `Custom priors`_
 
 
 .. toctree::
