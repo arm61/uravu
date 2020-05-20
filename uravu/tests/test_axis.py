@@ -14,7 +14,6 @@ from uravu.distribution import Distribution
 import scipy.stats
 from uravu.axis import Axis
 from scipy.stats import norm, uniform
-from uravu import UREG
 
 
 DISTRO1 = Distribution(norm.rvs(loc=0, scale=1, size=10000, random_state=np.random.RandomState(1)))

@@ -12,7 +12,6 @@ import numpy as np
 from numpy.testing import assert_almost_equal, assert_equal
 from uravu.distribution import Distribution
 from scipy.stats import norm, uniform
-from uravu import UREG
 
 class TestDistribution(unittest.TestCase):
     """
@@ -21,10 +20,6 @@ class TestDistribution(unittest.TestCase):
     def test_init_name(self):
         distro = Distribution(norm.rvs(loc=0, scale=1, size=1000), name='random')
         assert_equal(distro.name, 'random')
-
-    def test_init_unit(self):
-        distro = Distribution(norm.rvs(loc=0, scale=1, size=1000), unit=UREG.meter)
-        assert_equal(distro.unit, UREG.meter) 
 
     def test_init_samples(self):
         samples = norm.rvs(loc=0, scale=1, size=1000)

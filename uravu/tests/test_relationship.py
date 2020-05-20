@@ -11,7 +11,7 @@ import numpy as np
 import scipy.stats
 from uncertainties import unumpy as unp
 from numpy.testing import assert_almost_equal, assert_equal
-from uravu import UREG, utils
+from uravu import utils
 from uravu.relationship import Relationship
 from uravu.distribution import Distribution
 from uravu.axis import Axis

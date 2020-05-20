@@ -28,7 +28,7 @@ class Relationship:
 
     Attributes:
         function (:py:attr:`callable`): The function that is modelled.
-        abscissa (:py:attr:`array_like`): The abscissa data that the modelling should be performed from. This includes some unit from :py:class:`~pint.unit.Unit`.
+        abscissa (:py:attr:`array_like`): The abscissa data that the modelling should be performed on.
         ordinate (:py:attr:`list` or :py:class:`uravu.distribution.Distribution` or :py:attr:`array_like`): The ordinate data against with the model should be compared. This should be an :py:attr:`list` or :py:class:`uravu.distribution.Distribution` unless a :py:attr:`ordinate_error` is given.
         variables (:py:attr:`list` of :py:class:`uravu.distribution.Distribution`): Variables in the :py:attr:`~uravu.relationship.Relationship.function`.
         bounds (:py:attr:`tuple`): The minimum and maximum values for each parameters.
@@ -84,7 +84,7 @@ class Relationship:
     @property
     def x(self):
         """
-        Abscissa values with unit and uncertainty (where present).
+        Abscissa values.
 
         Returns:
             :py:attr:`array_like`: Abscissa values.
@@ -94,10 +94,10 @@ class Relationship:
     @property
     def y(self):
         """
-        Abscissa values with unit and uncertainty (where present).
+        Ordinate values.
 
         Returns:
-            :py:attr:`array_like`: Abscissa values.
+            :py:attr:`array_like`: Ordinate values.
         """
         return self.ordinate
 

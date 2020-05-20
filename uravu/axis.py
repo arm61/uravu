@@ -33,6 +33,7 @@ class Axis:
             self.kde = _get_kde(self.values)
         else:
             self.values = np.array(values)
+        
 
     @property
     def n(self):

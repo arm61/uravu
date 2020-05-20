@@ -10,7 +10,6 @@ The :py:class:`~uravu.distribution.Distribution` class oversees these operations
 import numpy as np
 from scipy.stats import normaltest, gaussian_kde
 from scipy.optimize import minimize
-from uravu import UREG
 
 
 class Distribution:
@@ -21,7 +20,6 @@ class Distribution:
         samples (:py:attr:`array_like`): Samples in the distribution.
         name (:py:attr:`str`): Distribution name.
         ci_points (:py:attr:`array_like`): The percentiles at which confidence intervals should be found.
-        unit (:py:class:`~pint.unit.Unit`): The unit of the values in the Distribution.
         normal (:py:attr:`bool`): Are the samples normally distributed?
         kde (:py:class:`scipy.stats.kde.gaussian_kde`): Kernel density approximation for the distribution.
 
@@ -29,17 +27,15 @@ class Distribution:
         samples (:py:attr:`array_like`): Sample for the distribution.
         name (:py:attr:`str`, optional): A name to identify the distribution. Default is :py:attr:`'Distribution'`.
         ci_points (:py:attr:`array_like`, optional): The two percentiles at which confidence intervals should be found. Default is :py:attr:`[2.5, 97.5]` (a 95 % confidence interval).
-        unit (:py:class:`~pint.unit.Unit`, optional): The unit for the distribution. For information about unit assignment see the `FAQ`_. Default is :py:attr:`~pint.unit.Unit.dimensionless`.
 
     .. _FAQ: ./faq.html
     """
 
-    def __init__(self, samples, name="Distribution", ci_points=None, unit=UREG.dimensionless):
+    def __init__(self, samples, name="Distribution", ci_points=None):
         """
         Initialisation function for a :py:class:`~uravu.distribution.Distribution` object.
         """
         self.name = name
-        self.unit = unit
         self.samples = np.array([])
         if ci_points is None:
             self.ci_points = np.array([2.5, 97.5])
