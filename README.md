@@ -2,6 +2,7 @@
 
 **making Bayesian modelling easy(er)**
 
+[![PyPI version](https://badge.fury.io/py/uravu.svg)](https://badge.fury.io/py/uravu)
 [![DOI](https://zenodo.org/badge/241184437.svg)](https://zenodo.org/badge/latestdoi/241184437)
 [![Documentation Status](https://readthedocs.org/projects/uravu/badge/?version=latest)](https://uravu.readthedocs.io/en/latest/?badge=latest)
 [![Coverage Status](https://coveralls.io/repos/github/arm61/uravu/badge.svg?branch=master)](https://coveralls.io/github/arm61/uravu?branch=master)
