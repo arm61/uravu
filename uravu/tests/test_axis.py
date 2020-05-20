@@ -20,7 +20,7 @@ DISTRO1 = Distribution(norm.rvs(loc=0, scale=1, size=10000, random_state=np.rand
 DISTRO2 = Distribution(norm.rvs(loc=1, scale=1, size=10000, random_state=np.random.RandomState(2)))
 AX = Axis([DISTRO1, DISTRO2])
 
-AX_ARRAY = Axis([0, 1]) 
+AX_ARRAY = Axis([0, 1])
 
 
 class TestDistribution(unittest.TestCase):

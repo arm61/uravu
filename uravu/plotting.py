@@ -9,10 +9,6 @@ The aim is to produce *publication quality* plots. However, we recognise that ta
 # author: Andrew R. McCluskey
 
 import numpy as np
-import uncertainties
-from scipy.stats import gaussian_kde
-from uravu import UREG
-from uravu.distribution import Distribution
 
 try:
     import matplotlib.pyplot as plt
@@ -43,10 +39,10 @@ def plot_relationship(relationship, axes=None, figsize=(10, 6)):  # pragma: no c
         plot_samples = np.random.randint(0, variables[0].samples.size, size=100)
         for i in plot_samples:
             float_variables = relationship.get_sample(i)
-            axes.plot(relationship.x, relationship.function(relationship.x, *float_variables), color=colors[1], alpha=0.05) 
+            axes.plot(relationship.x, relationship.function(relationship.x, *float_variables), color=colors[1], alpha=0.05)
     else:
         float_variables = relationship.variable_medians
-        axes.plot(relationship.x, relationship.function(relationship.x, *float_variables), color=colors[1]) 
+        axes.plot(relationship.x, relationship.function(relationship.x, *float_variables), color=colors[1])
     return axes
 
 
@@ -89,7 +85,6 @@ def plot_corner(relationship, figsize=(8, 8)):  # pragma: no cover
     """
     n = len(relationship.variables)
     fig, ax = plt.subplots(n, n, figsize=figsize)
-    var_labels = []
     samples = np.zeros((relationship.variables[0].size, len(relationship.variables)))
     for i, v in enumerate(relationship.variables):
         samples[:, i] = v.samples
