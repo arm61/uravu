@@ -27,14 +27,15 @@ bibliography: paper.bib
 
 # Summary
 
-`uravu` offers an easy to use interface to Bayesian modelling for scientific analysis in the Python programming language, making Bayesian modelling as easy to use as the `scipy.optimize.curve_fit()` method. This software acts to lower the barrier of entry to the use of packages such as:
+`uravu` offers an easy to use interface data analysis using Bayesian modelling in the Python programming language; aiming to make Bayesian modelling as easy to use as the `scipy.optimize.curve_fit()` method. 
+This software acts to lower the barrier of entry to the use of packages such as:
 
 - `scipy`: for maximum likelihood estimation [@virtanen_scipy_2020]
 - `emcee`: for Markov chain Monte Carlo investigation of posterior probabilities [@foremanmackey_emcee_2019]
-- `dynesty`: for nested sampling of the Bayesian evidence [@speagle_dynesty_2020].
+- `dynesty`: for nested sampling of posterior probabilities and estimation of the Bayesian evidence [@speagle_dynesty_2020].
 
-In addition to lowering the entry barrier `uravu` also adds additional utility, such as the ability to investigate non-normal distributions in a Bayesian fashion without the need for complex, custom code. 
-Furthermore, `uravu` provides the ability to create simple, publication-quality plots of relationships, data, and distributions with `matplotlib`[@hunter_matplotlib_2007] and `corner` [@foremanmackey_corner_2019]. 
+In addition to standard normal ordinate uncertainties, `uravu` also add the ability to investigate non-normal ordinate value distributions, with the `Distribution` class and its integration into the `Relationship` class. 
+Furthermore, `uravu` provides the functionality to create simple, publication-quality plots of relationships, data, and distributions with `matplotlib`[@hunter_matplotlib_2007] and `corner` [@foremanmackey_corner_2019]. 
 
 Alongside API information, the `uravu` documentation offers brief tutorials (uravu.rtfd.io/en/latest/tutorials.html) in all aspects of the package.
 This enables those unfamiliar with Bayesian modelling to get to grips with these important tools for data analysis.
@@ -44,9 +45,9 @@ This enables those unfamiliar with Bayesian modelling to get to grips with these
 
 The Python language has a large number of powerful packages related to the application of Bayesian modelling. 
 However, to apply these methods to their problems, scientific users need a straightforward environment. 
-For maximum-likelihood modelling, this is achieved using the `scipy.optimize.curve_fit()` method for many users but, to the best of the author's knowledge, there is no equivalent method for Bayesian modelling.
-`uravu` fills this gap by offering easy access to powerful Python packages to perform Markov chain Monte Carlo and nested sampling. 
-Furthermore, the tutorials, available as documentation, online allow users to become more comfortable with the use of Bayesian methods for data modelling.
+For maximum-likelihood modelling, this is achieved using the `scipy.optimize.curve_fit()` method for many users, but, to the best of the author's knowledge, there is no equivalent method for Bayesian modelling.
+`uravu` fills this gap by offering easy access to powerful Python packages to perform Markov chain Monte Carlo and nested sampling, that is capable of handling uncertainties with any distribution. 
+Furthermore, the tutorials, available as documentation online, allow users to become more comfortable with the use of Bayesian methods for data modelling.
 
 # Acknowledgements
 
