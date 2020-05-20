@@ -16,9 +16,7 @@ The aim of ``uravu`` is to make using the **amazing** Bayesian inference librari
 Therefore enabling many more to make use of these exciting tools and powerful libraries.
 Plus, we have some nice plotting functionalities available in the `plotting` module, capable of generating publication quality figures.
 
-<center>
-<img src="https://github.com/arm61/uravu/raw/master/docs/source/sample_fig.png" alt="An example of the type of figures that uravu can produce. Showing straight line distribution with some uncertainty.">
-</center>
+![An example of the type of figures that uravu can produce. Showing straight line distribution with increasing uncertainty.](https://github.com/arm61/uravu/raw/master/docs/source/sample_fig.png)
 
 In an effort to make the ``uravu`` API friendly to those new to Bayesian inference, ``uravu`` is *opinionated*, making assumptions about priors among other things. 
 However, we have endevoured to make it straightforward to ignore these opinions.
