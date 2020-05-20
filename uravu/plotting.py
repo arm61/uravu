@@ -25,7 +25,7 @@ def plot_relationship(relationship, axes=None, figsize=(10, 6)):  # pragma: no c
 
     Args:
         relationship (:py:class:`uravu.relationship.Relationship`): The relationship to be plotted.
-        axes (:py:class:`matplotlib.axes.Axes`): Axes to which the plot should be added. If none given new axes will be created.
+        axes (:py:class:`matplotlib.axes.Axes`, optional): Axes to which the plot should be added. If :py:attr:`None` given new axes will be created. Default is :py:attr:`None`.
         fig_size (:py:attr:`tuple`, optional): horizontal and veritcal size for figure (in inches). Default is :py:attr:`(10, 6)`.
 
     Returns:
@@ -52,6 +52,7 @@ def plot_distribution(distro, axes=None, figsize=(5, 3)):  # pragma: no cover
 
     Args:
         distro (:py:class`uravu.distriobution.Distribution`): The distribution to be plotted.
+        axes (:py:class:`matplotlib.axes.Axes`, optional): Axes to which the plot should be added. If :py:attr:`None` given new axes will be created. Default is :py:attr:`None`.
         fig_size (:py:class:`tuple`): Horizontal and veritcal size for figure (in inches). Default is :py:attr:`(10, 6)`.
 
     Returns:
