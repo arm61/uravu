@@ -37,8 +37,8 @@ This software acts to lower the barrier of entry to the use of packages such as:
 In addition to standard normal ordinate uncertainties, `uravu` also add the ability to investigate non-normal ordinate value distributions, with the `Distribution` class and its integration into the `Relationship` class. 
 Furthermore, `uravu` provides the functionality to create simple, publication-quality plots of relationships, data, and distributions with `matplotlib`[@hunter_matplotlib_2007] and `corner` [@foremanmackey_corner_2019]. 
 
-Alongside API information, the `uravu` documentation offers brief tutorials (uravu.rtfd.io/en/latest/tutorials.html) in all aspects of the package.
-This enables those unfamiliar with Bayesian modelling to get to grips with these important tools for data analysis.
+Alongside API information, the `uravu` documentation offers brief tutorials covering many aspects of the package.
+This allows those unfamiliar with Bayesian modelling to get to grips with these important tools for data analysis.
 `uravu` is being actively applied to scientific problems, such as data reduction at large scale scientific facilities and the modelling of diffusion in battery materials.
 
 # Statement of Need
