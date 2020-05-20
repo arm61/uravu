@@ -11,17 +11,15 @@ The aim is to produce *publication quality* plots. However, we recognise that ta
 import numpy as np
 import uncertainties
 from scipy.stats import gaussian_kde
-from uravu import UREG, _fig_params
+from uravu import UREG
 from uravu.distribution import Distribution
 
 try:
     import matplotlib.pyplot as plt
     from corner import corner
+    from uravu import _fig_params
 except ModuleNotFoundError:
-    print(
-        "The matplotlib and corner packages are necessary for the use of "
-        "the plotting module, please install these."
-    )
+    print("The matplotlib, corner and seaborn packages are necessary for the use of the plotting module, please install these.")
 
 colors = _fig_params.colors
 
@@ -40,7 +38,7 @@ def plot_relationship(relationship, axes=None, figsize=(10, 6)):  # pragma: no c
     if axes is None:
         axes = plt.subplots(figsize=figsize)[1]
     variables = relationship.variables
-    axes.errorbar(relationship.x, relationship.y.n, relationship.y.s, c=colors[0], ecolor=colors[0] + '40')
+    axes.errorbar(relationship.x, relationship.y.mode, relationship.y.s, c=colors[0], ecolor=colors[0] + '40', marker='.', ls='')
     if relationship.mcmc_done or relationship.nested_sampling_done:
         plot_samples = np.random.randint(0, variables[0].samples.size, size=100)
         for i in plot_samples:
@@ -65,28 +63,12 @@ def plot_distribution(distro, axes=None, figsize=(5, 3)):  # pragma: no cover
     """
     if axes is None:
         axes = plt.subplots(figsize=figsize)[1]
-    kde = gaussian_kde(distro.samples)
+    kde = distro.kde
     abscissa = np.linspace(distro.samples.min(), distro.samples.max(), 100)
     ordinate = kde.evaluate(abscissa)
     axes.plot(abscissa, ordinate, color=colors[0])
-    axes.hist(
-        distro.samples,
-        bins=25,
-        density=True,
-        color=colors[0],
-        alpha=0.5,
-    )
-    axes.fill_betweenx(
-        np.linspace(0, ordinate.max() + ordinate.max() * 0.1),
-        distro.con_int[0],
-        distro.con_int[1],
-        alpha=0.2,
-    )
-    x_label = "{}".format(distro.name)
-    if distro.unit != UREG.dimensionless:
-        x_label += "/${:~L}$".format(distro.unit)
-    axes.set_xlabel(x_label)
-    axes.set_ylabel("$p(${}$)$".format(distro.name))
+    axes.hist(distro.samples, bins=25, density=True, color=colors[0], alpha=0.5)
+    axes.fill_betweenx(np.linspace(0, ordinate.max() + ordinate.max() * 0.1), distro.con_int[0], distro.con_int[1], alpha=0.2)
     axes.set_ylim((0, ordinate.max() + ordinate.max() * 0.1))
     return axes
 
