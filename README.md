@@ -2,6 +2,7 @@
 
 **making Bayesian modelling easy(er)**
 
+[![status](https://joss.theoj.org/papers/e9047e48bf024589e0765f955b3e4c76/status.svg)](https://joss.theoj.org/papers/e9047e48bf024589e0765f955b3e4c76)
 [![PyPI version](https://badge.fury.io/py/uravu.svg)](https://badge.fury.io/py/uravu)
 [![DOI](https://zenodo.org/badge/241184437.svg)](https://zenodo.org/badge/latestdoi/241184437)
 [![Documentation Status](https://readthedocs.org/projects/uravu/badge/?version=latest)](https://uravu.readthedocs.io/en/latest/?badge=latest)
