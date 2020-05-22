@@ -35,14 +35,15 @@ def plot_relationship(relationship, axes=None, figsize=(10, 6)):  # pragma: no c
         axes = plt.subplots(figsize=figsize)[1]
     variables = relationship.variables
     axes.errorbar(relationship.x, relationship.y.mode, relationship.y.s, c=colors[0], ecolor=colors[0] + '40', marker='.', ls='')
+    smooth_x = np.linspace(relationship.x.min(), relationship.x.max(), 1000)
     if relationship.mcmc_done or relationship.nested_sampling_done:
         plot_samples = np.random.randint(0, variables[0].samples.size, size=100)
         for i in plot_samples:
             float_variables = relationship.get_sample(i)
-            axes.plot(relationship.x, relationship.function(relationship.x, *float_variables), color=colors[1], alpha=0.05)
+            axes.plot(smooth_x, relationship.function(smooth_x, *float_variables), color=colors[1], alpha=0.05)
     else:
         float_variables = relationship.variable_medians
-        axes.plot(relationship.x, relationship.function(relationship.x, *float_variables), color=colors[1])
+        axes.plot(smooth_x, relationship.function(smooth_x, *float_variables), color=colors[1])
     return axes
 
 
