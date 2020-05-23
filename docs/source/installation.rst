@@ -7,6 +7,6 @@ Installation
 
    pip install uravu
 
-Alternatively, the latest development build can be found `Github`_. 
+Alternatively, if you would like to download and install the latest development build, it can be found `Github`_ along with specific installation instructions. 
 
 .. _Github: https://github.com/arm61/uravu
