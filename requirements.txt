@@ -1,7 +1,8 @@
 numpy
 scipy
-matplotlib
 emcee
-dynesty
+dynesty>=1.0.1
 uncertainties
+pytest
+matplotlib
 seaborn
