@@ -39,6 +39,8 @@ Finally, if you are just wanting to ask a question and cannot find the informati
 
 ## Installation
 
+`uravu` is available froom the [PyPI](https://pypi.org/project/uravu/) repository so can be [installed using `pip`](https://uravu.readthedocs.io/en/latest/installation.html) or alternatively `clone` this repository and install the latest development build with the commands below. 
+
 ```
 pip install -r requirements.txt
 python setup.py build
