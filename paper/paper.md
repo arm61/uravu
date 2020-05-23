@@ -27,7 +27,7 @@ bibliography: paper.bib
 
 # Summary
 
-`uravu` offers an easy to use interface data analysis using Bayesian modelling in the Python programming language; aiming to make Bayesian modelling as easy to use as the `scipy.optimize.curve_fit()` method. 
+`uravu` offers an easy to use interface for data analysis using Bayesian modelling in the Python programming language; aiming to make Bayesian modelling as easy to use as the `scipy.optimize.curve_fit()` method. 
 This software acts to lower the barrier of entry to the use of packages such as:
 
 - `scipy`: for maximum likelihood estimation [@virtanen_scipy_2020]
@@ -39,6 +39,7 @@ Furthermore, `uravu` provides the functionality to create simple, publication-qu
 
 Alongside API information, the `uravu` documentation offers brief tutorials covering many aspects of the package.
 This allows those unfamiliar with Bayesian modelling to get to grips with these important tools for data analysis.
+While Bayesian data modelling is possible with packages such as `emcee` [@foremanmackey_emcee_2019], `dynesty` [@speagle_dynesty_2020], and `PyMC3` [salvatier_pymc3_2016], to the authors' knowledge `uravu` is unique in offering a simple to use interface, where it is not necessary to explicitly define functions for as the likelihood or prior probabilities (though custom priors are possible). 
 `uravu` is being actively applied to scientific problems, such as data reduction at large scale scientific facilities and the modelling of diffusion in battery materials.
 
 # Statement of Need
