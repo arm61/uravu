@@ -35,7 +35,7 @@ This software acts to lower the barrier of entry to the use of packages such as:
 - `dynesty`: for nested sampling of posterior probabilities and estimation of the Bayesian evidence [@speagle_dynesty_2020].
 
 In addition to standard normal ordinate uncertainties, `uravu` also add the ability to investigate non-normal ordinate value distributions, with the `Distribution` class and its integration into the `Relationship` class. 
-Furthermore, `uravu` provides the functionality to create simple, publication-quality plots of relationships, data, and distributions with `matplotlib`[@hunter_matplotlib_2007] and `corner` [@foremanmackey_corner_2019]. 
+Furthermore, `uravu` provides the functionality to create simple, publication-quality plots of relationships, data, and distributions with `matplotlib` [@hunter_matplotlib_2007] and `corner` [@foremanmackey_corner_2019]. 
 
 Alongside API information, the `uravu` documentation offers brief tutorials covering many aspects of the package.
 This allows those unfamiliar with Bayesian modelling to get to grips with these important tools for data analysis.
