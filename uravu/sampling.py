@@ -82,7 +82,7 @@ def ln_probability(variables, function, abscissa, ordinate, priors):
 
 def nested_sampling(relationship, prior_function=None, progress=True, dynamic=False, **kwargs):
     """
-    Perform the nested sampling in order to determine the Bayesian natural log evidence. See the :py:func:`dynesty.NestedSampler.run_nested()` documentation.
+    Perform the nested sampling, or dynamic nested sampling, in order to determine the Bayesian natural log evidence. See the :py:func:`dynesty.NestedSampler.run_nested()` documentation.
 
     Args:
         relationship (:py:class:`~uravu.relationship.Relationship`): The relationship to estimate the evidence for.

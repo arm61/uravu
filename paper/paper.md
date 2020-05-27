@@ -32,7 +32,7 @@ This software acts to lower the barrier of entry to the use of packages such as:
 
 - `scipy`: for maximum likelihood estimation [@virtanen_scipy_2020]
 - `emcee`: for Markov chain Monte Carlo investigation of posterior probabilities [@foremanmackey_emcee_2019]
-- `dynesty`: for nested sampling of posterior probabilities and estimation of the Bayesian evidence [@speagle_dynesty_2020].
+- `dynesty`: for nested sampling [@skilling_nested_2006] and dynamic nested sampling [@higson_dynamic_2019] of posterior probabilities and estimation of the Bayesian evidence [@speagle_dynesty_2020].
 
 In addition to standard normal ordinate uncertainties, `uravu` also add the ability to investigate non-normal ordinate value distributions, with the `Distribution` class and its integration into the `Relationship` class. 
 Furthermore, `uravu` provides the functionality to create simple, publication-quality plots of relationships, data, and distributions with `matplotlib` [@hunter_matplotlib_2007] and `corner` [@foremanmackey_corner_2019]. 

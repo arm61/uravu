@@ -222,7 +222,7 @@ class Relationship:
 
     def nested_sampling(self, prior_function=None, progress=True, dynamic=False, **kwargs):
         """
-        Perform nested sampling to determine the Bayesian natural-log evidence. For keyword arguments see the :func:`dynesty.NestedSampler.run_nested()` documentation.
+        Perform nested sampling, or dynamic nested sampling, to determine the Bayesian natural-log evidence. For keyword arguments see the :func:`dynesty.NestedSampler.run_nested()` documentation.
 
         Args:
             prior_function (:py:attr:`callable`, optional): The function to populate some prior distributions. Default is the broad uniform priors in :func:`~uravu.relationship.Relationship.prior()`.
