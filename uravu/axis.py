@@ -34,7 +34,6 @@ class Axis:
         else:
             self.values = np.array(values)
         
-
     @property
     def n(self):
         """
@@ -98,7 +97,7 @@ class Axis:
         Get the axis shape.
 
         Returns:
-            :py:attr:`int`: Shape of axis.
+            :py:attr:`int` or :py:attr:`tuple` of :py:attr:`int`: Shape of axis.
         """
         if isinstance(self.values[0], Distribution):
             return len(self.values)

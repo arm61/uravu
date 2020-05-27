@@ -86,9 +86,9 @@ def nested_sampling(relationship, prior_function=None, progress=True, dynamic=Fa
 
     Args:
         relationship (:py:class:`~uravu.relationship.Relationship`): The relationship to estimate the evidence for.
-        prior_function (:py:attr:`callable`, optional): The function to populated some prior distributions. Default is the broad uniform priors in
-            :func:`~uravu.relationship.Relationship.prior()`.
+        prior_function (:py:attr:`callable`, optional): The function to populated some prior distributions. Default is the broad uniform priors in :func:`~uravu.relationship.Relationship.prior()`.
         progress (:py:attr:`bool`, optional): Show :py:mod:`tqdm` progress for sampling. Default is :py:attr:`True`.
+        dynamic (:py:attr:`bool`, optional): Should dynamic nested sampling be used?. Default is :py:attr:`False`.
 
     Returns:
         :py:attr:`dict`: The results from :py:func:`dynesty.NestedSampler.run_nested()`.

@@ -21,7 +21,7 @@ except ModuleNotFoundError:
 
 def plot_relationship(relationship, axes=None, figsize=(10, 6)):  # pragma: no cover
     """
-    Plot the relationship. Additional plots will be included on this if the MCMC sampling has been used to find distributions.
+    Plot the relationship. Additional plots will be included on this if posterior sampling has been used to find distributions.
 
     Args:
         relationship (:py:class:`uravu.relationship.Relationship`): The relationship to be plotted.
@@ -73,8 +73,7 @@ def plot_distribution(distro, axes=None, figsize=(5, 3)):  # pragma: no cover
 
 def plot_corner(relationship, figsize=(8, 8)):  # pragma: no cover
     """
-    Plot the corner (named for the Python package) plot between the
-    relationships variables.
+    Plot the :py:mod:`corner` (named for the Python package) plot between the relationships variables.
 
     Args:
         relationship (:py:class:`uravu.relationship.Relationship`): The relationship containing the distributions to be plotted.

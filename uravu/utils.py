@@ -45,7 +45,7 @@ def bayes_factor(model_1, model_2):
 
 def correlation_matrix(relationship):
     """
-    Evalutate the `Pearsons correlation coefficient`_ matrix for the variables in a given relationship.
+    Evaluate the `Pearsons correlation coefficient`_ matrix for the variables in a given relationship.
 
     Args:
         relationship (:py:class:`uravu.relationship.Relationship`): The relationship to determine the correlation matrix for.
