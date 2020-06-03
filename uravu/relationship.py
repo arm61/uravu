@@ -208,7 +208,7 @@ class Relationship:
 
     def mcmc(self, prior_function=None, walkers=50, n_samples=500, n_burn=500, progress=True):
         """
-        Perform MCMC to get the posterior probability distributions for the variables of the relationship. *Note*, running this method will populate the :py:attr:`~uravu.relationship.Relationship.variables` attribute with :py:class:`~uravu.distribution.Distribution` objects.
+        Perform MCMC to get the posterior probability distributions for the variables of the relationship. *Note*, running this method will populate the :py:attr:`~uravu.relationship.Relationship.variables` attribute with :py:class:`~uravu.distribution.Distribution` objects. Once run, a result dictionary containing the :py:attr:`distributions`, :py:attr:`chain`, and :py:attr:`samples` from :py:mod:`emcee` is piped into the class variable :py:attr:`mcmc_results`. 
 
         Args:
             prior_function (:py:attr:`callable`, optional): The function to populated some prior distributions. Default is the broad uniform priors in :func:`~uravu.relationship.Relationship.prior()`.
@@ -222,7 +222,7 @@ class Relationship:
 
     def nested_sampling(self, prior_function=None, progress=True, dynamic=False, **kwargs):
         """
-        Perform nested sampling, or dynamic nested sampling, to determine the Bayesian natural-log evidence. For keyword arguments see the :func:`dynesty.NestedSampler.run_nested()` documentation.
+        Perform nested sampling, or dynamic nested sampling, to determine the Bayesian natural-log evidence. For keyword arguments see the :func:`dynesty.NestedSampler.run_nested()` documentation. Once run, the result dictionary produced by :func:`dynesty.NestedSampler.run_nested()` is piped into the class variable :py:attr:`nested_sampling_results`. 
 
         Args:
             prior_function (:py:attr:`callable`, optional): The function to populate some prior distributions. Default is the broad uniform priors in :func:`~uravu.relationship.Relationship.prior()`.
