@@ -115,6 +115,19 @@ class Relationship:
         return medians
 
     @property
+    def variable_modes(self):
+        """
+        The mode values for each of the variables.
+
+        Returns:
+            :py:attr:`array_like`: Variable modes.
+        """
+        modes = np.zeros((len(self.variables)))
+        for i, var in enumerate(self.variables):
+            modes[i] = var.dist_max
+        return modes
+
+    @property
     def mcmc_done(self):
         """
         Has MCMC been performed? Determined based on the type of the variables.

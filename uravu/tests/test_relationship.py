@@ -104,6 +104,17 @@ class TestRelationship(unittest.TestCase):
         r.max_likelihood('diff_evo')
         assert_equal(np.allclose(r.variable_medians, [1, 0], atol=1.5), True)
 
+    def test_variable_modes(self):
+        r = Relationship(utils.straight_line, TEST_X, TEST_Y, bounds=((0, 10), (-1, 1)))
+        r.max_likelihood('diff_evo')
+        r.mcmc(n_burn=10, n_samples=10, progress=False, walkers=5)
+        assert_equal(np.allclose(r.variable_modes, [1, 0], atol=1.5), True)
+
+    def test_variable_modes_no_sampling(self):
+        r = Relationship(utils.straight_line, TEST_X, TEST_Y, bounds=((0, 10), (-1, 1)))
+        r.max_likelihood('diff_evo')
+        assert_equal(np.allclose(r.variable_modes, [1, 0], atol=1.5), True)
+
     def test_mcmc_done(self):
         r = Relationship(utils.straight_line, TEST_X, TEST_Y, bounds=((0, 10), (-1, 1)))
         r.mcmc(n_burn=10, n_samples=10, progress=False, walkers=5)

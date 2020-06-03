@@ -109,12 +109,16 @@ class Distribution:
     @property
     def dist_max(self):
         """
-        Get the value that maximises the distribution.
+        Get the value that maximises the distribution. If no :py:attr:`kde` has been created (for example if the distribution has fewer than 8 values) the median is returned. 
         
         Returns
             :py:attr:`float`: Most likely value.
         """
-        return minimize(self.negative_pdf, x0=[self.n]).x
+        try: 
+            return minimize(self.negative_pdf, x0=[self.n]).x
+        except AttributeError:
+            return self.n
+
 
     @property
     def min(self):
