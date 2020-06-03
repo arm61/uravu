@@ -18,8 +18,8 @@ If you want to go even deeper, then check out `Information Theory, Inference, an
    :maxdepth: 2
 
    max_likelihood
-   using_distributions
    mcmc
+   using_distributions
    nested_sampling
    custom_priors
 
