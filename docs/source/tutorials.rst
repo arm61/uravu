@@ -18,6 +18,7 @@ If you want to go even deeper, then check out `Information Theory, Inference, an
    :maxdepth: 2
 
    max_likelihood
+   input_functions
    mcmc
    using_distributions
    nested_sampling

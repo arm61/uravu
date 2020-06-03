@@ -30,7 +30,7 @@ There are a couple of fantastic Bayesian inference libraries available in Python
 - :py:mod:`emcee`: enables the use of the `Goodman & Weare’s Affine Invariant Markov chain Monte Carlo (MCMC) Ensemble sampler`_ to evaluate the structure of the model parameter posterior distributions,
 - :py:mod:`dynesty`: implements the `nested sampling`_ and `dynamic nested sampling`_ algorithms for evidence estimation.
 
-Getting and :py:class:`uravu.relationship.Relationship` running is as simple as. 
+Where :py:attr:`function` is some user-defined function, :py:attr:`abscissa` is x-data, :py:attr:`ordinate` is y-data, and :py:attr:`ordinate_error` is y-uncertainty, getting an :py:class:`uravu.relationship.Relationship` running is as simple as.
 
 .. code-block:: python 
 
