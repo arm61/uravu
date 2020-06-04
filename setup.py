@@ -13,9 +13,9 @@ from setuptools import setup, find_packages
 PACKAGES = find_packages()
 
 # versioning
-MAJOR = 0
+MAJOR = 1
 MINOR = 0
-MICRO = 7
+MICRO = 0
 ISRELEASED = True
 VERSION = '%d.%d.%d' % (MAJOR, MINOR, MICRO)
 

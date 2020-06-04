@@ -22,7 +22,7 @@ copyright = '2020, Andrew R. McCluskey'
 author = 'Andrew R. McCluskey'
 
 # The full version, including alpha/beta/rc tags
-release = '0.0.7'
+release = '1.0.0'
 
 
 # -- General configuration ---------------------------------------------------
