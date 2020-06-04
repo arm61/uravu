@@ -1,5 +1,5 @@
 {
-	"title": "uravu",
+	"title": "uravu: Making Bayesian modellign easy(er)",
 	"creators": [{
             "name": "McCluskey, Andrew R.",
             "affiliation": "Diamond Light Source, Harwell Campus,. Didcot, OX11 0DE, UK.; Department of Chemistry, University of Bath, Claverton Down, Bath, BA2 7AY, UK.",
@@ -11,7 +11,7 @@
             "orcid": "0000-0001-7146-6885"
         }
 	],
-	"description": "making Bayesian modelling easy(er).",
+	"description": "A straightforward Bayesian data fitting library.",
 	"access_right": "open",
 	"license": "MIT",
 	"grants": [{
