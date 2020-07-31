@@ -15,7 +15,7 @@ See the `tutorials online`_ for more guidence of how to use this package.
 
 from inspect import getfullargspec
 import numpy as np
-from scipy.stats import uniform, norm
+from scipy import stats
 from uncertainties import ufloat
 from uravu import optimize, sampling
 from uravu.distribution import Distribution
@@ -54,14 +54,16 @@ class Relationship:
         potential_y = []
         for i, y in enumerate(ordinate):
             if not isinstance(y, Distribution):
-                if ordinate_error is not None:
-                    potential_y.append(Distribution(norm.rvs(loc=y, scale=ordinate_error[i], size=5000)))
+                if not isinstance(y, stats._distn_infrastructure.rv_frozen):
+                    if ordinate_error is not None:
+                        potential_y.append(Distribution(stats.norm.rvs(loc=y, scale=ordinate_error[i], size=5000)))
+                    else:
+                        raise ValueError("uravu ordinate should be a list of uravu.distribution.Distribution objects or an ordinate_error should be given.")
                 else:
-                    raise ValueError("uravu ordinate should be a list of uravu.distribution.Distribution objects or an ordinate_error should be given.")
-        if ordinate_error is None:
-            self.ordinate = Axis(ordinate)
-        else:
-            self.ordinate = Axis(potential_y)
+                    potential_y.append(Distribution(y.rvs(size=5000)))
+                self.ordinate = Axis(potential_y)
+            else:
+                self.ordinate = Axis(ordinate)
 
         if abscissa.shape[0] != len(ordinate):
             raise ValueError("The number of data points in the abscissa does not match that for the ordinate.")
@@ -72,7 +74,7 @@ class Relationship:
             if len(self.bounds) != self.len_parameters or not isinstance(bounds[0], tuple):
                 raise ValueError("The number of bounds does not match the number of parameters")
             for i, b in enumerate(self.bounds):
-                self.variables.append(Distribution(uniform.rvs(loc=b[0], scale=b[1] - b[0], size=500)))
+                self.variables.append(Distribution(stats.uniform.rvs(loc=b[0], scale=b[1] - b[0], size=500)))
         else:
             for i in range(self.len_parameters):
                 self.variables.append(Distribution(1))
@@ -211,12 +213,12 @@ class Relationship:
             for i, var in enumerate(self.variable_medians):
                 loc = self.bounds[i][0]
                 scale = self.bounds[i][1] - loc
-                priors.append(uniform(loc=loc, scale=scale))
+                priors.append(stats.uniform(loc=loc, scale=scale))
         else:
             for var in self.variable_medians:
                 loc = var - 10
                 scale = (var + 10) - loc
-                priors.append(uniform(loc=loc, scale=scale))
+                priors.append(stats.uniform(loc=loc, scale=scale))
         return priors
 
     def mcmc(self, prior_function=None, walkers=50, n_samples=500, n_burn=500, progress=True):
