@@ -51,6 +51,13 @@ class TestRelationship(unittest.TestCase):
         assert_almost_equal(r.y.n, TEST_X, decimal=0)
         assert_almost_equal(r.y.s, np.ones((2, len(TEST_X))) * 1.96, decimal=1)
 
+    def test_ordinate_stats(self):
+        test_y = []
+        for i in np.arange(1, 9, 1):
+            test_y.append(scipy.stats.lognorm(i, 1, 1))
+        r = Relationship(utils.straight_line, TEST_X, test_y)
+        assert_equal(isinstance(r.ordinate, Axis), True)
+
     def test_ordinate_and_abscissa_different_length(self):
         with self.assertRaises(ValueError):
             Relationship(utils.straight_line, np.arange(1, 8, 1), TEST_Y) 
