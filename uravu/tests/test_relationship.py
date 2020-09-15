@@ -60,7 +60,11 @@ class TestRelationship(unittest.TestCase):
 
     def test_ordinate_and_abscissa_different_length(self):
         with self.assertRaises(ValueError):
-            Relationship(utils.straight_line, np.arange(1, 8, 1), TEST_Y) 
+            Relationship(utils.straight_line, np.arange(1, 8, 1), TEST_Y)
+
+    def test_ordinate_error_with_zero(self):
+        with self.assertRaises(ValueError):
+            Relationship(utils.straight_line, TEST_X, TEST_X, ordinate_error=np.linspace(0, 10, len(TEST_X)))
 
     def test_bounds_init(self):
         r = Relationship(utils.straight_line, TEST_X, TEST_Y, bounds=((0, 10), (-1, 1)))
@@ -91,10 +95,10 @@ class TestRelationship(unittest.TestCase):
     def test_mcmc_results_init(self):
         r = Relationship(utils.straight_line, TEST_X, TEST_Y)
         assert_equal(r.mcmc_results, None)
-    
+
     def test_nested_sampling_results_init(self):
         r = Relationship(utils.straight_line, TEST_X, TEST_Y)
-        assert_equal(r.nested_sampling_results, None) 
+        assert_equal(r.nested_sampling_results, None)
 
     def test_x(self):
         r = Relationship(utils.straight_line, TEST_X, TEST_Y)
@@ -134,11 +138,11 @@ class TestRelationship(unittest.TestCase):
     def test_nested_sampling_done(self):
         r = Relationship(utils.straight_line, TEST_X, TEST_Y, bounds=((0, 10), (-1, 1)))
         r.nested_sampling(maxiter=100, progress=False)
-        assert_equal(r.nested_sampling_done, True) 
+        assert_equal(r.nested_sampling_done, True)
 
     def test_nested_sampling_not_done(self):
         r = Relationship(utils.straight_line, TEST_X, TEST_Y, bounds=((0, 10), (-1, 1)))
-        assert_equal(r.nested_sampling_done, False) 
+        assert_equal(r.nested_sampling_done, False)
 
     def test_get_sample(self):
         r = Relationship(utils.straight_line, TEST_X, TEST_Y, bounds=((0, 10), (-1, 1)))
@@ -156,10 +160,10 @@ class TestRelationship(unittest.TestCase):
     def test_max_likelihood(self):
         r = Relationship(utils.straight_line, TEST_X, TEST_Y, bounds=((0, 10), (-1, 1)))
         r.max_likelihood('diff_evo')
-        assert_equal(isinstance(r.variables[0], Distribution), True) 
+        assert_equal(isinstance(r.variables[0], Distribution), True)
         assert_equal(isinstance(r.variables[1], Distribution), True)
-        assert_equal(np.isclose(r.variables[0].n, 1, atol=0.75), True)        
-        assert_equal(np.isclose(r.variables[1].n, 0, atol=0.75), True) 
+        assert_equal(np.isclose(r.variables[0].n, 1, atol=0.75), True)
+        assert_equal(np.isclose(r.variables[1].n, 0, atol=0.75), True)
 
     def test_prior(self):
         r = Relationship(utils.straight_line, TEST_X, TEST_Y)
@@ -168,8 +172,8 @@ class TestRelationship(unittest.TestCase):
         assert_equal(isinstance(priors[0], scipy.stats._distn_infrastructure.rv_frozen), True)
         assert_equal(isinstance(priors[1], scipy.stats._distn_infrastructure.rv_frozen), True)
         assert_equal(priors[0].interval(1), [-9, 11])
-        assert_equal(priors[1].interval(1), [-9, 11]) 
-    
+        assert_equal(priors[1].interval(1), [-9, 11])
+
     def test_prior_with_bounds(self):
         r = Relationship(utils.straight_line, TEST_X, TEST_Y, bounds=((0, 10), (-1, 1)))
         priors = r.prior()
