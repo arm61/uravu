@@ -1,7 +1,7 @@
 Installation
 ============
 
-:py:mod:`uravu` can be installed from the PyPI package manager with py:mod:`pip`
+:py:mod:`uravu` can be installed from the PyPI package manager with :py:mod:`pip`
 
 .. code-block:: bash 
 
