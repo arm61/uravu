@@ -1,0 +1,7 @@
+The uravu repository and source distributions bundle a number of libraries that
+are compatibly licensed.  We list these here.
+
+Name: Scipy
+Files: uravu/kde.py
+License: 3-clause BSD
+  For details, see uravu/scipy/LICENSE.txt

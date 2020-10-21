@@ -13,6 +13,7 @@ from numpy.testing import assert_almost_equal, assert_equal
 from uravu.distribution import Distribution
 import scipy.stats
 from uravu.axis import Axis
+from uravu import kde
 from scipy.stats import norm, uniform
 
 
@@ -28,17 +29,17 @@ class TestDistribution(unittest.TestCase):
     Testing the Axis class.
     """
     def test_init_values(self):
-        assert_equal(AX.values[0].samples, DISTRO1.samples) 
+        assert_equal(AX.values[0].samples, DISTRO1.samples)
         assert_equal(AX.values[1].samples, DISTRO2.samples)
 
     def test_init_kde(self):
-        assert_equal(isinstance(AX.kde, scipy.stats.kde.gaussian_kde), True)
-        
+        assert_equal(isinstance(AX.kde, kde.gaussian_kde), True)
+
     def test_init_kde_size_change(self):
         distro2 = Distribution(norm.rvs(loc=1, scale=1, size=1000, random_state=np.random.RandomState(2)))
         AX = Axis([DISTRO1, distro2])
-        assert_equal(AX.values[1].samples, distro2.samples) 
-    
+        assert_equal(AX.values[1].samples, distro2.samples)
+
     def test_n(self):
         assert_almost_equal(AX.n, [0, 1], decimal=1)
 
@@ -59,7 +60,7 @@ class TestDistribution(unittest.TestCase):
 
     def test_size(self):
         assert_equal(AX.size, 2)
-    
+
     def test_size_array(self):
         assert_equal(AX_ARRAY.size, 2)
 

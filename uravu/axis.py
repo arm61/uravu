@@ -8,7 +8,7 @@ The :py:class:`~uravu.axis.Axis` class controls the organisation of axes in the 
 
 
 import numpy as np
-from scipy.stats import gaussian_kde
+from uravu.kde import gaussian_kde
 from uravu.distribution import Distribution
 
 
@@ -33,7 +33,7 @@ class Axis:
             self.kde = _get_kde(self.values)
         else:
             self.values = np.array(values)
-        
+
     @property
     def n(self):
         """
@@ -67,7 +67,7 @@ class Axis:
     @property
     def mode(self):
         """
-        Get the values that maximise the probability distributions of the axis. 
+        Get the values that maximise the probability distributions of the axis.
 
         Returns:
             :py:attr:`array_like`: Values that maximise the probability for axis.

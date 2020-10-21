@@ -8,7 +8,8 @@ The :py:class:`~uravu.distribution.Distribution` class oversees these operations
 # author: Andrew R. McCluskey
 
 import numpy as np
-from scipy.stats import normaltest, gaussian_kde
+from scipy.stats import normaltest
+from uravu.kde import gaussian_kde
 from scipy.optimize import minimize
 
 
@@ -104,17 +105,17 @@ class Distribution:
         Return:
             :py:attr:`float`: Negative probability.
         """
-        return -self.kde.pdf(x) 
-        
+        return -self.kde.pdf(x)
+
     @property
     def dist_max(self):
         """
-        Get the value that maximises the distribution. If no :py:attr:`kde` has been created (for example if the distribution has fewer than 8 values) the median is returned. 
-        
+        Get the value that maximises the distribution. If no :py:attr:`kde` has been created (for example if the distribution has fewer than 8 values) the median is returned.
+
         Returns
             :py:attr:`float`: Most likely value.
         """
-        try: 
+        try:
             return minimize(self.negative_pdf, x0=[self.n]).x
         except AttributeError:
             return self.n
