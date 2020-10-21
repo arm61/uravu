@@ -14,8 +14,8 @@ PACKAGES = find_packages()
 
 # versioning
 MAJOR = 1
-MINOR = 1
-MICRO = 1
+MINOR = 2
+MICRO = 0
 ISRELEASED = True
 VERSION = '%d.%d.%d' % (MAJOR, MINOR, MICRO)
 
@@ -31,9 +31,9 @@ INFO = {
         'author_email': 'andrew.mccluskey@diamond.ac.uk',
         'packages': PACKAGES,
         'include_package_data': True,
-        'setup_requires': ['numpy', 'scipy', 'emcee', 'tqdm', 
+        'setup_requires': ['numpy', 'scipy', 'emcee', 'tqdm',
                            'uncertainties', 'dynesty>=1.0.1'],
-        'install_requires': ['numpy', 'scipy', 'emcee', 'tqdm', 
+        'install_requires': ['numpy', 'scipy', 'emcee', 'tqdm',
                              'uncertainties', 'dynesty>=1.0.1'],
         'version': VERSION,
         'license': 'MIT',

@@ -22,7 +22,7 @@ copyright = '2020, Andrew R. McCluskey'
 author = 'Andrew R. McCluskey'
 
 # The full version, including alpha/beta/rc tags
-release = '1.1.1'
+release = '1.2.0'
 
 
 # -- General configuration ---------------------------------------------------
@@ -197,4 +197,3 @@ intersphinx_mapping = {
     'dynesty': ('https://dynesty.readthedocs.io/en/latest/', None),
     'emcee': ('https://emcee.readthedocs.io/en/stable/', None),
 }
-
