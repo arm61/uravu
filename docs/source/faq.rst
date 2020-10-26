@@ -4,6 +4,7 @@ FAQ
 - How can I cite :py:module:`uravu` in my publication?
     
     The :py:module:`uravu` package has been published in the `Journal of Open Source Software`_, for following reference should be included where :py:module:`uravu` is used in a publication. 
+    
     .. code-block:: bash
     A. R. McCluskey & T. Snow, (2020). uravu: Making Bayesian modelling easy(er). Journal of Open Source Software, 5(50), 2214, DOI: `10.21105/joss.02214`_
 
