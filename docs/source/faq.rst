@@ -3,8 +3,7 @@ FAQ
 
 - How can I cite :py:mod:`uravu` in my publication?
     
-    The :py:mod:`uravu` package has been published in the `Journal of Open Source Software`_, for following reference should be included where :py:mod:`uravu` is used in a publication. 
-    "A. R. McCluskey & T. Snow, (2020). uravu: Making Bayesian modelling easy(er). Journal of Open Source Software, 5(50), 2214, DOI: `10.21105/joss.02214`_"
+    The :py:mod:`uravu` package has been published in the `Journal of Open Source Software`_, for following reference should be included where :py:mod:`uravu` is used in a publication: "A. R. McCluskey & T. Snow, (2020). uravu: Making Bayesian modelling easy(er). Journal of Open Source Software, 5(50), 2214, DOI: `10.21105/joss.02214`_"
 
 - How do I use the :func:`uravu.utils.bayes_factor()` function to compare different models?
 
