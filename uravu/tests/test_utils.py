@@ -68,3 +68,20 @@ class TestUtils(unittest.TestCase):
         assert_almost_equal(actual_matrix[0, 0], 1.0)
         assert_almost_equal(actual_matrix[1, 1], 1.0)
         assert_equal(test_rel.mcmc_done, True)
+
+    def test_normal_latex(self):
+        """
+        Test the latex print from a normal distribution
+        """
+        np.random.seed(1)
+        d = Distribution(scipy.stats.norm.rvs(loc=0, scale=0.5, size=2000))
+        assert_equal(utils.latex(d), r'$1.725e-02\pm{9.665e-01}$')
+
+    def test_not_normal_latex(self):
+        """
+        Test the latex print from a non-normal distribution
+        """
+        np.random.seed(1)
+        d = Distribution(
+            scipy.stats.lognorm.rvs(loc=10, scale=0.5, s=10, size=2000))
+        assert_equal(utils.latex(d), r'$1.071e+01^{+1.754e+08}_{-7.060e-01}$')

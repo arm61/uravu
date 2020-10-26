@@ -65,3 +65,22 @@ def correlation_matrix(relationship):
             matrix[i, j] = pearsonr(samples_i, samples_j)[0]
             matrix[j, i] = pearsonr(samples_j, samples_i)[0]
     return matrix
+
+
+def latex(distribution):
+    """
+    Get some LaTeX math-type code that describes the mean and confidence intervals of the distribution.
+
+    Args:
+        distribution (:py:class:`uravu.distribution.Distribution`): The distribution to return LaTeX for.
+
+    Returns:
+        (:py:attr:`str`): A LaTeX formatted string for the mean and confidence intervals of the distribution.
+    """
+    mean = distribution.n
+    con_int = distribution.con_int
+    if distribution.normal:
+        return f'${mean:.3e}' + r'\pm' + f'{{{con_int[1] - mean:.3e}}}$'
+    else:
+        return (f'${mean:.3e}^{{+{con_int[1] - mean:.3e}}}'
+                f'_{{-{mean - con_int[0]:.3e}}}$')
