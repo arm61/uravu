@@ -1,6 +1,13 @@
 FAQ
 ===
 
+- How can I cite :py:module:`uravu` in my publication?
+    
+    The :py:module:`uravu` package has been published in the `Journal of Open Source Software`_, for following reference should be included where :py:module:`uravu` is used in a publication. 
+    .. code-block:: bash 
+
+        A. R. McCluskey & T. Snow, (2020). uravu: Making Bayesian modelling easy(er). Journal of Open Source Software, 5(50), 2214, DOI: `10.21105/joss.02214`_
+
 - How do I use the :func:`uravu.utils.bayes_factor()` function to compare different models?
 
     The :func:`uravu.utils.bayes_factor()` function uses the the second Table on page 777 of `Kass and Raftery's`_ paper on Bayesian model comparison.
@@ -21,5 +28,6 @@ FAQ
 
     So if :py:class:`uravu.utils.bayes_factor(model1, model2)` returns :py:attr:`4.3`, there is "Positive" evidence for :py:attr:`model1` over :py:attr:`model2`.
 
-
+.. _Journal of Open Source Software: https://joss.theoj.org
+.. _10.21105/joss.02214: https://doi.org/10.21105/joss.02214
 .. _Kass and Raftery's: https://www.colorado.edu/amath/sites/default/files/attached-files/kassraftery95.pdf
