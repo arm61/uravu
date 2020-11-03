@@ -49,6 +49,4 @@ python setup.py install
 pytest
 ```
 
-## Contributors 
-
-- [Andrew R. McCluskey](https://armccluskey.com)
+## [Contributors](https://github.com/arm61/uravu/graphs/contributors) 
