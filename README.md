@@ -36,7 +36,6 @@ There are a couple of fantastic Bayesian inference libraries available in Python
 
 If you discover any issues with `uravu` please feel free to submit an issue to our issue tracker on [Github](https://github.com/arm61/uravu). 
 Alternatively, if you are feeling confident, fix the bug yourself and make a pull request to the main codebase (be sure to check out our [contributing guidelines](https://github.com/arm61/uravu/blob/master/CONTRIBUTING.md) first). 
-Finally, if you are just wanting to ask a question and cannot find the information elsewhere, we have a [gitter chat room](https://gitter.im/uravu/community?utm_source=share-link&utm_medium=link&utm_campaign=share-link) as another way to seek support. 
 
 ## Installation
 
