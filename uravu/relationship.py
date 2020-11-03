@@ -41,7 +41,7 @@ class Relationship:
         abscissa (:py:attr:`array_like`): The abscissa data. If multi-dimensional, the array is expected to have the shape :py:attr:`(N, d)`, where :py:attr:`N` is the number of data points and :py:attr:`d` is the dimensionality.
         ordinate (:py:attr:`list` or :py:class:`uravu.distribution.Distribution` or :py:attr:`array_like`): The ordinate data. This should have a shape :py:attr:`(N,)`.
         bounds (:py:attr:`tuple`, optional): The minimum and maximum values for each parameters. Defaults to :py:attr:`None`.
-        ordinate_error (:py:attr:`array_like`, optional): The uncertainty in the ordinate. Only used if :py:attr:`ordinate` is not a :py:attr:`list` or :py:class:`uravu.distribution.Distribution`. Defaults to :py:attr:`None`.
+        ordinate_error (:py:attr:`array_like`, optional): The uncertainty in the ordinate, this should be the standard error in the measurement. Only used if :py:attr:`ordinate` is not a :py:attr:`list` or :py:class:`uravu.distribution.Distribution`. Defaults to :py:attr:`None`.
     """
 
     def __init__(self, function, abscissa, ordinate, bounds=None, ordinate_error=None):
