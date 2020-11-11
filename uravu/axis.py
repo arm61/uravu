@@ -8,7 +8,7 @@ The :py:class:`~uravu.axis.Axis` class controls the organisation of axes in the 
 
 
 import numpy as np
-from uravu.kde import gaussian_kde
+from scipy.stats import gaussian_kde
 from uravu.distribution import Distribution
 
 

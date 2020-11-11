@@ -8,8 +8,7 @@ The :py:class:`~uravu.distribution.Distribution` class oversees these operations
 # author: Andrew R. McCluskey
 
 import numpy as np
-from scipy.stats import normaltest
-from uravu.kde import gaussian_kde
+from scipy.stats import normaltest, gaussian_kde
 from scipy.optimize import minimize
 
 

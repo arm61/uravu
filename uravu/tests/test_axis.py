@@ -13,8 +13,7 @@ from numpy.testing import assert_almost_equal, assert_equal
 from uravu.distribution import Distribution
 import scipy.stats
 from uravu.axis import Axis
-from uravu import kde
-from scipy.stats import norm, uniform
+from scipy.stats import norm, uniform, gaussian_kde
 
 
 DISTRO1 = Distribution(norm.rvs(loc=0, scale=1, size=10000, random_state=np.random.RandomState(1)))
@@ -33,7 +32,7 @@ class TestDistribution(unittest.TestCase):
         assert_equal(AX.values[1].samples, DISTRO2.samples)
 
     def test_init_kde(self):
-        assert_equal(isinstance(AX.kde, kde.gaussian_kde), True)
+        assert_equal(isinstance(AX.kde, gaussian_kde), True)
 
     def test_init_kde_size_change(self):
         distro2 = Distribution(norm.rvs(loc=1, scale=1, size=1000, random_state=np.random.RandomState(2)))
