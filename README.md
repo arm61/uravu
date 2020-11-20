@@ -8,7 +8,7 @@
 [![PyPI version](https://badge.fury.io/py/uravu.svg)](https://badge.fury.io/py/uravu)
 [![Documentation Status](https://readthedocs.org/projects/uravu/badge/?version=latest)](https://uravu.readthedocs.io/en/latest/?badge=latest)
 [![Coverage Status](https://coveralls.io/repos/github/arm61/uravu/badge.svg?branch=master)](https://coveralls.io/github/arm61/uravu?branch=master)
-[![Build Status](https://github.com/actions/hello-world/workflows/python-ci/badge.svg)](https://github.com/arm61/uravu/actions?query=workflow%3Apython-ci)
+[![Build Status](https://github.com/arm61/uravu/workflows/python-ci/badge.svg)](https://github.com/arm61/uravu/actions?query=workflow%3Apython-ci)
 [![Build status](https://ci.appveyor.com/api/projects/status/eo426m99lmkbh5rx?svg=true)](https://ci.appveyor.com/project/arm61/uravu)
 
 ``uravu`` (from the Tamil for relationship) is about the relationship between some data and a function that may be used to describe the data.
