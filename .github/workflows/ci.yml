@@ -21,7 +21,6 @@ jobs:
     - name: Test with coverage
       run: |
         coverage run --source=uravu setup.py test
-        cd ../
     - name: Coveralls
       uses: AndreMiras/coveralls-python-action@develop
       with:
