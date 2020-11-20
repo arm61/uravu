@@ -10,7 +10,6 @@
 [![Coverage Status](https://coveralls.io/repos/github/arm61/uravu/badge.svg?branch=master)](https://coveralls.io/github/arm61/uravu?branch=master)
 [![Build Status](https://travis-ci.org/arm61/uravu.svg?branch=master)](https://travis-ci.org/arm61/uravu)
 [![Build status](https://ci.appveyor.com/api/projects/status/eo426m99lmkbh5rx?svg=true)](https://ci.appveyor.com/project/arm61/uravu)
-[![Gitter](https://badges.gitter.im/uravu/community.svg)](https://gitter.im/uravu/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 ``uravu`` (from the Tamil for relationship) is about the relationship between some data and a function that may be used to describe the data. 
 
