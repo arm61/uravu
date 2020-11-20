@@ -22,6 +22,6 @@ jobs:
       run: |
         coverage run --source=uravu setup.py test
     - name: Coveralls
-      uses: coverallsapp/github-action@master
+      uses: AndreMiras/coveralls-python-action@develop
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
