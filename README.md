@@ -13,7 +13,7 @@
 
 ``uravu`` (from the Tamil for relationship) is about the relationship between some data and a function that may be used to describe the data.
 
-The aim of ``uravu`` is to make using the **amazing** Bayesian inference libraries that are available in Python as easy as [scipy.optimize.curve_fit](https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html).
+The aim of ``uravu`` is to make using the **amazing** Bayesian inference libraries that are available in Python as easy as [`scipy.optimize.curve_fit`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html).
 Therefore enabling many more to make use of these exciting tools and powerful libraries.
 Plus, we have some nice plotting functionalities available in the `plotting` module, capable of generating publication quality figures.
 
