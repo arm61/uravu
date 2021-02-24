@@ -6,19 +6,19 @@
 making Bayesian modelling easy(er)
 ==================================
 
-:py:mod:`uravu` is about the relationship between some data and a function that may be used to describe the data. 
+:py:mod:`uravu` is about the relationship between some data and a function that may be used to describe the data.
 
 The aim of :py:mod:`uravu` is to make using the **amazing** Bayesian inference libraries that are available in Python as easy as :func:`scipy.optimize.curve_fit`.
 Therefore enabling many more to make use of these exciting tools and powerful libraries.
 Plus, we have some nice plotting functionalities available in the :py:mod:`~uravu.plotting` module, capable of generating publication quality figures.
 
 .. image:: sample_fig.png
-  :alt: An example of the type of figures that uravu can produce. Showing straight line distribution with increasing uncertainty. 
+  :alt: An example of the type of figures that uravu can produce. Showing straight line distribution with increasing uncertainty.
 
-In an effort to make the :py:mod:`uravu` API friendly to those new to Bayesian inference, :py:mod:`uravu` is *opinionated*, making assumptions about priors amoung other things. 
+In an effort to make the :py:mod:`uravu` API friendly to those new to Bayesian inference, :py:mod:`uravu` is *opinionated*, making assumptions about priors amoung other things.
 However, we have endevoured to make it straightforward to ignore these opinions.
 
-In addition to the library and API, we also have some `basic tutorials`_ discussing how Bayesian inference methods can be used in the analysis of data. 
+In addition to the library and API, we also have some `basic tutorials`_ discussing how Bayesian inference methods can be used in the analysis of data.
 
 :py:mod:`uravu` is under active development, more details of which can be found on `Github`_.
 
@@ -32,15 +32,15 @@ There are a couple of fantastic Bayesian inference libraries available in Python
 
 Where :py:attr:`function` is some user-defined function, :py:attr:`abscissa` is x-data, :py:attr:`ordinate` is y-data, and :py:attr:`ordinate_error` is y-uncertainty, getting an :py:class:`uravu.relationship.Relationship` running is as simple as.
 
-.. code-block:: python 
+.. code-block:: python
 
-   from uravu.Relationship import Relationship
-   
+   from uravu.relationship import Relationship
+
    modeller = Relationship(function, abscissa, ordinate, ordinate_error=ordinate_error)
-   modeller.max_likelihood()
+   modeller.max_likelihood('mini')
    modeller.mcmc()
    modeller.nested_sampling()
-   
+
 .. _basic tutorials: ./tutorials.html
 .. _Github: https://github.com/arm61/uravu
 .. _Goodman & Weare’s Affine Invariant Markov chain Monte Carlo (MCMC) Ensemble sampler: https://doi.org/10.2140/camcos.2010.5.65
