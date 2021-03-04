@@ -115,7 +115,7 @@ class Distribution:
             :py:attr:`float`: Most likely value.
         """
         try:
-            return minimize(self.negative_pdf, x0=[self.n]).x
+            return minimize(self.negative_pdf, x0=[self.n]).x[0]
         except AttributeError:
             return self.n
 
