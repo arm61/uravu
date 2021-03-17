@@ -105,18 +105,22 @@ class TestDistribution(unittest.TestCase):
         distro.add_samples(samples)
         assert_equal(distro.size, 200)
 
+    def test_repr_normal(self):
+        distro = Distribution(norm.rvs(loc=0, scale=1, size=100, random_state=np.random.RandomState(2)))
+        assert_equal(distro.__repr__(), '(-6.537+/-104.226)e-2')
+
+    def test_repr_normal_diff_precision(self):
+        distro = Distribution(norm.rvs(loc=0, scale=1, size=100, random_state=np.random.RandomState(2)))
+        assert_equal(distro.__repr__(precision=2), '(-6.54+/-104.23)e-2')
+
+    def test_repr_uniform(self):
+        distro = Distribution(uniform.rvs(loc=0, scale=1, size=100, random_state=np.random.RandomState(2)))
+        assert_equal(distro.__repr__(), '(4.364(+9.718/-0.265))e-1')
+
+    def test_repr_uniform_diff_precision(self):
+        distro = Distribution(uniform.rvs(loc=0, scale=1, size=100, random_state=np.random.RandomState(2)))
+        assert_equal(distro.__repr__(precision=2), '(4.36(+9.72/-0.27))e-1')
+
     def test_str_normal(self):
         distro = Distribution(norm.rvs(loc=0, scale=1, size=100, random_state=np.random.RandomState(2)))
         assert_equal(distro.__str__(), '(-6.537+/-104.226)e-2')
-
-    def test_str_normal_diff_precision(self):
-        distro = Distribution(norm.rvs(loc=0, scale=1, size=100, random_state=np.random.RandomState(2)))
-        assert_equal(distro.__str__(precision=2), '(-6.54+/-104.23)e-2')
-
-    def test_str_uniform(self):
-        distro = Distribution(uniform.rvs(loc=0, scale=1, size=100, random_state=np.random.RandomState(2)))
-        assert_equal(distro.__str__(), '(4.364(+9.718/-0.265))e-1')
-
-    def test_str_uniform_diff_precision(self):
-        distro = Distribution(uniform.rvs(loc=0, scale=1, size=100, random_state=np.random.RandomState(2)))
-        assert_equal(distro.__str__(precision=2), '(4.36(+9.72/-0.27))e-1')
