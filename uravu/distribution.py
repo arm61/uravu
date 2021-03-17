@@ -208,9 +208,9 @@ class Distribution:
         """
         exponent = int(np.floor(np.log10(np.abs(self.n))))
         if self.normal:
-            return f'({self.n / np.power(10., exponent):.{precision}f}+/-{self.s / np.power(10., exponent):.{precision}f})e{exponent}'
+            return f'({self.n / np.power(10., exponent):.{precision}f}+/-{(self.con_int[1]-self.n) / np.power(10., exponent):.{precision}f})e{exponent}'
         else:
-            return f'({self.n / np.power(10., exponent):.{precision}f}(+{self.con_int[1] / np.power(10., exponent):.{precision}f}/-{self.con_int[0] / np.power(10., exponent):.{precision}f}))e{exponent}'
+            return f'({self.n / np.power(10., exponent):.{precision}f}(+{(self.con_int[1]-self.n) / np.power(10., exponent):.{precision}f}/-{(self.n-self.con_int[0]) / np.power(10., exponent):.{precision}f}))e{exponent}'
 
     def __str__(self, precision=3):
         """

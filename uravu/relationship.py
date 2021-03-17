@@ -42,9 +42,10 @@ class Relationship:
         ordinate (:py:attr:`list` or :py:class:`uravu.distribution.Distribution` or :py:attr:`array_like`): The ordinate data. This should have a shape :py:attr:`(N,)`.
         bounds (:py:attr:`tuple`, optional): The minimum and maximum values for each parameters. Defaults to :py:attr:`None`.
         ordinate_error (:py:attr:`array_like`, optional): The uncertainty in the ordinate, this should be the standard error in the measurement. Only used if :py:attr:`ordinate` is not a :py:attr:`list` or :py:class:`uravu.distribution.Distribution`. Defaults to :py:attr:`None`.
+        ci_points (:py:attr:`array_like`, optional): The two percentiles at which confidence intervals should be found for the distributions. Default is :py:attr:`[2.5, 97.5]` (a 95 % confidence interval).
     """
 
-    def __init__(self, function, abscissa, ordinate, bounds=None, ordinate_error=None):
+    def __init__(self, function, abscissa, ordinate, bounds=None, ordinate_error=None, ci_points=None):
         """
         Initialisation function for a :py:class:`~uravu.relationship.Relationship` object.
         """
@@ -70,15 +71,17 @@ class Relationship:
             raise ValueError("The number of data points in the abscissa does not match that for the ordinate.")
 
         self.bounds = bounds
+        if ci_points is None:
+            self.ci_points = np.array([2.5, 97.5])
         self.variables = []
         if bounds is not None:
             if len(self.bounds) != self.len_parameters or not isinstance(bounds[0], tuple):
                 raise ValueError("The number of bounds does not match the number of parameters")
             for i, b in enumerate(self.bounds):
-                self.variables.append(Distribution(stats.uniform.rvs(loc=b[0], scale=b[1] - b[0], size=500)))
+                self.variables.append(Distribution(stats.uniform.rvs(loc=b[0], scale=b[1] - b[0], size=500), ci_points=self.ci_points))
         else:
             for i in range(self.len_parameters):
-                self.variables.append(Distribution(1))
+                self.variables.append(Distribution(1, ci_points=self.ci_points))
 
         self.ln_evidence = None
         self.mcmc_results = None
