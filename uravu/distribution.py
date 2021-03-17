@@ -10,6 +10,7 @@ The :py:class:`~uravu.distribution.Distribution` class oversees these operations
 import numpy as np
 from scipy.stats import normaltest, gaussian_kde
 from scipy.optimize import minimize
+from uncertainties import ufloat
 
 
 class Distribution:
@@ -119,7 +120,6 @@ class Distribution:
         except AttributeError:
             return self.n
 
-
     @property
     def min(self):
         """
@@ -195,3 +195,19 @@ class Distribution:
         if self.size > 8:
             self.check_normality()
             self.kde = gaussian_kde(self.samples)
+
+    def __str__(self, precision=3):
+        """
+        String representation.
+
+        Args:
+            precision (:py:attr:`int`): Precision of output
+
+        Returns:
+            :py:attr:`str`: String representation.
+        """
+        exponent = int(np.floor(np.log10(np.abs(self.n))))
+        if self.normal:
+            return f'({self.n / np.power(10., exponent):.{precision}f}+/-{self.s / np.power(10., exponent):.{precision}f})e{exponent}'
+        else:
+            return f'({self.n / np.power(10., exponent):.{precision}f}(+{self.con_int[1] / np.power(10., exponent):.{precision}f}/-{self.con_int[0] / np.power(10., exponent):.{precision}f}))e{exponent}'

@@ -28,11 +28,11 @@ class TestDistribution(unittest.TestCase):
 
     def test_init_ci_points(self):
         distro = Distribution(norm.rvs(loc=0, scale=1, size=1000))
-        assert_equal(distro.ci_points, [2.5, 97.5]) 
-    
+        assert_equal(distro.ci_points, [2.5, 97.5])
+
     def test_init_ci_points_optional(self):
         distro = Distribution(norm.rvs(loc=0, scale=1, size=1000), ci_points=[5, 95])
-        assert_equal(distro.ci_points, [5, 95]) 
+        assert_equal(distro.ci_points, [5, 95])
 
     def test_init_ci_points_error(self):
         with self.assertRaises(ValueError):
@@ -64,12 +64,12 @@ class TestDistribution(unittest.TestCase):
 
     def test_dist_max(self):
         distro = Distribution(norm.rvs(loc=0, scale=1, size=100, random_state=np.random.RandomState(1)))
-        assert_almost_equal(distro.dist_max, 0, decimal=1) 
+        assert_almost_equal(distro.dist_max, 0, decimal=1)
 
     def test_min(self):
         distro = Distribution(np.linspace(1, 10, 100))
         assert_equal(distro.min, 1)
-    
+
     def test_max(self):
         distro = Distribution(np.linspace(1, 10, 100))
         assert_equal(distro.max, 10)
@@ -104,3 +104,19 @@ class TestDistribution(unittest.TestCase):
         distro = Distribution(samples)
         distro.add_samples(samples)
         assert_equal(distro.size, 200)
+
+    def test_str_normal(self):
+        distro = Distribution(norm.rvs(loc=0, scale=1, size=100, random_state=np.random.RandomState(2)))
+        assert_equal(distro.__str__(), '(-6.537+/-104.226)e-2')
+
+    def test_str_normal_diff_precision(self):
+        distro = Distribution(norm.rvs(loc=0, scale=1, size=100, random_state=np.random.RandomState(2)))
+        assert_equal(distro.__str__(precision=2), '(-6.54+/-104.23)e-2')
+
+    def test_str_uniform(self):
+        distro = Distribution(uniform.rvs(loc=0, scale=1, size=100, random_state=np.random.RandomState(2)))
+        assert_equal(distro.__str__(), '(4.364(+9.718/-0.265))e-1')
+
+    def test_str_uniform_diff_precision(self):
+        distro = Distribution(uniform.rvs(loc=0, scale=1, size=100, random_state=np.random.RandomState(2)))
+        assert_equal(distro.__str__(precision=2), '(4.36(+9.72/-0.27))e-1')
