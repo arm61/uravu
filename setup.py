@@ -9,15 +9,13 @@ setup.py for uravu
 import io
 from os import path
 from setuptools import setup, find_packages
+from uravu import __version__
 
 PACKAGES = find_packages()
 
 # versioning
-MAJOR = 1
-MINOR = 2
-MICRO = 1
 ISRELEASED = True
-VERSION = '%d.%d.%d' % (MAJOR, MINOR, MICRO)
+VERSION = __version__
 
 
 THIS_DIRECTORY = path.abspath(path.dirname(__file__))
