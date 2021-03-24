@@ -124,3 +124,7 @@ class TestDistribution(unittest.TestCase):
     def test_str_normal(self):
         distro = Distribution(norm.rvs(loc=0, scale=1, size=100, random_state=np.random.RandomState(2)))
         assert_equal(distro.__str__(), '(-6.537+/-175.337)e-2')
+
+    def test_str_normal(self):
+        distro = Distribution(norm.rvs(loc=2, scale=0.0001, size=100, random_state=np.random.RandomState(2)))
+        assert_equal(distro.__str__(), '(2.000+/-0.000)e0')
