@@ -206,7 +206,10 @@ class Distribution:
         Returns:
             :py:attr:`str`: Representation.
         """
-        exponent = int(np.floor(np.log10(np.abs(self.n))))
+        try:
+            exponent = int(np.floor(np.log10(np.abs(self.n))))
+        except OverflowError:
+            exponent = 0
         if self.normal:
             return f'({self.n / np.power(10., exponent):.{precision}f}+/-{(self.con_int[1]-self.n) / np.power(10., exponent):.{precision}f})e{exponent}'
         else:
