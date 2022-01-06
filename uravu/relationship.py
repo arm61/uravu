@@ -157,6 +157,13 @@ class Relationship:
             return True
         return False
 
+    @property
+    def flatchain(self) -> np.ndarray:
+        """
+        :return: Sampling flatchain.
+        """
+        return np.array([i.samples for i in self.variables]).T
+
     def get_sample(self, i):
         """
         Return the variable values for a given sample.
