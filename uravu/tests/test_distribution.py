@@ -7,6 +7,7 @@ Tests for distribution module
 # author: Andrew R. McCluskey
 
 
+from math import dist
 import unittest
 import numpy as np
 from numpy.testing import assert_almost_equal, assert_equal
@@ -128,3 +129,10 @@ class TestDistribution(unittest.TestCase):
     def test_str_normal(self):
         distro = Distribution(norm.rvs(loc=2, scale=0.0001, size=100, random_state=np.random.RandomState(2)))
         assert_equal(distro.__str__(), '(2.000+/-0.000)e0')
+
+    def test_dict_roundtrip(self):
+        distro = Distribution(norm.rvs(loc=0, scale=1, size=1000), name='random')
+        distro_new = Distribution.from_dict(distro.to_dict())
+        assert_equal(distro.samples, distro_new.samples)
+        assert distro.name == distro_new.name
+        assert_equal(distro.ci_points, distro_new.ci_points)

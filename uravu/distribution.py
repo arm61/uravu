@@ -47,6 +47,25 @@ class Distribution:
         self.normal = False
         self.add_samples(np.array(samples))
 
+    def to_dict(self) -> dict:
+        """
+        :return: Dictionary description of the object.
+        """
+        my_dict = {'name': self.name,
+                   'samples': self.samples,
+                   'ci_points': self.ci_points
+                   }
+        return my_dict
+    
+    @classmethod
+    def from_dict(cls, my_dict) -> 'Distribution':
+        """
+        :param my_dict: Dictionary description of the distribution.
+        
+        :return: Distribution object form the dictionary.
+        """
+        return cls(my_dict['samples'], name=my_dict['name'], ci_points=my_dict['ci_points'])
+
     @property
     def size(self):
         """
