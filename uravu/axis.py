@@ -7,6 +7,7 @@ The :py:class:`~uravu.axis.Axis` class controls the organisation of axes in the 
 # author: Andrew R. McCluskey
 
 
+from typing import Union, List, Tuple
 import numpy as np
 from scipy.stats import gaussian_kde
 from uravu.distribution import Distribution
@@ -16,31 +17,61 @@ class Axis:
     """
     The Axes class is a flexible storage option for both numerical (:py:class:`numpy.ndarray`) and distribution (:py:class:`uravu.distribution.Distribution`) arrays.
 
-    Attributes:
-        values (:py:attr:`list` or :py:class:`uravu.distribution.Distribution` or :py:attr:`array_like`): Array of values.
-        kde (:py:class:`scipy.stats.kde.gaussian_kde`): Multi-dimensional kernel density approximation for the axes.
-
-    Args:
-        values (:py:attr:`list` or :py:class:`uravu.distribution.Distribution` or :py:attr:`array_like`): Array of values.
+    :param values: Array of values.
     """
-    def __init__(self, values):
+    def __init__(self, values: Union[list, Distribution]) -> 'Axis':
         """
         Initialisation function for a :py:class:`~uravu.axis.Axis` object.
         """
-        self.kde = None
+        self._kde = None
         if isinstance(values[0], Distribution):
-            self.values = values
-            self.kde = _get_kde(self.values)
+            self._values = values
+            self._kde = _get_kde(self.values)
         else:
-            self.values = np.array(values)
+            self._values = np.array(values)
+
+    def to_dict(self) -> dict:
+        """
+        :return: Dictionary of Axis.
+        """
+        if isinstance(self.values[0], Distribution):
+            return {'values': [i.to_dict() for i in self.values]}
+        else: 
+            return {'values': self.values.tolist()}
+
+    @classmethod
+    def from_dict(cls, my_dict: dict) -> 'Axis':
+        """
+        Class method to produce from a dictionary.
+
+        :param my_dict: Input dictionary
+        
+        :return: Axis from dictionary.
+        """
+        if isinstance(my_dict['values'][0], dict):
+            v = [Distribution.from_dict(i) for i in my_dict['values']]
+            return Axis(v)
+        else:
+            return Axis(my_dict['values'])
 
     @property
-    def n(self):
+    def kde(self) -> 'scipy.stats._kde.gaussian_kde':
         """
-        Get the median of each value in the axis.
+        :return: Multi-dimensional kernel density estimation for the axis.
+        """
+        return self._kde
 
-        Returns:
-            :py:attr:`array_like`: Medians for axis.
+    @property
+    def values(self) -> Union[List[Distribution], np.ndarray]:
+        """
+        :return: Array of values.
+        """
+        return self._values
+
+    @property
+    def n(self) -> np.ndarray:
+        """
+        :return: Medians for axis.
         """
         v = np.zeros(self.shape)
         if isinstance(self.values[0], Distribution):
@@ -50,12 +81,9 @@ class Axis:
         return self.values
 
     @property
-    def s(self):
+    def s(self) -> np.ndarray:
         """
-        Get the uncertainty from confidence intervals of each value in the axis.
-
-        Returns:
-            :py:attr:`array_like`: Uncertainties for axis.
+        :return: Uncertainties from confidence intervals for axis.
         """
         if isinstance(self.values[0], Distribution):
             dv = np.zeros((2, self.size))
@@ -65,12 +93,9 @@ class Axis:
         return np.zeros(self.shape)
 
     @property
-    def mode(self):
+    def mode(self) -> np.ndarray:
         """
-        Get the values that maximise the probability distributions of the axis.
-
-        Returns:
-            :py:attr:`array_like`: Values that maximise the probability for axis.
+        :return: Values that maximise the probability for axis.
         """
         v = np.zeros(self.shape)
         if isinstance(self.values[0], Distribution):
@@ -80,63 +105,51 @@ class Axis:
         return self.values
 
     @property
-    def size(self):
+    def size(self) -> int:
         """
-        Get the axis size.
-
-        Returns:
-            :py:attr:`int`: Size of axis.
+        :return: Size of axis.
         """
         if isinstance(self.values[0], Distribution):
             return len(self.values)
         return self.values.size
 
     @property
-    def shape(self):
+    def shape(self) -> Union[int, Tuple[int]]:
         """
-        Get the axis shape.
-
-        Returns:
-            :py:attr:`int` or :py:attr:`tuple` of :py:attr:`int`: Shape of axis.
+        :return: Shape of axis.
         """
         if isinstance(self.values[0], Distribution):
             return len(self.values)
         return self.values.shape
 
-    def pdf(self, x):
+    def pdf(self, x: np.ndarray) -> np.ndarray:
         """"
         Get the probability density function for all of the distributions in the axes.
 
-        Args:
-            x (:py:attr:`array_like`): Values to return probability of.
+        :param x: Values to return probability of.
 
-        Return:
-            :py:attr:`array_like`: Probability.
+        :return: Probability.
         """
         return self.kde.pdf(x)
 
-    def logpdf(self, x):
+    def logpdf(self, x: np.ndarray) -> np.ndarray:
         """"
         Get the natural log probability density function for all of the distributions in the axes.
 
-        Args:
-            x (:py:attr:`array_like`): Values to return natural log probability of.
+        :param x: Values to return natural log probability of.
 
-        Return:
-            :py:attr:`array_like`: Natural log probability.
+        :return: Natural log probability.
         """
         return self.kde.logpdf(x)
 
 
-def _get_kde(values):
+def _get_kde(values: np.ndarray) -> 'scipy.stats._kde.gaussian_kde':
     """
     Determine the kernel density estimate for a given set of values.
 
-    Args:
-        values (:py:attr:`array_like`): Sample for kde.
+    :param values: Sample for kde.
 
-    Returns:
-        :py:class:`scipy.stats.kde.gaussian_kde`: Kernel density estimate for samples.
+    :return: Kernel density estimate for samples.
     """
     min_size = values[0].size
     for v in values:

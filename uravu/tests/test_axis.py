@@ -23,7 +23,7 @@ AX = Axis([DISTRO1, DISTRO2])
 AX_ARRAY = Axis([0, 1])
 
 
-class TestDistribution(unittest.TestCase):
+class TestAxis(unittest.TestCase):
     """
     Testing the Axis class.
     """
@@ -31,6 +31,19 @@ class TestDistribution(unittest.TestCase):
         assert_equal(AX.values[0].samples, DISTRO1.samples)
         assert_equal(AX.values[1].samples, DISTRO2.samples)
 
+    def test_dictionary_roundtrip(self):
+        AX2 = Axis.from_dict(AX.to_dict())
+        assert_equal(AX2.values[0].samples, AX.values[0].samples)
+        assert_equal(AX2.values[1].samples, AX.values[1].samples)
+        assert_equal(AX2.kde.neff, AX.kde.neff)
+
+    def test_dictionary_roundtrip_array(self):
+        AX2 = Axis.from_dict(AX_ARRAY.to_dict())
+        assert_equal(AX2.values[0], AX_ARRAY.values[0])
+        assert_equal(AX2.values[1], AX_ARRAY.values[1])
+        assert AX_ARRAY.kde is None
+        assert AX2.kde is None
+    
     def test_init_kde(self):
         assert_equal(isinstance(AX.kde, gaussian_kde), True)
 
