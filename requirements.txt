@@ -1,7 +1,7 @@
 numpy
 scipy>=1.5.4
 emcee
-dynesty>=1.0.1
+dynesty==1.0.1
 uncertainties
 pytest
 matplotlib
