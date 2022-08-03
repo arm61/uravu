@@ -95,7 +95,6 @@ class Axis:
             return dv
         return np.zeros(self.shape)
 
-    @property
     def ci(self, ci_points: List[float]=[2.5, 97.5]) -> np.ndarray:
         """
         :return: Uncertainties from 95 % confidence intervals for axis.
