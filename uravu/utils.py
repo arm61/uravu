@@ -78,7 +78,7 @@ def latex(distribution):
         (:py:attr:`str`): A LaTeX formatted string for the mean and confidence intervals of the distribution.
     """
     mean = distribution.n
-    con_int = distribution.con_int
+    con_int = distribution.con_int([2.5, 97.5])
     if distribution.normal:
         return f'${mean:.3e}' + r'\pm' + f'{{{con_int[1] - mean:.3e}}}$'
     else:

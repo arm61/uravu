@@ -26,17 +26,9 @@ class TestDistribution(unittest.TestCase):
         distro = Distribution(samples)
         assert_equal(distro.samples, samples)
 
-    def test_init_ci_points(self):
-        distro = Distribution(norm.rvs(loc=0, scale=1, size=1000))
-        assert_equal(distro.ci_points, [2.5, 97.5])
-
-    def test_init_ci_points_optional(self):
-        distro = Distribution(norm.rvs(loc=0, scale=1, size=1000), ci_points=[5, 95])
-        assert_equal(distro.ci_points, [5, 95])
-
-    def test_init_ci_points_error(self):
-        with self.assertRaises(ValueError):
-            distro = Distribution(norm.rvs(loc=0, scale=1, size=1000), ci_points=[5, 50, 95])
+    def test_init_random_state(self):
+        distro = Distribution(norm.rvs(loc=0, scale=1, size=1000), name='random')
+        assert isinstance(distro._random_state, np.random._generator.Generator)
 
     def test_normal(self):
         distro = Distribution(norm.rvs(loc=0, scale=1, size=100, random_state=np.random.RandomState(1)))
@@ -96,8 +88,8 @@ class TestDistribution(unittest.TestCase):
 
     def test_con_int(self):
         distro = Distribution(norm.rvs(loc=0, scale=2, size=10000, random_state=np.random.RandomState(2)))
-        assert_almost_equal(distro.con_int[0], -2 * 1.96, decimal=1)
-        assert_almost_equal(distro.con_int[1], 2 * 1.96, decimal=1)
+        assert_almost_equal(distro.con_int()[0], -2 * 1.96, decimal=1)
+        assert_almost_equal(distro.con_int()[1], 2 * 1.96, decimal=1)
 
     def test_add_samples(self):
         samples = norm.rvs(loc=0, scale=2, size=100, random_state=np.random.RandomState(2))
@@ -105,33 +97,16 @@ class TestDistribution(unittest.TestCase):
         distro.add_samples(samples)
         assert_equal(distro.size, 200)
 
-    def test_repr_normal(self):
+    def test_repr(self):
         distro = Distribution(norm.rvs(loc=0, scale=1, size=100, random_state=np.random.RandomState(2)))
-        assert_equal(distro.__repr__(), '(-6.537+/-175.337)e-2')
+        assert_equal(distro.__repr__(), distro.samples)
 
-    def test_repr_normal_diff_precision(self):
-        distro = Distribution(norm.rvs(loc=0, scale=1, size=100, random_state=np.random.RandomState(2)))
-        assert_equal(distro.__repr__(precision=2), '(-6.54+/-175.34)e-2')
-
-    def test_repr_uniform(self):
-        distro = Distribution(uniform.rvs(loc=0, scale=1, size=100, random_state=np.random.RandomState(2)))
-        assert_equal(distro.__repr__(), '(4.364(+5.354/-4.098))e-1')
-
-    def test_repr_uniform_diff_precision(self):
-        distro = Distribution(uniform.rvs(loc=0, scale=1, size=100, random_state=np.random.RandomState(2)))
-        assert_equal(distro.__repr__(precision=2), '(4.36(+5.35/-4.10))e-1')
-
-    def test_str_normal(self):
-        distro = Distribution(norm.rvs(loc=0, scale=1, size=100, random_state=np.random.RandomState(2)))
-        assert_equal(distro.__str__(), '(-6.537+/-175.337)e-2')
-
-    def test_str_normal(self):
+    def test_str(self):
         distro = Distribution(norm.rvs(loc=2, scale=0.0001, size=100, random_state=np.random.RandomState(2)))
-        assert_equal(distro.__str__(), '(2.000+/-0.000)e0')
+        assert_equal(distro.__str__(), distro.samples)
 
     def test_dict_roundtrip(self):
         distro = Distribution(norm.rvs(loc=0, scale=1, size=1000), name='random')
         distro_new = Distribution.from_dict(distro.to_dict())
         assert_equal(distro.samples, distro_new.samples)
         assert distro.name == distro_new.name
-        assert_equal(distro.ci_points, distro_new.ci_points)

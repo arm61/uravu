@@ -7,10 +7,10 @@ The :py:class:`~uravu.distribution.Distribution` class oversees these operations
 # Distributed under the terms of the MIT License
 # author: Andrew R. McCluskey
 
+from typing import Union, List
 import numpy as np
 from scipy.stats import normaltest, gaussian_kde
 from scipy.optimize import minimize
-from uncertainties import ufloat
 
 
 class Distribution:
@@ -20,7 +20,6 @@ class Distribution:
     Attributes:
         samples (:py:attr:`array_like`): Samples in the distribution.
         name (:py:attr:`str`): Distribution name.
-        ci_points (:py:attr:`array_like`): The percentiles at which confidence intervals should be found.
         normal (:py:attr:`bool`): Are the samples normally distributed?
         kde (:py:class:`scipy.stats.kde.gaussian_kde`): Kernel density approximation for the distribution.
 
@@ -32,19 +31,16 @@ class Distribution:
     .. _FAQ: ./faq.html
     """
 
-    def __init__(self, samples, name="Distribution", ci_points=None):
+    def __init__(self, samples: Union[List[Union[float, int]], np.ndarray], name: str="Distribution", random_state: np.random._generator.Generator=None) -> 'Distribution':
         """
         Initialisation function for a :py:class:`~uravu.distribution.Distribution` object.
         """
         self.name = name
         self.samples = np.array([])
-        if ci_points is None:
-            self.ci_points = np.array([2.5, 97.5])
-        else:
-            if len(ci_points) != 2:
-                raise ValueError("The ci_points must be an array of length two.")
-            self.ci_points = np.array(ci_points)
         self.normal = False
+        self._random_state = random_state
+        if random_state is None:
+            self._random_state = np.random.default_rng(np.random.randint(1))
         self.add_samples(np.array(samples))
 
     def to_dict(self) -> dict:
@@ -52,87 +48,75 @@ class Distribution:
         :return: Dictionary description of the object.
         """
         my_dict = {'name': self.name,
-                   'samples': self.samples,
-                   'ci_points': self.ci_points
+                   'samples': self.samples
                    }
         return my_dict
     
     @classmethod
-    def from_dict(cls, my_dict) -> 'Distribution':
+    def from_dict(cls, my_dict: dict) -> 'Distribution':
         """
         :param my_dict: Dictionary description of the distribution.
         
         :return: Distribution object form the dictionary.
         """
-        return cls(my_dict['samples'], name=my_dict['name'], ci_points=my_dict['ci_points'])
+        return cls(my_dict['samples'], name=my_dict['name'])
 
     @property
-    def size(self):
+    def size(self) -> int:
         """
-        Get the number of samples in the distribution.
-
-        Returns:
-            :py:attr:`int`: Number of samples.
+        :return: Number of samples in the distribution.
         """
         return self.samples.size
 
-    def check_normality(self):
+    def check_normality(self) -> bool:
         """
-        Uses a :func:`scipy.stats.normaltest()` to evaluate if samples are normally distributed and updates the :py:attr:`~uravu.distribution.Distribution.normal` attribute.
+        Uses a :func:`scipy.stats.normaltest()` to evaluate if samples are normally distributed and updates 
+        the :py:attr:`~uravu.distribution.Distribution.normal` attribute.
         """
         alpha = 0.05
         test_samples = self.samples
         if self.size > 500:
-            test_samples = np.random.choice(self.samples, size=500)
+            test_samples = self._random_state.choice(self.samples, size=500)
         p_value = normaltest(test_samples)[1]
         if p_value > alpha:
             self.normal = True
         else:
             self.normal = False
 
-    def pdf(self, x):
+    def pdf(self, x: Union[float, List[Union[float, int]], np.ndarray]) -> Union[float, np.ndarray]:
         """
         Get the probability density function for the distribution.
 
-        Args:
-            x (:py:attr:`float`): Value to return probability of.
-
-        Return:
-            :py:attr:`float`: Probability.
+        :param x: Value to return probability of.
+        :return: Probability.
         """
         return self.kde.pdf(x)
 
-    def logpdf(self, x):
+    def logpdf(self, x: Union[float, List[Union[float, int]], np.ndarray]) -> Union[float, np.ndarray]:
         """
         Get the natural log probability density function for the distribution.
 
-        Args:
-            x (:py:attr:`float`): Value to return natural log probability of.
-
-        Return:
-            :py:attr:`float`: Natural log probability.
+        :param x: Value to return natural log probability of.
+        :return: Natural log probability.
         """
         return self.kde.logpdf(x)
 
-    def negative_pdf(self, x):
+    def negative_pdf(self, x: Union[float, List[Union[float, int]], np.ndarray]) -> Union[float, np.ndarray]:
         """
         Get the negative of the probability density function for the distribution.
 
-        Args:
-            x (:py:attr:`float`): Value to return negative probability of.
-
-        Return:
-            :py:attr:`float`: Negative probability.
+        :param x: Value to return negative probability of.
+        :return: Negative probability.
         """
         return -self.kde.pdf(x)
 
     @property
-    def dist_max(self):
+    def dist_max(self) -> float:
         """
-        Get the value that maximises the distribution. If no :py:attr:`kde` has been created (for example if the distribution has fewer than 8 values) the median is returned.
+        Get the value that maximises the distribution. If no :py:attr:`kde` has been created (for example
+        if the distribution has fewer than 8 values) the median is returned.
 
-        Returns
-            :py:attr:`float`: Most likely value.
+        :return: Most likely value.
         """
         try:
             return minimize(self.negative_pdf, x0=[self.n]).x[0]
@@ -140,70 +124,54 @@ class Distribution:
             return self.n
 
     @property
-    def min(self):
+    def min(self) -> float:
         """
-        Get sample minimum.
-
-        Returns:
-            :py:attr:`float`: Sample minimum.
+        :return: Sample minimum.
         """
         return self.samples.min()
 
     @property
-    def max(self):
+    def max(self) -> float:
         """
-        Get sample maximum.
-
-        Returns:
-            :py:attr:`float`: Sample maximum.
+        :return: Sample maximum.
         """
         return self.samples.max()
 
     @property
-    def n(self):
+    def n(self) -> float:
         """
-        Get the median value of the distribution (for a normal distribution this is the same as the mean).
-
-        Returns:
-            :py:attr:`float`: Median value.
+        :return: Median value.
         """
         return np.percentile(self.samples, [50])[0]
 
     @property
-    def s(self):
+    def s(self) -> Union[float, None]:
         """
-        Get the standard deviation of the distribution. For a non-normal distribution, this will return :py:attr:`None`.
-
-        Returns:
-            :py:attr:`float` or :py:attr:`None`: Standard deviation of the distribution.
+        :return: Standard deviation of the distribution. For a non-normal distribution, this will return :py:attr:`None`.
         """
         if self.normal:
             return np.std(self.samples, ddof=1)
         return None
 
     @property
-    def v(self):
+    def v(self) -> Union[float, None]:
         """
-        Get the variance of the distribution. For a non-normal distribution, this will return :py:attr:`None`.
-
-        Returns:
-            :py:attr:`float` or :py:attr:`None`: Standard deviation of the distribution.
+        :return: Standard deviation of the distribution. For a non-normal distribution, this will return :py:attr:`None`.
         """
         if self.normal:
             return np.var(self.samples, ddof=1)
         return None
 
-    @property
-    def con_int(self):
+    def con_int(self, ci_points: List[float]=[2.5, 97.5]) -> np.ndarray:
         """
         Get the extrema of the confidence intervals of the distribution.
 
-        Returns:
-            :py:attr:`array_like`: Distribution values at the confidence interval.
+        :param ci_points: The confidence interval points to return.
+        :return: Distribution values at the confidence interval.
         """
-        return np.percentile(self.samples, self.ci_points)
+        return np.percentile(self.samples, ci_points)
 
-    def add_samples(self, samples):
+    def add_samples(self, samples: Union[List[Union[float, int]], np.ndarray]):
         """
         Add samples to the distribution.
 
@@ -215,33 +183,14 @@ class Distribution:
             self.check_normality()
             self.kde = gaussian_kde(self.samples)
 
-    def __repr__(self, precision=3):
+    def __repr__(self) -> np.ndarray:
         """
-        Representation.
-
-        Args:
-            precision (:py:attr:`int`): Precision of output
-
-        Returns:
-            :py:attr:`str`: Representation.
+        :return: Representation.
         """
-        try:
-            exponent = int(np.floor(np.log10(np.abs(self.n))))
-        except OverflowError:
-            exponent = 0
-        if self.normal:
-            return f'({self.n / np.power(10., exponent):.{precision}f}+/-{(self.con_int[1]-self.n) / np.power(10., exponent):.{precision}f})e{exponent}'
-        else:
-            return f'({self.n / np.power(10., exponent):.{precision}f}(+{(self.con_int[1]-self.n) / np.power(10., exponent):.{precision}f}/-{(self.n-self.con_int[0]) / np.power(10., exponent):.{precision}f}))e{exponent}'
+        return self.samples
 
-    def __str__(self, precision=3):
+    def __str__(self) -> np.ndarray:
         """
-        String representation.
-
-        Args:
-            precision (:py:attr:`int`): Precision of output
-
-        Returns:
-            :py:attr:`str`: String representation.
+        :return: String representation.
         """
-        return self.__repr__(precision)
+        return self.samples
