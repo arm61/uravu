@@ -49,7 +49,7 @@ class TestRelationship(unittest.TestCase):
         r = Relationship(utils.straight_line, TEST_X, TEST_X, ordinate_error=[1]*len(TEST_X))
         assert_equal(r.x, TEST_X)
         assert_almost_equal(r.y.n, TEST_X, decimal=0)
-        assert_almost_equal(r.y.ci_95, np.ones((2, len(TEST_X))) * 1.96, decimal=1)
+        assert_almost_equal(r.y.ci(), np.ones((2, len(TEST_X))) * 1.96, decimal=1)
 
     def test_ordinate_stats(self):
         test_y = []
