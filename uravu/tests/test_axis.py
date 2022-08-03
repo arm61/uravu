@@ -59,10 +59,10 @@ class TestAxis(unittest.TestCase):
         assert_equal(AX_ARRAY.n, [0, 1])
 
     def test_s(self):
-        assert_almost_equal(AX.ci_95, [[1.96, 1.96], [1.96, 1.96]], decimal=1)
+        assert_almost_equal(AX.ci(), [[1.96, 1.96], [1.96, 1.96]], decimal=1)
 
     def test_s_array(self):
-        assert_equal(AX_ARRAY.ci_95, [0, 0])
+        assert_equal(AX_ARRAY.ci(), [0, 0])
 
     def test_mode(self):
         assert_almost_equal(AX.mode, [0, 1], decimal=1)

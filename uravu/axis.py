@@ -7,7 +7,6 @@ The :py:class:`~uravu.axis.Axis` class controls the organisation of axes in the 
 # author: Andrew R. McCluskey
 
 
-from errno import ENEEDAUTH
 from typing import Union, List, Tuple
 import numpy as np
 from scipy.stats import gaussian_kde
@@ -96,16 +95,15 @@ class Axis:
             return dv
         return np.zeros(self.shape)
 
-
     @property
-    def ci_95(self) -> np.ndarray:
+    def ci(self, ci_points: List[float]=[2.5, 97.5]) -> np.ndarray:
         """
         :return: Uncertainties from 95 % confidence intervals for axis.
         """
         if isinstance(self.values[0], Distribution):
             dv = np.zeros((2, self.size))
             for i, o in enumerate(self.values):
-                dv[:, i] = np.abs(o.con_int([2.5, 97.5]) - o.n)
+                dv[:, i] = np.abs(o.con_int(ci_points) - o.n)
             return dv
         return np.zeros(self.shape)
 
