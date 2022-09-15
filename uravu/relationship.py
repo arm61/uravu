@@ -13,6 +13,7 @@ See the `tutorials online`_ for more guidence of how to use this package.
 # Distributed under the terms of the MIT License
 # author: Andrew R. McCluskey
 
+from typing import Callable, List, Union, Tuple
 from inspect import getfullargspec
 import numpy as np
 from scipy import stats
@@ -27,24 +28,23 @@ class Relationship:
     The :py:class:`~uravu.relationship.Relationship` class is the base of the :py:mod:`uravu` package, enabling the use of Bayesian inference for the assessment of a model's ability to describe some data.
 
     Attributes:
-        function (:py:attr:`callable`): The function that is modelled.
-        abscissa (:py:attr:`array_like`): The abscissa data that the modelling should be performed on.
-        ordinate (:py:attr:`list` or :py:class:`uravu.distribution.Distribution` or :py:attr:`array_like`): The ordinate data against with the model should be compared. This should be an :py:attr:`list` or :py:class:`uravu.distribution.Distribution` unless a :py:attr:`ordinate_error` is given.
-        variables (:py:attr:`list` of :py:class:`uravu.distribution.Distribution`): Variables in the :py:attr:`~uravu.relationship.Relationship.function`.
+    :param function (:py:attr:`callable`): The function that is modelled.
+    :param abscissa (:py:attr:`array_like`): The abscissa data that the modelling should be performed on.
+    :param ordinate (:py:attr:`list` or :py:class:`uravu.distribution.Distribution` or :py:attr:`array_like`): The ordinate data against with the model should be compared. This should be an :py:attr:`list` or :py:class:`uravu.distribution.Distribution` unless a :py:attr:`ordinate_error` is given.
+    :param variables (:py:attr:`list` of :py:class:`uravu.distribution.Distribution`): Variables in the :py:attr:`~uravu.relationship.Relationship.function`.
         bounds (:py:attr:`tuple`): The minimum and maximum values for each parameters.
         ln_evidence (:py:class:`uncertainties.core.Variable`): The natural-log of the Bayesian evidence for the model to the given data.
         mcmc_results (:py:attr:`dict`): The results from :func:`emcee.EnsembleSampler.run_mcmc()` sampling.
         nested_sampling_results (:py:attr:`dict`): The results from :func:`dynesty.NestedSampler.run_nested()` nested sampling.
 
-    Args:
-        function (:py:attr:`callable`): The functional relationship to be modelled.
-        abscissa (:py:attr:`array_like`): The abscissa data. If multi-dimensional, the array is expected to have the shape :py:attr:`(N, d)`, where :py:attr:`N` is the number of data points and :py:attr:`d` is the dimensionality.
-        ordinate (:py:attr:`list` or :py:class:`uravu.distribution.Distribution` or :py:attr:`array_like`): The ordinate data. This should have a shape :py:attr:`(N,)`.
-        bounds (:py:attr:`tuple`, optional): The minimum and maximum values for each parameters. Defaults to :py:attr:`None`.
-        ordinate_error (:py:attr:`array_like`, optional): The uncertainty in the ordinate, this should be the standard error in the measurement. Only used if :py:attr:`ordinate` is not a :py:attr:`list` or :py:class:`uravu.distribution.Distribution`. Defaults to :py:attr:`None`.
+    :param function: The functional relationship to be modelled.
+    :param abscissa: The abscissa data. If multi-dimensional, the array is expected to have the shape :py:attr:`(N, d)`, where :py:attr:`N` is the number of data points and :py:attr:`d` is the dimensionality.
+    :param ordinate: The ordinate data. This should have a shape :py:attr:`(N,)`.
+    :param bounds: The minimum and maximum values for each parameters. Defaults to :py:attr:`None`.
+    :param ordinate_error: The uncertainty in the ordinate, this should be the standard error in the measurement. Only used if :py:attr:`ordinate` is not a :py:attr:`list` or :py:class:`uravu.distribution.Distribution`. Defaults to :py:attr:`None`.
     """
 
-    def __init__(self, function, abscissa, ordinate, bounds=None, ordinate_error=None):
+    def __init__(self, function: Callable, abscissa: Union[List[float], np.ndarray], ordinate: Union[List[Union[Distribution, stats._distn_infrastructure.rv_frozen, float]], np.ndarray], bounds: Tuple[Tuple[float, float]]=None, ordinate_error: Union[List[float], np.ndarray]=None) -> 'Relationship':
         """
         Initialisation function for a :py:class:`~uravu.relationship.Relationship` object.
         """
@@ -85,7 +85,7 @@ class Relationship:
         self.nested_sampling_results = None
 
     @property
-    def x(self):
+    def x(self) -> np.ndarray:
         """
         Abscissa values.
 
@@ -95,7 +95,7 @@ class Relationship:
         return self.abscissa
 
     @property
-    def y(self):
+    def y(self) -> Union[List[Union[Distribution, stats._distn_infrastructure.rv_frozen, float]], np.ndarray]:
         """
         Ordinate values.
 

@@ -7,20 +7,20 @@ Furthermore, the natural log likelihood function used in the :func:`~uravu.sampl
 # Distributed under the terms of the MIT License
 # author: Andrew R. McCluskey
 
+from typing import Callable
 import numpy as np
 from scipy.optimize import minimize, differential_evolution
 
 
-def max_ln_likelihood(relationship, method, x0=None, **kwargs):
+def max_ln_likelihood(relationship: 'uravu.relationship.Relationship', method: str, x0: np.ndarray=None, **kwargs) -> np.ndarray:
     """
     Determine the variable values which maximize the likelihood for the given relationship. For keyword arguments see the :func:`scipy.optimize.minimize()` documentation.
 
-    Args:
-        relationship (:py:class:`uravu.relationship.Relationship`): The relationship for which variables should be found.
-        x0 (:py:attr:`array_like`, optional): Initial guesses for the variable values. Default to the current :py:attr:`~uravu.relationship.Relationship.variables` values which are initialized as all :py:attr:`1`.
+    :param relationship: The relationship for which variables should be found.
+    :param method: Method for optimisation to be used.
+    :param x0: Initial guesses for the variable values. Default to the current :py:attr:`~uravu.relationship.Relationship.variables` values which are initialized as all :py:attr:`1`.
 
-    Return:
-        :py:attr:`array_like`: Optimized variables for the relationship.
+    :return: Optimized variables for the relationship.
     """
     if x0 is None:
         x0 = relationship.variable_medians
@@ -32,34 +32,30 @@ def max_ln_likelihood(relationship, method, x0=None, **kwargs):
     return res.x
 
 
-def negative_lnl(variables, function, abscissa, ordinate):
+def negative_lnl(variables: np.ndarray, function: Callable, abscissa: np.ndarray, ordinate: np.ndarray) -> float:
     """
     Calculate the negative natural logarithm of the likelihood given a set of variables, when there is no uncertainty in the abscissa.
 
-    Args:
-        variables (:py:attr:`array_like`): Variables for the function evaluation.
-        function (:py:attr:`callable`): The function to be evaluated.
-        abscissa (:py:attr:`array_like`): The abscissa values.
-        ordinate (:py:attr:`array_like`): The ordinate values.
+    :param variables: Variables for the function evaluation.
+    :param function: The function to be evaluated.
+    :param abscissa: The abscissa values.
+    :param ordinate: The ordinate values.
 
-    Returns:
-        :py:attr:`float`: Negative natural log-likelihood between model and data.
+    :return: Negative natural log-likelihood between model and data.
     """
     return -ln_likelihood(variables, function, abscissa, ordinate)
 
 
-def ln_likelihood(variables, function, abscissa, ordinate):
+def ln_likelihood(variables: np.ndarray, function: Callable, abscissa: np.ndarray, ordinate: np.ndarray) -> float:
     """
     Calculate the natural logarithm of the likelihood given a set of variables, when there is no uncertainty in the abscissa.
 
-    Args:
-        variables (:py:attr:`array_like`): Variables for the function evaluation.
-        function (:py:attr:`callable`): The function to be evaluated.
-        abscissa (:py:attr:`array_like`): The abscissa values.
-        ordinate (:py:attr:`array_like`): The ordinate values.
+    :param variables: Variables for the function evaluation.
+    :param function: The function to be evaluated.
+    :param abscissa: The abscissa values.
+    :param ordinate: The ordinate values.
 
-    Returns:
-         :py:attr:`float`: Natural log-likelihood between model and data.
+    :return: Natural log-likelihood between model and data.
     """
     model = function(abscissa, *variables)
     ln_l = ordinate.logpdf(model)

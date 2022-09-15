@@ -179,7 +179,7 @@ class Distribution:
             samples (:py:attr:`array_like`): Samples to be added to the distribution.
         """
         self.samples = np.append(self.samples, np.array(samples).flatten())
-        if self.size > 8:
+        if (self.size > 8) and (np.std(self.samples) != 0):
             self.check_normality()
             self.kde = gaussian_kde(self.samples)
 
