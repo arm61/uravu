@@ -169,6 +169,15 @@ class Distribution:
         :param ci_points: The confidence interval points to return.
         :return: Distribution values at the confidence interval.
         """
+        return self.ci(ci_points)
+
+    def ci(self, ci_points: List[float]=[2.5, 97.5]) -> np.ndarray:
+        """
+        Get the extrema of the confidence intervals of the distribution.
+
+        :param ci_points: The confidence interval points to return.
+        :return: Distribution values at the confidence interval.
+        """
         return np.percentile(self.samples, ci_points)
 
     def add_samples(self, samples: Union[List[Union[float, int]], np.ndarray]):
@@ -187,10 +196,50 @@ class Distribution:
         """
         :return: Representation.
         """
+        return self.samples.__repr__()
+
+    def __array__(self) -> np.ndarray:
+        """
+        :return: Array of samples.
+        """
         return self.samples
+
+    def __add__(self, obj2: Union[float, np.ndarray]) -> np.ndarray:
+        """
+        :return: Sum of samples and obj2.
+        """
+        return np.add(self, obj2)
+ 
+    def __sub__(self, obj2: Union[float, np.ndarray]) -> np.ndarray:
+        """
+        :return: Difference between samples and obj2.
+        """
+        return np.subtract(self, obj2)
+ 
+    def __mul__(self, obj2: Union[float, np.ndarray]) -> np.ndarray:
+        """
+        :return: Product of samples and obj2.
+        """
+        return np.multiply(self, obj2)
+ 
+    def __truediv__(self, obj2: Union[float, np.ndarray]) -> np.ndarray:
+        """
+        :return: Ratio between samples and obj2.
+        """
+        return np.divide(self, obj2)
+   
+    def __mod__(self, obj2: Union[float, np.ndarray]) -> np.ndarray:
+        """
+        :return: Modulus of samples by obj2.
+        """
+        return np.remainder(self, obj2)
 
     def __str__(self) -> np.ndarray:
         """
         :return: String representation.
         """
-        return self.samples
+        if self.s is not None:
+            return f'{self.n:.3e} +/- {self.s:.3e}'
+        else:
+            c = np.abs(self.n - self.con_int())
+            return f'{self.n:.3e}(+{c[1]:.3e}/-{c[0]:.3e}'

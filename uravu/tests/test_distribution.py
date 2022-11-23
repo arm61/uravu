@@ -99,11 +99,11 @@ class TestDistribution(unittest.TestCase):
 
     def test_repr(self):
         distro = Distribution(norm.rvs(loc=0, scale=1, size=100, random_state=np.random.RandomState(2)))
-        assert_equal(distro.__repr__(), distro.samples)
+        assert_equal(distro.__repr__(), distro.samples.__repr__())
 
     def test_str(self):
         distro = Distribution(norm.rvs(loc=2, scale=0.0001, size=100, random_state=np.random.RandomState(2)))
-        assert_equal(distro.__str__(), distro.samples)
+        assert_equal(distro.__str__(), f'{distro.n:.3e} +/- {distro.s:.3e}')
 
     def test_dict_roundtrip(self):
         distro = Distribution(norm.rvs(loc=0, scale=1, size=1000), name='random')
