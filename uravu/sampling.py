@@ -103,7 +103,7 @@ def nested_sampling(relationship, prior_function=None, progress=True, dynamic=Fa
     sampler = nested_sampler(optimize.ln_likelihood, nested_prior, len(relationship.variables), logl_args=logl_args, ptform_args=[priors])
 
     sampler.run_nested(print_progress=progress, **kwargs)
-    results = sampler.results
+    results = dict(sampler.results)
     samples = results['samples']
     weights = np.exp(results['logwt'] - results['logz'][-1])
     new_samples = dyfunc.resample_equal(samples, weights)
