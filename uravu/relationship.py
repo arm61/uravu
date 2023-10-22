@@ -282,8 +282,9 @@ class Relationship:
             iterator = tqdm(samples_to_draw, desc='Calculating Posterior Predictive')
         else:
             iterator = samples_to_draw
+        print(abscissa_values, self.ppd.shape)
         for i, n in iterator:
             mu = self.function(abscissa_values, *self.get_sample(n))
             ax = Axis([Distribution(stats.norm(loc=mu[j], scale=self.ordinate.s[j]).rvs(1000)) for j in range(len(mu))])
-            self.ppd[i] = ax.kde.resample(n_posterior_samples).T
+            self.ppd[i] = ax.kde.resample(n_predictive_samples).T
         self.ppd = self.ppd.reshape(-1, abscissa_values.size)
