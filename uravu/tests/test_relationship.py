@@ -19,7 +19,7 @@ from uravu.axis import Axis
 
 TEST_Y = []
 for i in np.arange(1, 9, 1):
-    TEST_Y.append(Distribution(scipy.stats.norm.rvs(loc=i, scale=0.5, size=200)))
+    TEST_Y.append(Distribution(scipy.stats.norm.rvs(loc=i, scale=0.5, size=200, random_state=np.random.RandomState(1))))
 TEST_X = np.arange(1, 9, 1)
 
 
