@@ -18,6 +18,7 @@ from inspect import getfullargspec
 import numpy as np
 from scipy import stats
 from uncertainties import ufloat
+from tqdm import tqdm
 from uravu import optimize, sampling
 from uravu.distribution import Distribution
 from uravu.axis import Axis
@@ -254,3 +255,32 @@ class Relationship:
         self.nested_sampling_results = sampling.nested_sampling(self, prior_function=prior_function, progress=progress, dynamic=dynamic, **kwargs)
         self.ln_evidence = ufloat(self.nested_sampling_results["logz"][-1], self.nested_sampling_results["logzerr"][-1])
         self.variables = self.nested_sampling_results["distributions"]
+
+    def posterior_predictive(self, n_posterior_samples: int=None, n_predictive_samples: int=256, progress: bool = True):
+        """
+        Sample the posterior predictive distribution. The shape of the resulting array will be
+        `(n_posterior_samples * n_predictive_samples, x.size)`.
+        
+        Args:
+            n_posterior_samples (optional): Number of samples from the posterior distribution.
+            n_predictive_samples (optional): Number of random samples per sample from the posterior distribution.
+            progress (optional): Show tqdm progress for sampling. 
+
+        Returns:
+            Samples from the posterior predictive distribution. 
+        """
+        if not self.nested_sampling_done and not self.mcmc_done:
+            raise ValueError("Cannot generate posterior predictive if sampling has not been performed.")
+        if n_posterior_samples is None:
+            n_posterior_samples = self.variables[0].size
+        self.ppd = np.zeros((n_posterior_samples, n_predictive_samples, self.abscissa.size))
+        samples_to_draw = list(enumerate(np.random.randint(0, self.variables[0].size, size=n_posterior_samples)))
+        if progress:
+            iterator = tqdm(samples_to_draw, desc='Calculating Posterior Predictive')
+        else:
+            iterator = samples_to_draw
+        for i, n in iterator:
+            mu = self.function(self.abscissa, *self.get_sample(n))
+            ax = Axis([Distribution(stats.norm(loc=mu[j], scale=self.ordinate.s[j]).rvs(1000)) for j in range(len(mu))])
+            self.ppd[i] = ax.kde.resample(n_posterior_samples).T
+        self.ppd = self.ppd.reshape(-1, self.abscissa.size)

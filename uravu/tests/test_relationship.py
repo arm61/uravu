@@ -204,3 +204,9 @@ class TestRelationship(unittest.TestCase):
         assert_equal(r.variables[0].max < 10, True)
         assert_equal(r.variables[1].min > -1, True)
         assert_equal(r.variables[1].max < 1, True)
+
+    def test_ppd(self):
+        r = Relationship(utils.straight_line, TEST_X, TEST_Y, bounds=((0, 10), (-1, 1)))
+        r.mcmc(n_burn=10, n_samples=10, progress=False, walkers=5)
+        r.posterior_predictive(n_posterior_samples=10, n_predictive_samples=10, progress=False)
+        assert_equal(r.ppd.shape, (100, 8))
