@@ -208,5 +208,6 @@ class TestRelationship(unittest.TestCase):
     def test_ppd(self):
         r = Relationship(utils.straight_line, TEST_X, TEST_Y, bounds=((0, 10), (-1, 1)))
         r.mcmc(n_burn=10, n_samples=10, progress=False, walkers=5)
-        r.posterior_predictive(n_posterior_samples=10, n_predictive_samples=10, progress=False)
-        assert_equal(r.ppd.shape, (100, 8))
+        ppd = r.posterior_predictive(n_posterior_samples=10, n_predictive_samples=10, progress=False)
+        assert_equal(len(ppd.values), 8)
+        assert_equal(ppd.values[0].size, 100)

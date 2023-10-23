@@ -276,15 +276,15 @@ class Relationship:
             n_posterior_samples = self.variables[0].size
         if abscissa_values is None:
             abscissa_values = self.abscissa
-        self.ppd = np.zeros((n_posterior_samples, n_predictive_samples, abscissa_values.size))
+        ppd = np.zeros((n_posterior_samples, n_predictive_samples, abscissa_values.size))
         samples_to_draw = list(enumerate(np.random.randint(0, self.variables[0].size, size=n_posterior_samples)))
         if progress:
             iterator = tqdm(samples_to_draw, desc='Calculating Posterior Predictive')
         else:
             iterator = samples_to_draw
-        print(abscissa_values, self.ppd.shape)
         for i, n in iterator:
             mu = self.function(abscissa_values, *self.get_sample(n))
             ax = Axis([Distribution(stats.norm(loc=mu[j], scale=self.ordinate.s[j]).rvs(1000)) for j in range(len(mu))])
-            self.ppd[i] = ax.kde.resample(n_predictive_samples).T
-        self.ppd = self.ppd.reshape(-1, abscissa_values.size)
+            ppd[i] = ax.kde.resample(n_predictive_samples).T
+        flat_ppd = ppd.reshape(-1, abscissa_values.size)
+        return Axis([Distribution(ppd) for ppd in flat_ppd.T])
